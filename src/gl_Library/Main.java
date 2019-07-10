@@ -8,28 +8,25 @@ import gl_Service.LibraryService;
 
 public class Main {
     public static void main(String[] args) {
+        LibraryService service = LibraryService.getInstance();  // Create service to save all list in service //
 
-        System.out.println("GG");
+        LibrarianList librarians = new LibrarianList();         // Create librarian list gl_Object //
+        librarians.DataLibrarianList(librarians);               // Add data to librarian list //
+        service.setLibrariansService(librarians);               // Add list to service //
 
-        LibraryService service = LibraryService.getInstance();
+        CustomerList customers = new CustomerList();            // Create customer list gl_Object //
+        customers.DataCustomerList(customers);                  // Add data to customer list //
+        service.setCustomersService(customers);                 // Add list to service //
 
-        LibrarianList librarians = new LibrarianList();     //create librarian list gl_Object//
-        librarians.DataLibrarianList(librarians);           //add data to librarian list//
-        service.setLibrariansService(librarians);           //add list to service//
+        BookList books = new BookList();                        // Create book list gl_Object //
+        books.DataBookList(books);                              // Add data to book list //
+        service.setBooksService(books);                         // Add list to service //
 
-        CustomerList customers = new CustomerList();        //create customer list gl_Object//
-        customers.DataCustomerList(customers);              //add data to customer list//
-        service.setCustomersService(customers);             //add list to service//
-
-        BookList books = new BookList();                    //create book list gl_Object//
-        books.DataBookList(books);                          //add data to book list//
-        service.setBooksService(books);                     //add list to service//
-
-        HistoryList histories = new HistoryList();          //create history list gl_Object//
-        histories.DataHistoryList(histories);               //add data to history list//
-        service.setHistoriesService(histories);             //add list to service//
+        HistoryList histories = new HistoryList();              // Create history list gl_Object //
+        histories.DataHistoryList(histories);                   // Add data to history list //
+        service.setHistoriesService(histories);                 // Add list to service //
 
         InputParser inputParser = new InputParser();
-        inputParser.Controller();
+        inputParser.Controller();                               // Do main function //
     }
 }

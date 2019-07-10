@@ -424,7 +424,6 @@ public class Library {
 //                                }
 //                            }
 //                                System.out.println("User : " + customer.getFirst());
-                            System.out.println("GG");
                         }
                     }
                     //**************** Display ****************//

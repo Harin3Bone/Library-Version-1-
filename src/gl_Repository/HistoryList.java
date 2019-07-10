@@ -32,6 +32,10 @@ public class HistoryList {
         histories.getHistories().add(new History(UUID.randomUUID(),"Miki","Maki","Thor",
                 "Comic", "A0003","Stan Lee",BookSituation.Borrow,
                 LocalDate.now().minusDays(2),LocalDate.now().plusDays(5)));
+        histories.getHistories().add(new History(UUID.randomUUID(),"Harin","Riko","Arthur",
+                "Comic", "C0002","Stan Lee",BookSituation.Borrow,
+                LocalDate.now().minusDays(15),LocalDate.now()));
+
     }
 
 }

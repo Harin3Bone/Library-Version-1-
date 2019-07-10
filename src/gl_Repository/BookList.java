@@ -36,5 +36,10 @@ public class BookList {
                 "-",BookStatus.Unvailable));
         books.getBooks().add(new Book(UUID.randomUUID(),"Thor","Comic","A0003","Stan Lee",
                 "-",BookStatus.Unvailable));
+        books.getBooks().add(new Book(UUID.randomUUID(),"Arthur","Magazine","C0002","Stan Lee",
+                "-",BookStatus.Wait_Accept));
+        books.getBooks().add(new Book(UUID.randomUUID(),"Doctor Strange","Newspaper","D0002","Stan Lee",
+                "-",BookStatus.Wait_Approve));
+
     }
 }
