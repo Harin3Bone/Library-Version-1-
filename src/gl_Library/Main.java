@@ -9,6 +9,8 @@ import gl_Service.LibraryService;
 public class Main {
     public static void main(String[] args) {
 
+        System.out.println("GG");
+
         LibraryService service = LibraryService.getInstance();
 
         LibrarianList librarians = new LibrarianList();     //create librarian list gl_Object//
