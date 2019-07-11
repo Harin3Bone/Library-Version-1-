@@ -266,8 +266,8 @@ public class Library {
                     history.setBooksituation(BookSituation.Borrow);
                     history.setDayBorrow(LocalDate.now());
                     history.setDayReturn(LocalDate.now().plusDays(7));
+                    history.setLibrarianname(service.getLibrarianDetail().getFirstName());
 //                    history.setCustomername();
-//                    history.setLibrarianname(librarian.getFirstName());
                     //**************** History Add ****************//
                     service.getHistoriesService().getHistories().add(history);
                     //**************** Display ****************//

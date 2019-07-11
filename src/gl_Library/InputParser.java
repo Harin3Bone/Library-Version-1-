@@ -17,8 +17,10 @@ import gl_View.RegisterScreen;
 import java.util.Scanner;
 
 public class InputParser {
+    private static LibraryService service = LibraryService.getInstance();
     public void Controller() {
         //******************** Property Section ********************//
+        LibraryService service = LibraryService.getInstance();
         HomeScreen homeScreen = new HomeScreen();
         int ans_property = homeScreen.homedisplay();
         //******************** Login Section ********************//
@@ -29,8 +31,7 @@ public class InputParser {
                 if (ans_login == 1) {
                     Librarian loginLibrarian = mainScreen.librarianDisplay();
                     if (loginLibrarian != null) {
-                        System.out.println("================================");
-                        System.out.println(""+loginLibrarian.getFirstName()+" "+loginLibrarian.getLastName());
+                        service.setLibrarianDetail(loginLibrarian);
                         Admin_Login();
                     } else {
                         mainScreen.LoginFailed();
@@ -40,8 +41,7 @@ public class InputParser {
                         MainScreen customerScreen = new MainScreen();
                         Customer logincustomer = mainScreen.customerDisplay();
                         if (logincustomer != null) {
-                            System.out.println("================================");
-                            System.out.println(""+logincustomer.getFirstName()+" "+logincustomer.getLastName());
+                            service.setCustomerDetail(logincustomer);
                             User_Login();
                         } else {
                             mainScreen.LoginFailed();
@@ -64,6 +64,8 @@ public class InputParser {
 
     //****************************************** Admin Login ******************************************//
     public void Admin_Login() {
+        System.out.println("================================");
+        System.out.println(""+service.getLibrarianDetail().getFirstName()+" "+service.getLibrarianDetail().getLastName());
         MainScreen librarianMenu = new MainScreen();
         //******************** Select Section ********************//
         int choices = librarianMenu.librarianMenu();
@@ -110,7 +112,8 @@ public class InputParser {
 
     //****************************************** User Login ******************************************//
     public void User_Login() {
-        LibraryService service = LibraryService.getInstance();
+        System.out.println("================================");
+        System.out.println(""+service.getCustomerDetail().getFirstName()+" "+service.getCustomerDetail().getLastName());
         MainScreen customerMenu = new MainScreen();
         int choices = customerMenu.customerMenu();
         switch (choices) {
@@ -144,8 +147,6 @@ public class InputParser {
 
     //****************************************** Registeration ******************************************//
     public void Register() {
-        LibraryService service = LibraryService.getInstance();
-
         RegisterScreen registerMenu = new RegisterScreen();
         int choice = registerMenu.registerMenu();
         switch (choice) {

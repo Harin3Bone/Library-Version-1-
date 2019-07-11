@@ -15,6 +15,9 @@ public class LibraryService {
     private BookList booksService;
     private HistoryList historiesService;
 
+    private Librarian librarianDetail;
+    private Customer customerDetail;
+
     private LibraryService() {
 
     }
@@ -65,5 +68,21 @@ public class LibraryService {
     public void setHistoriesService(HistoryList historiesService) {
 
         this.historiesService = historiesService;
+    }
+
+    public Librarian getLibrarianDetail() {
+        return librarianDetail;
+    }
+
+    public void setLibrarianDetail(Librarian librarianDetail) {
+        this.librarianDetail = librarianDetail;
+    }
+
+    public Customer getCustomerDetail() {
+        return customerDetail;
+    }
+
+    public void setCustomerDetail(Customer customerDetail) {
+        this.customerDetail = customerDetail;
     }
 }
