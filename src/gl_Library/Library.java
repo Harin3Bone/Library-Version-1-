@@ -252,7 +252,7 @@ public class Library {
                     book.setBookStatus(BookStatus.Unvailable);
                     for (History history : service.getHistoriesService().getHistories()) {
                         //**************** Value Set ****************//
-                        if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Non_Borrow)) {
+                        if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Borrow)) {
                             history.setDayBorrow(LocalDate.now());
                             history.setDayReturn(LocalDate.now().plusDays(7));
                             history.setBooksituation(BookSituation.Borrow);
@@ -288,7 +288,7 @@ public class Library {
                 if (book.getBookStatus().equals(BookStatus.Wait_Accept)) {
                     book.setBookStatus(BookStatus.Available);
                     for (History history : service.getHistoriesService().getHistories()) {
-                        if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Non_Return)) {
+                        if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Return)) {
                             history.setUuid(UUID.randomUUID());
                             history.setLibrarianname(service.getLibrarianDetail().getFirstName());
                             history.setBooksituation(BookSituation.Return);
@@ -374,7 +374,7 @@ public class Library {
                     history.setBookcode(book.getBookCode());
                     history.setBookcategory(book.getBookCategory());
                     history.setBookauthor(book.getBookAuthor());
-                    history.setBooksituation(BookSituation.Non_Borrow);
+                    history.setBooksituation(BookSituation.Borrow);
                     //**************** History List Add ****************//
                     service.getHistoriesService().getHistories().add(history);
                     //**************** Display ****************//
@@ -413,20 +413,19 @@ public class Library {
                                 ReturnBook();
                             }
                             // **************** Date Check **************** //
-                            if (!history.getDayReturn().equals(LocalDate.now())) {
-                                int x = LocalDate.now().compareTo(history.getDayReturn());
-                                if (x < 0) {
-                                    System.out.println("" + service.getCustomerDetail().getFirstName() + " You return late " + (x * (-1)) + " day(s)\nThank you");
-                                }
+                            System.out.println("\nUser : " + service.getCustomerDetail().getFirstName());
+                            int x = (int) DAYS.between(history.getDayBorrow(), history.getDayReturn());
+                            if (x > 15) {
+                                System.out.println("" + service.getCustomerDetail().getFirstName() + " You return late " + ((15-x)*-1) + " day(s)\nThank you");
                             }
-                            System.out.println("User : " + service.getCustomerDetail().getFirstName());
+
                         }
                         //**************** Status Set ****************//
                         book.setBookStatus(BookStatus.Wait_Accept);
-                        history.setBooksituation(BookSituation.Non_Return);
+                        history.setBooksituation(BookSituation.Return);
                     }
                     //**************** Display ****************//
-                    SearchDisplay(book);
+//                    SearchDisplay(book);
                     System.out.println("Your work has been successful");
                 } else {
                     Found = false;

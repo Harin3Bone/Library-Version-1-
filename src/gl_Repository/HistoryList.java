@@ -33,11 +33,11 @@ public class HistoryList {
                 "Comic", "A0003","Stan Lee",BookSituation.Borrow,
                 LocalDate.now().minusDays(2),LocalDate.now().plusDays(5)));
         histories.getHistories().add(new History(UUID.randomUUID(),"Yotsuba","Nozomi","Arthur",
-                "Magazine", "C0002","Stan Lee",BookSituation.Non_Borrow,
+                "Magazine", "C0002","Stan Lee",BookSituation.Borrow,
                 LocalDate.now(),LocalDate.now().plusDays(7)));
         histories.getHistories().add(new History(UUID.randomUUID(),"Itsuki","Honoka","Doctor Strange",
-                "Newspaper", "D0001","Stan Lee",BookSituation.Non_Return,
-                LocalDate.now().minusDays(15),LocalDate.now()));
+                "Newspaper", "D0001","Stan Lee",BookSituation.Borrow,
+                LocalDate.now().minusDays(18),LocalDate.now()));
 
     }
 
