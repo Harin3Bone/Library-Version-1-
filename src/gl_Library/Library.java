@@ -307,7 +307,7 @@ public class Library {
     }
 
     //******************************** Change Book ********************************//
-    public static void ChangeBook_Librarian() {
+    public static void ChangeBook() {
         //**************** Input Scanner ****************//
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your book code : ");
@@ -318,15 +318,21 @@ public class Library {
             if (history.getBookcode().equalsIgnoreCase(id)) {
                 Found = true;
                 if (history.getBooksituation().equals(BookSituation.Borrow)) {
+                    if (service.getCustomerDetail() != null){
+                        if (!history.getCustomername().equals(service.getCustomerDetail().getFirstName())) {
+                            System.out.println("Error, you're not person who borrow the book");
+                            System.out.println("================================");
+                            inputParser.User_Login();
+                        }
+                    }
                     System.out.print("Enter your number to change return date : ");
                     int x = scanner.nextInt();
                     if (DAYS.between(history.getDayBorrow(), history.getDayReturn().plusDays(x)) >= 15) {
                         System.out.println("Error, your date are invalid");
                         System.out.println("================================");
-                        ChangeBook_Librarian();
+                        ChangeBook();
                     }
                     history.setDayReturn(history.getDayReturn().plusDays(x));
-                    history.setLibrarianname(service.getLibrarianDetail().getFirstName());
                     System.out.println("Your work has been successful");
                 } else {
                     Found = false;
@@ -336,7 +342,13 @@ public class Library {
         if (!Found) {
             System.out.println("Your book it doesn't exist");
         }
-        inputParser.Admin_Login();
+        if (service.getLibrarianDetail() == null){
+            inputParser.User_Login();
+        }
+        else {
+            inputParser.Admin_Login();
+        }
+
     }
 
     //****************************************** Customer Function ******************************************//
@@ -425,42 +437,6 @@ public class Library {
         inputParser.User_Login();
     }
 
-    //******************************** Change Book ********************************//
-    public static void ChangeBook_Customer() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter your book code : ");
-        String id = scanner.next();
-        //**************** Change Component ****************//
-        boolean Found = false;
-        for (History history : service.getHistoriesService().getHistories()) {
-            if (history.getBookcode().equalsIgnoreCase(id)) {
-                Found = true;
-                if (history.getBooksituation().equals(BookSituation.Borrow)) {
-                    if (!history.getCustomername().equals(service.getCustomerDetail().getFirstName())) {
-                        System.out.println("Error, you're not person who borrow the book");
-                        System.out.println("================================");
-                        ChangeBook_Customer();
-                    }
-                    System.out.print("Enter your number to change return date : ");
-                    int x = scanner.nextInt();
-                    if (DAYS.between(history.getDayBorrow(), history.getDayReturn().plusDays(x)) >= 15) {
-                        System.out.println("Error, your date are invalid");
-                        System.out.println("================================");
-                        ChangeBook_Customer();
-                    }
-                    history.setDayReturn(history.getDayReturn().plusDays(x));
-                    System.out.println("Your work has been successful");
-                } else {
-                    Found = false;
-                }
-            }
-        }
-        if (!Found) {
-            System.out.println("Your book it doesn't exist");
-        }
-        inputParser.User_Login();
-    }
-
     //****************************************** Register Function ******************************************//
     //******************************** Librarian ********************************//
     public static void Librarian_Register() {
@@ -504,6 +480,7 @@ public class Library {
             System.out.println("Librarian Detail " + (i + 1) + " : " + service.getLibrariansService().getLibrarians().get(i));
         }
         System.out.println("=====================");
+        inputParser.Register();
     }
 
     //******************************** Customer ********************************//
@@ -548,6 +525,7 @@ public class Library {
             System.out.println("Customer Detail " + (i + 1) + " : " + service.getCustomersService().getCustomers().get(i));
         }
         System.out.println("==========================");
+        inputParser.Register();
     }
 
     //****************************************** Other Function ******************************************//

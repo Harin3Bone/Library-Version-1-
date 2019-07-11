@@ -50,9 +50,8 @@ public class InputParser {
                 }
                 break;
             case 2:
-                while (true){
-                    Register();
-                }
+                Register();
+                break;
             case 3:
                 System.out.println("Thank you");
                 System.exit(0);
@@ -94,7 +93,7 @@ public class InputParser {
                 ConfirmExtend();
                 break;
             case 8:
-                Library.ChangeBook_Librarian();
+                Library.ChangeBook();
                 break;
             case 9:
                 Controller();
@@ -130,7 +129,7 @@ public class InputParser {
                 Library.ReturnBook();
                 break;
             case 5:
-                Library.ChangeBook_Customer();
+                Library.ChangeBook();
                 break;
             case 6:
                 Controller();
