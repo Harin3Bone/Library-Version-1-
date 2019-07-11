@@ -47,19 +47,23 @@ public class Library {
 //        String code = CategoryCode + decimalFormat.format(NumberCode);        // Combine String //
 
         Integer runningNo = null;
-        for (Book b : service.getBooksService().getBooks()){
-            if (runningNo == null || runningNo < Integer.parseInt(b.getBookCode().substring(1))) {
-                runningNo = Integer.parseInt(b.getBookCode().substring(1));
-                                                                            // if no book in list it will cause runningNo don't have value //
-                                                                            // you should create runningNo condition if runningNo == null -> value = 1 //
+
+        for (Book b : service.getBooksService().getBooks()) {
+            if (CategoryCode.equals(b.getBookCode().substring(0,1))) {
+                if (runningNo == null || runningNo < Integer.parseInt(b.getBookCode().substring(1))) {
+                    runningNo = Integer.parseInt(b.getBookCode().substring(1));
+                    // if no book in list it will cause runningNo don't have value //
+                    // you should create runningNo condition if runningNo == null -> value = 1 //
+                }
+                if (runningNo == null) {
+                    runningNo = 1;
+                }
             }
-            if (runningNo == null){
-                runningNo = 1;
-            }
+
         }
 
-        int number = runningNo+1;
-        String code = CategoryCode+decimalFormat.format(number);
+        int number = runningNo + 1;
+        String code = CategoryCode + decimalFormat.format(number);
         //**************** Add Data to Variable ****************//
         book.setUuid(UUID.randomUUID());                                    // Random UUID but not show on display //
         book.setBookName(name);                                             // Set value //
@@ -73,6 +77,7 @@ public class Library {
         //**************** Display ****************//
         CheckBook();
     }
+
     //******************************** Remove Book ********************************//
     public static void RemoveBook() {
         //**************** Create Variable ****************//
@@ -111,7 +116,7 @@ public class Library {
         System.out.print("Enter your book name to search : ");
         String name = search.nextLine();
         boolean Found = false;                                              // Boolean it use for check it found book name or not //
-                                                                            // if not use boolean and choose else then will occur some problem //
+        // if not use boolean and choose else then will occur some problem //
         //**************** Display Search ****************//
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookName().equalsIgnoreCase(name)) {
@@ -135,7 +140,7 @@ public class Library {
         System.out.print("Enter your category name to search : ");
         String cate = search.nextLine();
         boolean Found = false;                                              // Boolean it use for check it found book name or not //
-                                                                            // if not use boolean and choose else then will occur some problem //
+        // if not use boolean and choose else then will occur some problem //
         //**************** Display Search ****************//
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCategory().equalsIgnoreCase(cate)) {
@@ -159,7 +164,7 @@ public class Library {
         System.out.print("Enter your book code to search : ");
         String id = search.nextLine();
         boolean Found = false;                                              // Boolean it use for check it found book name or not //
-                                                                            // if not use boolean and choose else then will occur some problem //
+        // if not use boolean and choose else then will occur some problem //
         //**************** Display Search ****************//
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCode().equalsIgnoreCase(id)) {
@@ -246,7 +251,6 @@ public class Library {
     //******************************** Approve Book ********************************//
     public static void ApproveBook() {
         LibraryService service = LibraryService.getInstance();
-        History history = new History();                                           // Create history to get history detail //
         //**************** Scanner Input ****************//
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter book code to approve : ");
@@ -259,17 +263,14 @@ public class Library {
                 if (book.getBookStatus().equals(BookStatus.Wait_Approve)) {
                     //**************** Status & Day Set ****************//
                     book.setBookStatus(BookStatus.Unvailable);
-                    history.setBookname(book.getBookName());
-                    history.setBookcategory(book.getBookCategory());
-                    history.setBookcode(book.getBookCode());
-                    history.setBookauthor(book.getBookAuthor());
-                    history.setBooksituation(BookSituation.Borrow);
-                    history.setDayBorrow(LocalDate.now());
-                    history.setDayReturn(LocalDate.now().plusDays(7));
-                    history.setLibrarianname(service.getLibrarianDetail().getFirstName());
-//                    history.setCustomername();
-                    //**************** History Add ****************//
-                    service.getHistoriesService().getHistories().add(history);
+                    for (History history : service.getHistoriesService().getHistories()) {
+                        if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Non_Borrow)) {
+                            history.setDayBorrow(LocalDate.now());
+                            history.setDayReturn(LocalDate.now().plusDays(7));
+                            history.setBooksituation(BookSituation.Borrow);
+                            history.setLibrarianname(service.getLibrarianDetail().getFirstName());
+                        }
+                    }
                     //**************** Display ****************//
                     for (int i = 0; i < service.getHistoriesService().getHistories().size(); i++) {
                         System.out.println(service.getHistoriesService().getHistories().get(i));
@@ -293,7 +294,6 @@ public class Library {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter book code to accept : ");
         String id = scanner.next();
-//        History history = new History();
         //**************** Accept Component ****************//
         boolean Found = false;
         for (Book book : service.getBooksService().getBooks()) {
@@ -302,17 +302,14 @@ public class Library {
                 if (book.getBookStatus().equals(BookStatus.Wait_Accept)) {
                     book.setBookStatus(BookStatus.Available);
                     for (History history : service.getHistoriesService().getHistories()) {
-                        if ((history.getBookcode().equals(id)) && (history.getBooksituation().equals(BookSituation.Borrow))) {
-//                            history.setLibrarianname(librarian.getFirstName());
+                        if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Non_Return)) {
+                            history.setUuid(UUID.randomUUID());
+                            history.setLibrarianname(service.getLibrarianDetail().getFirstName());
                             history.setBooksituation(BookSituation.Return);
-//                            history.getHistoriesService().add(history);
                         }
                     }
                     //**************** Display ****************//
-                    for (int i = 0; i < service.getHistoriesService().getHistories().size(); i++) {
-                        System.out.println(service.getHistoriesService().getHistories().get(i));
-                    }
-                    System.out.println("Your work has been successful");
+                    HistoryBook();
                 } else {
                     Found = false;
                 }
@@ -340,13 +337,13 @@ public class Library {
                 if (history.getBooksituation().equals(BookSituation.Borrow)) {
                     System.out.print("Enter your number to change return date : ");
                     int x = scanner.nextInt();
-                    if (DAYS.between(history.getDayBorrow(), history.getDayReturn().plusDays(x)) >= 15)  {
+                    if (DAYS.between(history.getDayBorrow(), history.getDayReturn().plusDays(x)) >= 15) {
                         System.out.println("Error, your date are invalid");
                         System.out.println("================================");
                         ChangeBook_Librarian();
                     }
                     history.setDayReturn(history.getDayReturn().plusDays(x));
-//                    history.setLibrarianname(librarian.getFirstName());
+                    history.setLibrarianname(service.getLibrarianDetail().getFirstName());
                     System.out.println("Your work has been successful");
                 } else {
                     Found = false;
@@ -364,6 +361,7 @@ public class Library {
     //******************************** Borrow Book ********************************//
     public static void BorrowBook() {
         LibraryService service = LibraryService.getInstance();
+        History history = new History();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter book code to borrow : ");
         String id = scanner.next();
@@ -376,9 +374,16 @@ public class Library {
                     //**************** Status Set ****************//
                     book.setBookStatus(BookStatus.Wait_Approve);
                     //**************** Customer Set ****************//
-
+                    history.setCustomername(service.getCustomerDetail().getFirstName());
+                    history.setBookname(book.getBookName());
+                    history.setBookcode(book.getBookCode());
+                    history.setBookcategory(book.getBookCategory());
+                    history.setBookauthor(book.getBookAuthor());
+                    history.setBooksituation(BookSituation.Non_Borrow);
+                    //**************** History List Add ****************//
+                    service.getHistoriesService().getHistories().add(history);
                     //**************** Display ****************//
-//                    System.out.println("User : " + customer.getFirstName());
+                    System.out.println("User : " + service.getCustomerDetail().getFirstName());
                     SearchDisplay(book);
                     System.out.println("Your work has been successful\n");
                 } else {
@@ -405,26 +410,27 @@ public class Library {
             if (book.getBookCode().equals(id)) {
                 Found = true;
                 if (book.getBookStatus().equals(BookStatus.Unvailable)) {
-                    //**************** Status Set ****************//
-                    book.setBookStatus(BookStatus.Wait_Accept);
-//                    history.setDayReturn(LocalDate.now());
                     //**************** Customer Set ****************//
                     for (History history : service.getHistoriesService().getHistories()) {
                         if ((history.getBookcode().equals(id)) && (history.getBooksituation().equals(BookSituation.Borrow))) {
-//                            if (!history.getCustomername().equals(customer.getFirstName())) {
-//                                System.out.println("Error, you're not person who borrow the book");
-//                                System.out.println("================================");
-//                                ReturnBook();
-//                            }
-                            //**************** Date Check ****************//
-//                            if (!history.getDayReturn().equals(LocalDate.now())) {
-//                                int x = LocalDate.now().compareTo(history.getDayReturn());
-//                                if (x < 0) {
-//                                    System.out.println("" + customer.getFirstName() + " You return late " + (x * (-1)) + " day(s)\nThank you");
-//                                }
-//                            }
-//                                System.out.println("User : " + customer.getFirst());
+                            if (!history.getCustomername().equals(service.getCustomerDetail().getFirstName())) {
+                                System.out.println("Error, you're not person who borrow the book");
+                                System.out.println("================================");
+                                book.setBookStatus(BookStatus.Unvailable);
+                                ReturnBook();
+                            }
+                            // **************** Date Check **************** //
+                            if (!history.getDayReturn().equals(LocalDate.now())) {
+                                int x = LocalDate.now().compareTo(history.getDayReturn());
+                                if (x < 0) {
+                                    System.out.println("" + service.getCustomerDetail().getFirstName() + " You return late " + (x * (-1)) + " day(s)\nThank you");
+                                }
+                            }
+                            System.out.println("User : " + service.getCustomerDetail().getFirstName());
                         }
+                        //**************** Status Set ****************//
+                        book.setBookStatus(BookStatus.Wait_Accept);
+                        history.setBooksituation(BookSituation.Non_Return);
                     }
                     //**************** Display ****************//
                     SearchDisplay(book);
@@ -453,11 +459,11 @@ public class Library {
             if (history.getBookcode().equalsIgnoreCase(id)) {
                 Found = true;
                 if (history.getBooksituation().equals(BookSituation.Borrow)) {
-//                    if (!history.getCustomername().equals(customer.getFirstName())) {
-//                        System.out.println("Error, you're not person who borrow the book");
-//                        System.out.println("================================");
-//                        ChangeBook_Customer();
-//                    }
+                    if (!history.getCustomername().equals(service.getCustomerDetail().getFirstName())) {
+                        System.out.println("Error, you're not person who borrow the book");
+                        System.out.println("================================");
+                        ChangeBook_Customer();
+                    }
                     System.out.print("Enter your number to change return date : ");
                     int x = scanner.nextInt();
                     if (DAYS.between(history.getDayBorrow(), history.getDayReturn().plusDays(x)) >= 15) {
@@ -506,7 +512,7 @@ public class Library {
         try {
             for (Librarian librarian : service.getLibrariansService().getLibrarians()) {
                 if ((librarian.getFirstName().equals(Firstname))) {
-                    if((librarian.getLastName().equals(Lastname))){
+                    if ((librarian.getLastName().equals(Lastname))) {
                         System.out.println("This account has benn already sign up");
                         System.out.println("=====================");
                         Librarian_Register();                                               // Beware the ConcurrentModificationException //
@@ -534,8 +540,7 @@ public class Library {
                 System.out.println("=====================");
                 Librarian_Register();
             }
-        }
-        catch (ConcurrentModificationException e){
+        } catch (ConcurrentModificationException e) {
 
         }
         //**************** Display Booklist ****************//
@@ -544,6 +549,7 @@ public class Library {
         }
         System.out.println("=====================");
     }
+
     //******************************** Customer ********************************//
     public static void Customer_Register() {
         LibraryService service = LibraryService.getInstance();
@@ -570,7 +576,7 @@ public class Library {
         try {
             for (Customer customer : service.getCustomersService().getCustomers()) {
                 if ((customer.getFirstName().equals(Firstname))) {
-                    if((customer.getLastName().equals(Lastname))){
+                    if ((customer.getLastName().equals(Lastname))) {
                         System.out.println("This account has benn already sign up");
                         System.out.println("=====================");
                         Customer_Register();                                                // Beware the ConcurrentModificationException //
@@ -598,8 +604,7 @@ public class Library {
                 System.out.println("=====================");
                 Customer_Register();
             }
-        }
-        catch (ConcurrentModificationException e){
+        } catch (ConcurrentModificationException e) {
 
         }
         //**************** Display Booklist ****************//
@@ -608,6 +613,7 @@ public class Library {
         }
         System.out.println("=====================");
     }
+
     //****************************************** Other Function ******************************************//
     //******************************** Search Display ********************************//
     public static void SearchDisplay(Book book) {
