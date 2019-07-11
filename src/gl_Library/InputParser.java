@@ -65,6 +65,7 @@ public class InputParser {
     public void Admin_Login() {
         System.out.println("================================");
         System.out.println(""+service.getLibrarianDetail().getFirstName()+" "+service.getLibrarianDetail().getLastName());
+        service.setCustomerDetail(null);
         MainScreen librarianMenu = new MainScreen();
         //******************** Select Section ********************//
         int choices = librarianMenu.librarianMenu();
@@ -113,6 +114,7 @@ public class InputParser {
     public void User_Login() {
         System.out.println("================================");
         System.out.println(""+service.getCustomerDetail().getFirstName()+" "+service.getCustomerDetail().getLastName());
+        service.setLibrarianDetail(null);
         MainScreen customerMenu = new MainScreen();
         int choices = customerMenu.customerMenu();
         switch (choices) {

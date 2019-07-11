@@ -28,7 +28,7 @@ public class BookList {
                 "-",BookStatus.Available));
         books.getBooks().add(new Book(UUID.randomUUID(),"Hawke Eye","Magazine","C0001","Stan Lee",
                 "-",BookStatus.Available));
-        books.getBooks().add(new Book(UUID.randomUUID(),"Thr Avenger","Newspaper","D0001","Stan Lee",
+        books.getBooks().add(new Book(UUID.randomUUID(),"Thr Avenger","Newspaper","D0002","Stan Lee",
                 "-",BookStatus.Available));
         books.getBooks().add(new Book(UUID.randomUUID(),"Captain America","Comic","A0002","Stan Lee",
                 "-",BookStatus.Unvailable));
@@ -38,7 +38,7 @@ public class BookList {
                 "-",BookStatus.Unvailable));
         books.getBooks().add(new Book(UUID.randomUUID(),"Arthur","Magazine","C0002","Stan Lee",
                 "-",BookStatus.Wait_Accept));
-        books.getBooks().add(new Book(UUID.randomUUID(),"Doctor Strange","Newspaper","D0002","Stan Lee",
+        books.getBooks().add(new Book(UUID.randomUUID(),"Doctor Strange","Newspaper","D0001","Stan Lee",
                 "-",BookStatus.Wait_Approve));
 
     }

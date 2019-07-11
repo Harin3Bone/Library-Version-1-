@@ -22,27 +22,27 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 public class Library {
     private static InputParser inputParser = new InputParser();                     // Create input parser to throw back input function //
-    private static LibraryService service = LibraryService.getInstance();          // Create service to use all of list //
+    private static LibraryService service = LibraryService.getInstance();           // Create service to use all of list //
 
     //****************************************** Librarian Function ******************************************//
     //******************************** Add Book ********************************//
     public static void AddBook() {
         //**************** Create Variable ****************//
-        Book book = new Book();                                             // Create book object to get detail //
-        Scanner scanner = new Scanner(System.in);                           // Create scanner to get input //
+        Book book = new Book();                                                     // Create book object to get detail //
+        Scanner scanner = new Scanner(System.in);                                   // Create scanner to get input //
         //**************** Input Scanner ****************//
         System.out.print("Please enter book name : ");
         String name = scanner.nextLine();
         System.out.print("Please enter book category : ");
         String category = scanner.nextLine();
-        BookCategory CategoryEnum = BookCategory.valueOf(category);         // Check input is same as enum or not ? //
+        BookCategory CategoryEnum = BookCategory.valueOf(category);                 // Check input is same as enum or not ? //
         System.out.print("Please enter book author : ");
         String author = scanner.nextLine();
         System.out.print("Please enter book abstract : ");
         String abstracts = scanner.nextLine();
         //**************** Generate Book Code ****************//
-        String CategoryCode = BookCategory.valueOf(category).getCode();     // Pull code (String) from category enum //
-        DecimalFormat decimalFormat = new DecimalFormat("0000");     // DecimalFormat change display value from 1 to 0001 //
+        String CategoryCode = BookCategory.valueOf(category).getCode();             // Pull code (String) from category enum //
+        DecimalFormat decimalFormat = new DecimalFormat("0000");            // DecimalFormat change display value from 1 to 0001 //
 
 //        Random random = new Random();
 //        int NumberCode = random.nextInt(1000);                                // Random number  0 - 1000 //
@@ -67,13 +67,13 @@ public class Library {
         int number = runningNo + 1;
         String code = CategoryCode + decimalFormat.format(number);
         //**************** Add Data to Variable ****************//
-        book.setUuid(UUID.randomUUID());                                    // Random UUID but not show on display //
-        book.setBookName(name);                                             // Set value //
+        book.setUuid(UUID.randomUUID());                                            // Random UUID but not show on display //
+        book.setBookName(name);                                                     // Set value //
         book.setBookCategory(category);
         book.setBookAuthor(author);
         book.setBookabstract(abstracts);
         book.setBookCode(code);
-        book.setBookStatus(BookStatus.Available);                           // Set book status //
+        book.setBookStatus(BookStatus.Available);                                   // Set book status //
         //**************** Add Data to List ****************//
         service.getBooksService().getBooks().add(book);
         //**************** Display ****************//
@@ -83,8 +83,8 @@ public class Library {
     //******************************** Remove Book ********************************//
     public static void RemoveBook() {
         //**************** Create Variable ****************//
-        Book book = new Book();                                             // Create book to use book iterator //
-        Scanner rem = new Scanner(System.in);                               // Create scanner to get input //
+        Book book = new Book();                                                     // Create book to use book iterator //
+        Scanner rem = new Scanner(System.in);                                       // Create scanner to get input //
         //**************** Input Scanner ****************//
         System.out.println("Please enter book code to remove : ");
         String remid = rem.nextLine();
@@ -92,8 +92,8 @@ public class Library {
         Iterator<Book> iterator = service.getBooksService().getBooks().iterator();
         while (iterator.hasNext()) {
             book = iterator.next();
-            if (book.getBookCode().equals(remid)) {                         // Condition check book code if same as input -> continue //
-                iterator.remove();                                          // when condition is true -> remove 1 record //
+            if (book.getBookCode().equals(remid)) {                                 // Condition check book code if same as input -> continue //
+                iterator.remove();                                                  // when condition is true -> remove 1 record //
                 System.out.println("Book code : " + book.getBookCode() + " remove successful");
                 CheckBook();
             } else {
@@ -111,8 +111,8 @@ public class Library {
         //**************** Input Scanner ****************//
         Scanner search = new Scanner(System.in);
         System.out.print("Enter your book name to search : ");
-        String name = search.nextLine();                                    // Boolean it use for check it found book name or not //
-        boolean Found = false;                                              // if not use boolean and choose else then will occur some problem //
+        String name = search.nextLine();                                            // Boolean it use for check it found book name or not //
+        boolean Found = false;                                                      // if not use boolean and choose else then will occur some problem //
         //**************** Display Search ****************//
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookName().equalsIgnoreCase(name)) {
@@ -132,8 +132,8 @@ public class Library {
         //**************** Input Scanner ****************//
         Scanner search = new Scanner(System.in);
         System.out.print("Enter your category name to search : ");
-        String cate = search.nextLine();                                    // Boolean it use for check it found book name or not //
-        boolean Found = false;                                              // if not use boolean and choose else then will occur some problem //
+        String cate = search.nextLine();                                            // Boolean it use for check it found book name or not //
+        boolean Found = false;                                                      // if not use boolean and choose else then will occur some problem //
         //**************** Display Search ****************//
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCategory().equalsIgnoreCase(cate)) {
@@ -153,8 +153,8 @@ public class Library {
         //**************** Input Scanner ****************//
         Scanner search = new Scanner(System.in);
         System.out.print("Enter your book code to search : ");
-        String id = search.nextLine();                                      // Boolean it use for check it found book name or not //
-        boolean Found = false;                                              // if not use boolean and choose else then will occur some problem //
+        String id = search.nextLine();                                              // Boolean it use for check it found book name or not //
+        boolean Found = false;                                                      // if not use boolean and choose else then will occur some problem //
         //**************** Display Search ****************//
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCode().equalsIgnoreCase(id)) {
@@ -233,7 +233,7 @@ public class Library {
                 System.out.println("Error input doesn't exist");
                 System.exit(0);
         }
-        inputParser.User_Login();
+        inputParser.Admin_Login();
     }
 
     //******************************** Approve Book ********************************//
@@ -248,9 +248,10 @@ public class Library {
             if (book.getBookCode().equalsIgnoreCase(id)) {
                 Found = true;
                 if (book.getBookStatus().equals(BookStatus.Wait_Approve)) {
-                    //**************** Status & Day Set ****************//
+                    //**************** Status Change ****************//
                     book.setBookStatus(BookStatus.Unvailable);
                     for (History history : service.getHistoriesService().getHistories()) {
+                        //**************** Value Set ****************//
                         if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Non_Borrow)) {
                             history.setDayBorrow(LocalDate.now());
                             history.setDayReturn(LocalDate.now().plusDays(7));
@@ -368,6 +369,7 @@ public class Library {
                     book.setBookStatus(BookStatus.Wait_Approve);
                     //**************** Customer Set ****************//
                     history.setCustomername(service.getCustomerDetail().getFirstName());
+                    history.setUuid(UUID.randomUUID());
                     history.setBookname(book.getBookName());
                     history.setBookcode(book.getBookCode());
                     history.setBookcategory(book.getBookCategory());
