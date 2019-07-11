@@ -13,18 +13,8 @@ public class Book {
     private String bookAuthor;
     private String bookabstract;
     private BookStatus bookStatus;
-    private int bookNumber;
 
     //************************** Getter & Setter **************************//
-    public int getBookNumber() {
-
-        return bookNumber;
-    }
-
-    public void setBookNumber(int bookNumber) {
-
-        this.bookNumber = bookNumber;
-    }
 
     public UUID getUuid() {
 
@@ -109,17 +99,6 @@ public class Book {
         this.bookAuthor = bookAuthor;
         this.bookabstract = bookabstract;
         this.bookStatus = bookStatus;
-    }
-
-    public Book(UUID uuid, String bookName, String bookCategory, String bookCode, String bookAuthor, String bookabstract, BookStatus bookStatus, int bookNumber) {
-        this.uuid = uuid;
-        this.bookName = bookName;
-        this.bookCategory = bookCategory;
-        this.bookCode = bookCode;
-        this.bookAuthor = bookAuthor;
-        this.bookabstract = bookabstract;
-        this.bookStatus = bookStatus;
-        this.bookNumber = bookNumber;
     }
 
     //************************** toString **************************//

@@ -21,11 +21,13 @@ import java.util.UUID;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class Library {
+    private static InputParser inputParser = new InputParser();                     // Create input parser to throw back input function //
+    private static LibraryService service = LibraryService.getInstance();          // Create service to use all of list //
+
     //****************************************** Librarian Function ******************************************//
     //******************************** Add Book ********************************//
     public static void AddBook() {
         //**************** Create Variable ****************//
-        LibraryService service = LibraryService.getInstance();              // Create service to use book list //
         Book book = new Book();                                             // Create book object to get detail //
         Scanner scanner = new Scanner(System.in);                           // Create scanner to get input //
         //**************** Input Scanner ****************//
@@ -49,7 +51,7 @@ public class Library {
         Integer runningNo = null;
 
         for (Book b : service.getBooksService().getBooks()) {
-            if (CategoryCode.equals(b.getBookCode().substring(0,1))) {
+            if (CategoryCode.equals(b.getBookCode().substring(0, 1))) {
                 if (runningNo == null || runningNo < Integer.parseInt(b.getBookCode().substring(1))) {
                     runningNo = Integer.parseInt(b.getBookCode().substring(1));
                     // if no book in list it will cause runningNo don't have value //
@@ -81,7 +83,6 @@ public class Library {
     //******************************** Remove Book ********************************//
     public static void RemoveBook() {
         //**************** Create Variable ****************//
-        LibraryService service = LibraryService.getInstance();              // Create service to use book list //
         Book book = new Book();                                             // Create book to use book iterator //
         Scanner rem = new Scanner(System.in);                               // Create scanner to get input //
         //**************** Input Scanner ****************//
@@ -94,14 +95,11 @@ public class Library {
             if (book.getBookCode().equals(remid)) {                         // Condition check book code if same as input -> continue //
                 iterator.remove();                                          // when condition is true -> remove 1 record //
                 System.out.println("Book code : " + book.getBookCode() + " remove successful");
-                System.out.println("=====================");
-                for (int i = 0; i < service.getBooksService().getBooks().size(); i++) {
-                    System.out.println(service.getBooksService().getBooks().get(i));
-                }
-                System.out.println("=====================");
+                CheckBook();
             } else {
                 if (book.getBookCode().equalsIgnoreCase(remid)) {
                     System.out.println("Sorry your book code is not exist");
+                    inputParser.Admin_Login();
                 }
             }
         }
@@ -110,13 +108,11 @@ public class Library {
     //******************************** Search Book ********************************//
     //**************** By Name ****************//
     public static void SearchByName() {
-        LibraryService service = LibraryService.getInstance();              // Create service to get book list //
         //**************** Input Scanner ****************//
         Scanner search = new Scanner(System.in);
         System.out.print("Enter your book name to search : ");
-        String name = search.nextLine();
-        boolean Found = false;                                              // Boolean it use for check it found book name or not //
-        // if not use boolean and choose else then will occur some problem //
+        String name = search.nextLine();                                    // Boolean it use for check it found book name or not //
+        boolean Found = false;                                              // if not use boolean and choose else then will occur some problem //
         //**************** Display Search ****************//
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookName().equalsIgnoreCase(name)) {
@@ -128,19 +124,16 @@ public class Library {
             System.out.println("Your book doesn't exist");
             System.out.println("==========================");
         }
-        InputParser inputParser = new InputParser();
         inputParser.Admin_Login();
     }
 
     //**************** By Category ****************//
     public static void SearchByCategory() {
-        LibraryService service = LibraryService.getInstance();              // Create service to get book list //
         //**************** Input Scanner ****************//
         Scanner search = new Scanner(System.in);
         System.out.print("Enter your category name to search : ");
-        String cate = search.nextLine();
-        boolean Found = false;                                              // Boolean it use for check it found book name or not //
-        // if not use boolean and choose else then will occur some problem //
+        String cate = search.nextLine();                                    // Boolean it use for check it found book name or not //
+        boolean Found = false;                                              // if not use boolean and choose else then will occur some problem //
         //**************** Display Search ****************//
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCategory().equalsIgnoreCase(cate)) {
@@ -152,19 +145,16 @@ public class Library {
             System.out.println("Your book doesn't exist");
             System.out.println("==========================");
         }
-        InputParser inputParser = new InputParser();
         inputParser.Admin_Login();
     }
 
     //**************** By Code ****************//
     public static void SearchByCode() {
-        LibraryService service = LibraryService.getInstance();              // Create service to get book list //
         //**************** Input Scanner ****************//
         Scanner search = new Scanner(System.in);
         System.out.print("Enter your book code to search : ");
-        String id = search.nextLine();
-        boolean Found = false;                                              // Boolean it use for check it found book name or not //
-        // if not use boolean and choose else then will occur some problem //
+        String id = search.nextLine();                                      // Boolean it use for check it found book name or not //
+        boolean Found = false;                                              // if not use boolean and choose else then will occur some problem //
         //**************** Display Search ****************//
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCode().equalsIgnoreCase(id)) {
@@ -176,37 +166,31 @@ public class Library {
             System.out.println("Your book doesn't exist");
             System.out.println("==========================");
         }
-        InputParser inputParser = new InputParser();
         inputParser.Admin_Login();
     }
 
     //******************************** Check Book ********************************//
     public static void CheckBook() {
-        LibraryService service = LibraryService.getInstance();
         //**************** Display List Book ****************//
         System.out.println("=====================");
         for (int i = 0; i < service.getBooksService().getBooks().size(); i++) {
             System.out.println("Book Detail " + (i + 1) + " : " + service.getBooksService().getBooks().get(i));
         }
-        InputParser inputParser = new InputParser();
         inputParser.Admin_Login();
     }
 
     //******************************** History Book ********************************//
     public static void HistoryBook() {
-        LibraryService service = LibraryService.getInstance();
         //**************** Display List Book ****************//
         System.out.println("=====================");
         for (int i = 0; i < service.getHistoriesService().getHistories().size(); i++) {
             System.out.println("History Detail " + (i + 1) + " : " + service.getHistoriesService().getHistories().get(i));
         }
-        InputParser inputParser = new InputParser();
         inputParser.Admin_Login();
     }
 
     //******************************** Sort Book ********************************//
     public static void SortBook() {
-        LibraryService service = LibraryService.getInstance();
         Scanner sort = new Scanner(System.in);
         System.out.println("Please use sorting function");
         System.out.println("1 - Sort by Name\n2 - Sort by Category\n3 - Sort by Serial\n4 - Sort by Status");
@@ -244,13 +228,11 @@ public class Library {
                 System.out.println("Error input doesn't exist");
                 System.exit(0);
         }
-        InputParser inputParser = new InputParser();
         inputParser.User_Login();
     }
 
     //******************************** Approve Book ********************************//
     public static void ApproveBook() {
-        LibraryService service = LibraryService.getInstance();
         //**************** Scanner Input ****************//
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter book code to approve : ");
@@ -284,13 +266,11 @@ public class Library {
         if (!Found) {
             System.out.println("Your book it doesn't exist");
         }
-        InputParser inputParser = new InputParser();
         inputParser.Admin_Login();
     }
 
     //******************************** Accept Book ********************************//
     public static void AcceptBook() {
-        LibraryService service = LibraryService.getInstance();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter book code to accept : ");
         String id = scanner.next();
@@ -318,13 +298,11 @@ public class Library {
         if (!Found) {
             System.out.println("Your book it doesn't exist");
         }
-        InputParser inputParser = new InputParser();
         inputParser.Admin_Login();
     }
 
     //******************************** Change Book ********************************//
     public static void ChangeBook_Librarian() {
-        LibraryService service = LibraryService.getInstance();
         //**************** Input Scanner ****************//
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your book code : ");
@@ -353,14 +331,12 @@ public class Library {
         if (!Found) {
             System.out.println("Your book it doesn't exist");
         }
-        InputParser inputParser = new InputParser();
         inputParser.Admin_Login();
     }
 
     //****************************************** Customer Function ******************************************//
     //******************************** Borrow Book ********************************//
     public static void BorrowBook() {
-        LibraryService service = LibraryService.getInstance();
         History history = new History();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter book code to borrow : ");
@@ -394,13 +370,11 @@ public class Library {
         if (!Found) {
             System.out.println("Your book it doesn't exist or unvaluable");
         }
-        InputParser inputParser = new InputParser();
         inputParser.User_Login();
     }
 
     //******************************** Return Book ********************************//
     public static void ReturnBook() {
-        LibraryService service = LibraryService.getInstance();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter book code to return : ");
         String id = scanner.next();
@@ -443,13 +417,11 @@ public class Library {
         if (!Found) {
             System.out.println("Your book it doesn't exist");
         }
-        InputParser inputParser = new InputParser();
         inputParser.User_Login();
     }
 
     //******************************** Change Book ********************************//
     public static void ChangeBook_Customer() {
-        LibraryService service = LibraryService.getInstance();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your book code : ");
         String id = scanner.next();
@@ -481,7 +453,6 @@ public class Library {
         if (!Found) {
             System.out.println("Your book it doesn't exist");
         }
-        InputParser inputParser = new InputParser();
         inputParser.User_Login();
     }
 
@@ -489,50 +460,30 @@ public class Library {
     //******************************** Librarian ********************************//
     public static void Librarian_Register() {
         //**************** Create Variable ****************//
-        LibraryService service = LibraryService.getInstance();
-
         Librarian newLibrarian = new Librarian();
-        Scanner add = new Scanner(System.in);
-
-        //**************** Input Scanner ****************//
-        System.out.print("Please fill librarian firstname : ");
-        String Firstname = add.nextLine();
-
-        System.out.print("Please fill librarian lastname : ");
-        String Lastname = add.nextLine();
-
-        System.out.print("Please fill librarian username : ");
-        String Identity = add.nextLine();
-
-        System.out.print("Please fill librarian password : ");
-        String Password1 = add.nextLine();
-        System.out.print("Please re-fill customer password : ");
-        String Password2 = add.nextLine();
-
+        String[] account = RegisterInput();
         try {
             for (Librarian librarian : service.getLibrariansService().getLibrarians()) {
-                if ((librarian.getFirstName().equals(Firstname))) {
-                    if ((librarian.getLastName().equals(Lastname))) {
+                if ((librarian.getFirstName().equals(account[0]))) {
+                    if ((librarian.getLastName().equals(account[1]))) {
                         System.out.println("This account has benn already sign up");
                         System.out.println("=====================");
                         Librarian_Register();                                               // Beware the ConcurrentModificationException //
-//                        System.exit(0);
                     }
                 }
-                if (librarian.getIdentity().equals(Identity)) {
+                if (librarian.getIdentity().equals(account[2])) {
                     System.out.println("Your identity has been already use");
                     System.out.println("=====================");
                     Librarian_Register();                                                   // Beware the ConcurrentModificationException //
-//                System.exit(0);
                 }
             }
 
-            if (Password1.equals(Password2)) {
+            if (account[3].equals(account[4])) {
                 //**************** Add Data to Variable ****************//
-                newLibrarian.setFirstName(Firstname);
-                newLibrarian.setLastName(Lastname);
-                newLibrarian.setIdentity(Identity);
-                newLibrarian.setPassword(Password1);
+                newLibrarian.setFirstName(account[0]);
+                newLibrarian.setLastName(account[1]);
+                newLibrarian.setIdentity(account[2]);
+                newLibrarian.setPassword(account[3]);
                 //**************** Add Data to List ****************//
                 service.getLibrariansService().getLibrarians().add(newLibrarian);
             } else {
@@ -552,56 +503,36 @@ public class Library {
 
     //******************************** Customer ********************************//
     public static void Customer_Register() {
-        LibraryService service = LibraryService.getInstance();
         //**************** Create Variable ****************//
         Customer newCustomer = new Customer();
-        Scanner add = new Scanner(System.in);
-
-        //**************** Input Scanner ****************//
-        System.out.print("Please fill customer firstname : ");
-        String Firstname = add.nextLine();
-
-        System.out.print("Please fill customer lastname : ");
-        String Lastname = add.nextLine();
-
-        System.out.print("Please fill customer username : ");
-        String Identity = add.nextLine();
-
-        System.out.print("Please fill customer password : ");
-        String Password1 = add.nextLine();
-        System.out.print("Please re-fill customer password : ");
-        String Password2 = add.nextLine();
-        System.out.println("=====================");
-
+        String[] account = RegisterInput();
         try {
             for (Customer customer : service.getCustomersService().getCustomers()) {
-                if ((customer.getFirstName().equals(Firstname))) {
-                    if ((customer.getLastName().equals(Lastname))) {
+                if ((customer.getFirstName().equals(account[0]))) {
+                    if ((customer.getLastName().equals(account[1]))) {
                         System.out.println("This account has benn already sign up");
-                        System.out.println("=====================");
+                        System.out.println("==========================");
                         Customer_Register();                                                // Beware the ConcurrentModificationException //
-//                        System.exit(0);
                     }
                 }
-                if (customer.getIdentity().equals(Identity)) {
+                if (customer.getIdentity().equals(account[2])) {
                     System.out.println("Your identity has been already use");
-                    System.out.println("=====================");
-//                Customer_Register(customers);
+                    System.out.println("==========================");
                     Customer_Register();                                                    // Beware the ConcurrentModificationException //
                 }
             }
 
-            if (Password1.equals(Password2)) {
+            if (account[3].equals(account[4])) {
                 //**************** Add Data to Variable ****************//
-                newCustomer.setFirstName(Firstname);
-                newCustomer.setLastName(Lastname);
-                newCustomer.setIdentity(Identity);
-                newCustomer.setPassword(Password1);
+                newCustomer.setFirstName(account[0]);
+                newCustomer.setLastName(account[1]);
+                newCustomer.setIdentity(account[2]);
+                newCustomer.setPassword(account[3]);
                 //**************** Add Data to List ****************//
                 service.getCustomersService().getCustomers().add(newCustomer);
             } else {
                 System.out.println("Error, Your password don't same\n");
-                System.out.println("=====================");
+                System.out.println("==========================");
                 Customer_Register();
             }
         } catch (ConcurrentModificationException e) {
@@ -611,16 +542,38 @@ public class Library {
         for (int i = 0; i < service.getCustomersService().getCustomers().size(); i++) {
             System.out.println("Customer Detail " + (i + 1) + " : " + service.getCustomersService().getCustomers().get(i));
         }
-        System.out.println("=====================");
+        System.out.println("==========================");
     }
 
     //****************************************** Other Function ******************************************//
     //******************************** Search Display ********************************//
-    public static void SearchDisplay(Book book) {
+    private static void SearchDisplay(Book book) {
         System.out.println("==========================");
         System.out.println("Book Name   : " + book.getBookName());
         System.out.println("Book Type   : " + book.getBookCategory());
         System.out.println("Book Code   : " + book.getBookCode());
         System.out.println("Book Status : " + book.getBookStatus());
+    }
+
+    //******************************** Register Input ********************************//
+    private static String[] RegisterInput() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Please fill your firstname : ");
+        String Firstname = scanner.nextLine();
+
+        System.out.print("Please fill your lastname : ");
+        String Lastname = scanner.nextLine();
+
+        System.out.print("Please fill your username : ");
+        String Identity = scanner.nextLine();
+
+        System.out.print("Please fill your password : ");
+        String Password1 = scanner.nextLine();
+        System.out.print("Please re-fill your password : ");
+        String Password2 = scanner.nextLine();
+        System.out.println("==========================");
+
+        return new String[]{Firstname, Lastname, Identity, Password1, Password2};
     }
 }

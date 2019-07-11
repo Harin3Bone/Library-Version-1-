@@ -1,6 +1,7 @@
 package gl_Service;
 
 import gl_Object.Customer;
+import gl_Object.History;
 import gl_Object.Librarian;
 import gl_Repository.BookList;
 import gl_Repository.CustomerList;
@@ -17,7 +18,7 @@ public class LibraryService {
 
     private Librarian librarianDetail;
     private Customer customerDetail;
-
+    private History history;
     private LibraryService() {
 
     }
