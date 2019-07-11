@@ -176,7 +176,12 @@ public class Library {
         for (int i = 0; i < service.getBooksService().getBooks().size(); i++) {
             System.out.println("Book Detail " + (i + 1) + " : " + service.getBooksService().getBooks().get(i));
         }
-        inputParser.Admin_Login();
+        if (service.getCustomerDetail() == null){
+            inputParser.Admin_Login();
+        }
+        else {
+            inputParser.User_Login();
+        }
     }
 
     //******************************** History Book ********************************//
