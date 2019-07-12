@@ -1,5 +1,6 @@
 package gl_Service;
 
+import gl_Object.Book;
 import gl_Object.Customer;
 import gl_Object.History;
 import gl_Object.Librarian;
@@ -18,7 +19,8 @@ public class LibraryService {
 
     private Librarian librarianDetail;
     private Customer customerDetail;
-    private History history;
+    private Book bookDetail;
+    private History historyDetail;
 
     private LibraryService() {
 
@@ -73,18 +75,42 @@ public class LibraryService {
     }
 
     public Librarian getLibrarianDetail() {
+
         return librarianDetail;
     }
 
     public void setLibrarianDetail(Librarian librarianDetail) {
+
         this.librarianDetail = librarianDetail;
     }
 
     public Customer getCustomerDetail() {
+
         return customerDetail;
     }
 
     public void setCustomerDetail(Customer customerDetail) {
+
         this.customerDetail = customerDetail;
+    }
+
+    public Book getBookDetail() {
+
+        return bookDetail;
+    }
+
+    public void setBookDetail(Book bookDetail) {
+
+        this.bookDetail = bookDetail;
+    }
+
+    public History getHistoryDetail() {
+
+        return historyDetail;
+    }
+
+    public void setHistoryDetail(History historyDetail) {
+
+        this.historyDetail = historyDetail;
     }
 }

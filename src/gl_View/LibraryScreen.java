@@ -1,11 +1,14 @@
 package gl_View;
 
 import gl_Enum.BookCategory;
+import gl_Enum.BookSituation;
+import gl_Library.Library;
 import gl_Object.Book;
 import gl_Service.LibraryService;
 
 import java.text.DecimalFormat;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class LibraryScreen {
     private static LibraryService service = LibraryService.getInstance();
@@ -27,8 +30,8 @@ public class LibraryScreen {
         DecimalFormat decimalFormat = new DecimalFormat("0000");            // DecimalFormat change display value from 1 to 0001 //
 
 //        Random random = new Random();
-//        int NumberCode = random.nextInt(1000);                                // Random number  0 - 1000 //
-//        String code = CategoryCode + decimalFormat.format(NumberCode);        // Combine String //
+//        int NumberCode = random.nextInt(1000);                                    // Random number  0 - 1000 //
+//        String code = CategoryCode + decimalFormat.format(NumberCode);            // Combine String //
 
         Integer runningNo = null;
 
@@ -42,8 +45,7 @@ public class LibraryScreen {
             }
         }
 
-        int number = runningNo + 1;
-        String code = CategoryCode + decimalFormat.format(number);
+        String code = CategoryCode + decimalFormat.format(runningNo++);
         return new String[] {name,category,author,abstracts,code};
     }
 
@@ -65,6 +67,15 @@ public class LibraryScreen {
         System.out.println("Book Status : " + book.getBookStatus());
     }
 
-    //******************************** For each Book ********************************//
-    //******************************** For each History ********************************//
+
+    //******************************** History Add ********************************//
+    public static void HistoryAdd (Book book){
+//        history.setCustomername(service.getCustomerDetail().getFirstName());
+//        history.setUuid(UUID.randomUUID());
+//        history.setBookname(book.getBookName());
+//        history.setBookcode(book.getBookCode());
+//        history.setBookcategory(book.getBookCategory());
+//        history.setBookauthor(book.getBookAuthor());
+//        history.setBooksituation(BookSituation.Return);
+    }
 }

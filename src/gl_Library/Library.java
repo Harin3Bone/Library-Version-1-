@@ -12,19 +12,16 @@ import gl_Service.LibraryService;
 import gl_View.LibraryScreen;
 import gl_View.RegisterScreen;
 
-
 import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class Library {
     private static InputParser inputParser = new InputParser();                     // Create input parser to throw back input function //
     private static LibraryService service = LibraryService.getInstance();           // Create service to use all of list //
+
     //****************************************** Librarian Function ******************************************//
     //******************************** Add Book ********************************//
     public static void AddBook() {
@@ -141,10 +138,9 @@ public class Library {
         for (int i = 0; i < service.getBooksService().getBooks().size(); i++) {
             System.out.println("Book Detail " + (i + 1) + " : " + service.getBooksService().getBooks().get(i));
         }
-        if (service.getCustomerDetail() == null){
+        if (service.getCustomerDetail() == null) {
             inputParser.Admin_Login();
-        }
-        else {
+        } else {
             inputParser.User_Login();
         }
     }
@@ -164,31 +160,31 @@ public class Library {
         int ans_sort = LibraryScreen.SortView();
         switch (ans_sort) {
             case 1:
-                service.getBooksService().getBooks().sort(Book.bookNameCompare);                // Compare book with book name in book method //
-//                Collections.sort(books.getBooksService(), Book.bookNameCompare);
+                service.getBooksService().getBooks().sort(Book.bookNameCompare);                    // Compare book with book name in book method //
+//                Collections.sort(service.getBooksService().getBooks(), Book.bookNameCompare);     // Can use collection replace sort //
                 for (Book bnsort : service.getBooksService().getBooks()) {
-                    System.out.println(bnsort);                                                 // Display book after sorting //
+                    System.out.println(bnsort);                                                     // Display book after sorting //
                 }
                 break;
             case 2:
-                service.getBooksService().getBooks().sort(Book.bookCategoryCompare);            // Compare book with book category in book method //
-//                Collections.sort(books.getBooksService(), Book.bookCategoryCompare);
+                service.getBooksService().getBooks().sort(Book.bookCategoryCompare);                // Compare book with book category in book method //
+//                Collections.sort(service.getBooksService().getBooks(), Book.bookCategoryCompare); // Can use collection replace sort //
                 for (Book bcsort : service.getBooksService().getBooks()) {
-                    System.out.println(bcsort);                                                 // Display book after sorting //
+                    System.out.println(bcsort);                                                     // Display book after sorting //
                 }
                 break;
             case 3:
-                service.getBooksService().getBooks().sort(Book.bookCodeCompare);                // Compare book with book code in book method //
-//                Collections.sort(books.getBooksService(), Book.bookCodeCompare);
+                service.getBooksService().getBooks().sort(Book.bookCodeCompare);                    // Compare book with book code in book method //
+//                Collections.sort(service.getBooksService().getBooks(), Book.bookCodeCompare);     // Can use collection replace sort //
                 for (Book bssort : service.getBooksService().getBooks()) {
-                    System.out.println(bssort);                                                 // Display book after sorting //
+                    System.out.println(bssort);                                                     // Display book after sorting //
                 }
                 break;
             case 4:
-                service.getBooksService().getBooks().sort(Book.bookStatusCompare);              // Compare book with book status in book method //
-//                Collections.sort(books.getBooksService(), Book.bookStatusCompare);
+                service.getBooksService().getBooks().sort(Book.bookStatusCompare);                  // Compare book with book status in book method //
+//                Collections.sort(service.getBooksService().getBooks(), Book.bookStatusCompare);   // Can use collection replace sort //
                 for (Book btsort : service.getBooksService().getBooks()) {
-                    System.out.println(btsort);                                                 // Display book after sorting //
+                    System.out.println(btsort);                                                     // Display book after sorting //
                 }
                 break;
             default:
@@ -197,6 +193,7 @@ public class Library {
         }
         inputParser.Admin_Login();
     }
+
     //******************************** Approve Book ********************************//
     public static void ApproveBook() {
         //**************** Scanner Input ****************//
@@ -216,7 +213,6 @@ public class Library {
                         if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Borrow)) {
                             history.setDayBorrow(LocalDate.now());
                             history.setDayReturn(LocalDate.now().plusDays(7));
-                            history.setBooksituation(BookSituation.Borrow);
                             history.setLibrarianname(service.getLibrarianDetail().getFirstName());
                         }
                     }
@@ -249,18 +245,8 @@ public class Library {
                 if (book.getBookStatus().equals(BookStatus.Wait_Accept)) {
                     book.setBookStatus(BookStatus.Available);
                     for (History history : service.getHistoriesService().getHistories()) {
-//                        if (history.getBookcode().equals(id)){
-////                            LocalDate borrowDay = history.getDayBorrow();
-////                            LocalDate returnDay = history.getDayReturn();
-////                            if (history.getBooksituation().equals(BookSituation.Return)) {
-////                                history.setLibrarianname(service.getLibrarianDetail().getFirstName());
-////                            }
-////                        }
-                        if (history.getBooksituation().equals(BookSituation.Borrow.Return)){
+                        if (history.getBooksituation().equals(BookSituation.Return)) {
                             history.setLibrarianname(service.getLibrarianDetail().getFirstName());
-                        }
-                        if (history.getBookcode().equals(id)){
-
                         }
                     }
                     //**************** Display ****************//
@@ -288,7 +274,7 @@ public class Library {
             if (history.getBookcode().equalsIgnoreCase(id)) {
                 Found = true;
                 if (history.getBooksituation().equals(BookSituation.Borrow)) {
-                    if (service.getCustomerDetail() != null){
+                    if (service.getCustomerDetail() != null) {
                         if (!history.getCustomername().equals(service.getCustomerDetail().getFirstName())) {
                             System.out.println("Error, you're not person who borrow the book");
                             System.out.println("================================");
@@ -297,7 +283,7 @@ public class Library {
                     }
                     System.out.print("Enter your number to change return date : ");
                     int x = scanner.nextInt();
-                    if (DAYS.between(history.getDayBorrow(), history.getDayReturn().plusDays(x)) >= 15) {
+                    if (DAYS.between(history.getDayBorrow(), history.getDayReturn().plusDays(x)) > 15) {
                         System.out.println("Error, your date are invalid");
                         System.out.println("================================");
                         ChangeBook();
@@ -312,10 +298,9 @@ public class Library {
         if (!Found) {
             System.out.println("Your book it doesn't exist");
         }
-        if (service.getLibrarianDetail() == null){
+        if (service.getLibrarianDetail() == null) {
             inputParser.User_Login();
-        }
-        else {
+        } else {
             inputParser.Admin_Login();
         }
 
@@ -343,6 +328,7 @@ public class Library {
                     history.setBookcode(book.getBookCode());
                     history.setBookcategory(book.getBookCategory());
                     history.setBookauthor(book.getBookAuthor());
+
                     history.setBooksituation(BookSituation.Borrow);
                     //**************** History List Add ****************//
                     service.getHistoriesService().getHistories().add(history);
@@ -363,7 +349,7 @@ public class Library {
 
     //******************************** Return Book ********************************//
     public static void ReturnBook() {
-        History newHistory = new History();
+        History history = new History();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter book code to return : ");
         String id = scanner.next();
@@ -374,9 +360,10 @@ public class Library {
                 Found = true;
                 if (book.getBookStatus().equals(BookStatus.Unvailable)) {
                     //**************** Customer Set ****************//
-                    for (History history : service.getHistoriesService().getHistories()) {
-                        if ((history.getBookcode().equals(id)) && (history.getBooksituation().equals(BookSituation.Borrow))) {
-                            if (!history.getCustomername().equals(service.getCustomerDetail().getFirstName())) {
+                    for (History historyForeach : service.getHistoriesService().getHistories()) {
+                        book.setBookStatus(BookStatus.Wait_Accept);
+                        if ((historyForeach.getBookcode().equals(id)) && (historyForeach.getBooksituation().equals(BookSituation.Borrow))) {
+                            if (!historyForeach.getCustomername().equals(service.getCustomerDetail().getFirstName())) {
                                 System.out.println("Error, you're not person who borrow the book");
                                 System.out.println("================================");
                                 book.setBookStatus(BookStatus.Unvailable);
@@ -384,32 +371,27 @@ public class Library {
                             }
                             // **************** Date Check **************** //
                             System.out.println("\nUser : " + service.getCustomerDetail().getFirstName());
-                            int x = (int) DAYS.between(history.getDayBorrow(), history.getDayReturn());
-                            if (x > 15) {
-                                System.out.println("" + service.getCustomerDetail().getFirstName() +
-                                        " You return late " + ((15-x)*-1) + " day(s)\nThank you");
+                            int x = (int) DAYS.between(historyForeach.getDayReturn(), LocalDate.now());
+                            if (x > 0) {
+                                System.out.println("" + service.getCustomerDetail().getFirstName() + ", You return book late " + x + " day(s)");
                             }
-//
-//                            int d1 = (int) DAYS.between(history.getDayBorrow(),history.getDayBorrow().plusDays(7));
-//                            int d2 = (int) DAYS.between(history.getDayBorrow(),history.getDayReturn());
-//                            int d3 = (int) DAYS.between(history.getDayBorrow(),history.getDayBorrow().plusDays(15));
-//                            int d4 = (int) DAYS.between(history.getDayReturn(),history.getDayReturn().plusDays(8));
-
-
                         }
+                        //**************** Add Data to history ****************//
+                        history.setCustomername(service.getCustomerDetail().getFirstName());
+                        history.setUuid(UUID.randomUUID());
+                        history.setBookname(book.getBookName());
+                        history.setBookcode(book.getBookCode());
+                        history.setBookcategory(book.getBookCategory());
+                        history.setBookauthor(book.getBookAuthor());
+                        
+                        history.setDayBorrow(historyForeach.getDayBorrow());
+                        history.setDayReturn(historyForeach.getDayReturn());
+                        history.setBooksituation(BookSituation.Return);
                     }
-                    //**************** Add Data to history ****************//
-                    book.setBookStatus(BookStatus.Wait_Accept);
-                    newHistory.setUuid(UUID.randomUUID());
-                    newHistory.setBooksituation(BookSituation.Return);
-                    newHistory.setBookname(book.getBookName());
-                    newHistory.setBookcategory(book.getBookCategory());
-                    newHistory.setBookcode(book.getBookCode());
-                    newHistory.setCustomername(service.getCustomerDetail().getFirstName());
                     //**************** Add history to List ****************//
-                    service.getHistoriesService().getHistories().add(newHistory);
+                    service.getHistoriesService().getHistories().add(history);
                     //**************** Display ****************//
-//                    SearchDisplay(book);
+                    LibraryScreen.SearchDisplay(book);
                     System.out.println("Your work has been successful");
                 } else {
                     Found = false;
@@ -426,38 +408,11 @@ public class Library {
     //******************************** Librarian ********************************//
     public static void Librarian_Register() {
         //**************** Create Variable ****************//
-        Librarian newLibrarian = new Librarian();
         String[] account = RegisterScreen.RegisterInput();
         try {
-            for (Librarian librarian : service.getLibrariansService().getLibrarians()) {
-                if ((librarian.getFirstName().equals(account[0]))) {
-                    if ((librarian.getLastName().equals(account[1]))) {
-                        System.out.println("This account has benn already sign up");
-                        System.out.println("=====================");
-                        Librarian_Register();                                               // Beware the ConcurrentModificationException //
-                    }
-                }
-                if (librarian.getIdentity().equals(account[2])) {
-                    System.out.println("Your identity has been already use");
-                    System.out.println("=====================");
-                    Librarian_Register();                                                   // Beware the ConcurrentModificationException //
-                }
-            }
+            RegisterScreen.DataCheck(account);
 
-            if (account[3].equals(account[4])) {
-                //**************** Add Data to Variable ****************//
-                newLibrarian.setFirstName(account[0]);
-                newLibrarian.setLastName(account[1]);
-                newLibrarian.setIdentity(account[2]);
-                newLibrarian.setPassword(account[3]);
-                //**************** Add Data to List ****************//
-                service.getLibrariansService().getLibrarians().add(newLibrarian);
-            } else {
-                System.out.println("Error, Your password don't same\n");
-                System.out.println("=====================");
-                Librarian_Register();
-            }
-        } catch (ConcurrentModificationException e) {
+        } catch (ConcurrentModificationException ignored) {
 
         }
         //**************** Display Booklist ****************//
@@ -471,38 +426,11 @@ public class Library {
     //******************************** Customer ********************************//
     public static void Customer_Register() {
         //**************** Create Variable ****************//
-        Customer newCustomer = new Customer();
         String[] account = RegisterScreen.RegisterInput();
         try {
-            for (Customer customer : service.getCustomersService().getCustomers()) {
-                if ((customer.getFirstName().equals(account[0]))) {
-                    if ((customer.getLastName().equals(account[1]))) {
-                        System.out.println("This account has benn already sign up");
-                        System.out.println("==========================");
-                        Customer_Register();                                                // Beware the ConcurrentModificationException //
-                    }
-                }
-                if (customer.getIdentity().equals(account[2])) {
-                    System.out.println("Your identity has been already use");
-                    System.out.println("==========================");
-                    Customer_Register();                                                    // Beware the ConcurrentModificationException //
-                }
-            }
+            RegisterScreen.DataCheck(account);
 
-            if (account[3].equals(account[4])) {
-                //**************** Add Data to Variable ****************//
-                newCustomer.setFirstName(account[0]);
-                newCustomer.setLastName(account[1]);
-                newCustomer.setIdentity(account[2]);
-                newCustomer.setPassword(account[3]);
-                //**************** Add Data to List ****************//
-                service.getCustomersService().getCustomers().add(newCustomer);
-            } else {
-                System.out.println("Error, Your password don't same\n");
-                System.out.println("==========================");
-                Customer_Register();
-            }
-        } catch (ConcurrentModificationException e) {
+        } catch (ConcurrentModificationException ignored) {
 
         }
         //**************** Display Booklist ****************//
