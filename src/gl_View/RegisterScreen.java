@@ -6,6 +6,7 @@ import gl_Object.Librarian;
 import gl_Service.LibraryService;
 
 import java.util.Scanner;
+import java.util.UUID;
 
 public class RegisterScreen {
     private static LibraryService service = LibraryService.getInstance();
@@ -59,6 +60,7 @@ public class RegisterScreen {
         }
         if (account[3].equals(account[4])) {
             //**************** Add Data to Variable ****************//
+            newLibrarian.setUuid(UUID.randomUUID());
             newLibrarian.setFirstName(account[0]);
             newLibrarian.setLastName(account[1]);
             newLibrarian.setIdentity(account[2]);
@@ -87,6 +89,7 @@ public class RegisterScreen {
         }
         if (account[3].equals(account[4])) {
             //**************** Add Data to Variable ****************//
+            newCustomer.setUuid(UUID.randomUUID());
             newCustomer.setFirstName(account[0]);
             newCustomer.setLastName(account[1]);
             newCustomer.setIdentity(account[2]);

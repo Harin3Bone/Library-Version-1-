@@ -30,7 +30,7 @@ public class Library {
         String[] value = LibraryScreen.AddView();
         //**************** Add Data to Variable ****************//
         book.setUuid(UUID.randomUUID());                                            // Random UUID but not show on display //
-        book.setBookName(value[0]);                                                     // Set value //
+        book.setBookName(value[0]);                                                 // Set value //
         book.setBookCategory(value[1]);
         book.setBookAuthor(value[2]);
         book.setBookabstract(value[3]);
@@ -322,16 +322,8 @@ public class Library {
                     //**************** Status Set ****************//
                     book.setBookStatus(BookStatus.Wait_Approve);
                     //**************** Customer Set ****************//
-                    history.setCustomername(service.getCustomerDetail().getFirstName());
-                    history.setUuid(UUID.randomUUID());
-                    history.setBookname(book.getBookName());
-                    history.setBookcode(book.getBookCode());
-                    history.setBookcategory(book.getBookCategory());
-                    history.setBookauthor(book.getBookAuthor());
-
-                    history.setBooksituation(BookSituation.Borrow);
-                    //**************** History List Add ****************//
-                    service.getHistoriesService().getHistories().add(history);
+                    service.setBookDetail(book);
+                    LibraryScreen.HistoryAdd();
                     //**************** Display ****************//
                     System.out.println("User : " + service.getCustomerDetail().getFirstName());
                     LibraryScreen.SearchDisplay(book);
@@ -383,7 +375,7 @@ public class Library {
                         history.setBookcode(book.getBookCode());
                         history.setBookcategory(book.getBookCategory());
                         history.setBookauthor(book.getBookAuthor());
-                        
+
                         history.setDayBorrow(historyForeach.getDayBorrow());
                         history.setDayReturn(historyForeach.getDayReturn());
                         history.setBooksituation(BookSituation.Return);

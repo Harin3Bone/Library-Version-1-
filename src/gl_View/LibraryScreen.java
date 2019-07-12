@@ -2,8 +2,10 @@ package gl_View;
 
 import gl_Enum.BookCategory;
 import gl_Enum.BookSituation;
+import gl_Enum.BookStatus;
 import gl_Library.Library;
 import gl_Object.Book;
+import gl_Object.History;
 import gl_Service.LibraryService;
 
 import java.text.DecimalFormat;
@@ -69,13 +71,28 @@ public class LibraryScreen {
 
 
     //******************************** History Add ********************************//
-    public static void HistoryAdd (Book book){
-//        history.setCustomername(service.getCustomerDetail().getFirstName());
-//        history.setUuid(UUID.randomUUID());
-//        history.setBookname(book.getBookName());
-//        history.setBookcode(book.getBookCode());
-//        history.setBookcategory(book.getBookCategory());
-//        history.setBookauthor(book.getBookAuthor());
-//        history.setBooksituation(BookSituation.Return);
+    public static void HistoryAdd (){
+        History history = new History();
+        //**************** History Data Add ****************//
+        history.setCustomername(service.getCustomerDetail().getFirstName());
+        history.setUuid(UUID.randomUUID());
+        history.setBookname(service.getBookDetail().getBookName());
+        history.setBookcode(service.getBookDetail().getBookCode());
+        history.setBookcategory(service.getBookDetail().getBookCategory());
+        history.setBookauthor(service.getBookDetail().getBookAuthor());
+        if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Approve)){
+            history.setBooksituation(BookSituation.Borrow);
+            //**************** History List Add ****************//
+            service.getHistoriesService().getHistories().add(history);
+            service.setBookDetail(null);
+        }
+        else {
+            if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Accept)){
+//                history.setDayBorrow(historyForeach.getDayBorrow());
+//                history.setDayReturn(historyForeach.getDayReturn());
+                history.setBooksituation(BookSituation.Return);
+                service.setBookDetail(null);
+            }
+        }
     }
 }
