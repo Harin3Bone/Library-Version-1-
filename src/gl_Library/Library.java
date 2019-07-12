@@ -376,13 +376,13 @@ public class Library {
                             System.out.println("\nUser : " + service.getCustomerDetail().getFirstName());
                             int x = (int) DAYS.between(history.getDayBorrow(), history.getDayReturn());
                             if (x > 15) {
-                                System.out.println("" + service.getCustomerDetail().getFirstName() + " You return late " + ((15-x)*-1) + " day(s)\nThank you");
+                                System.out.println("" + service.getCustomerDetail().getFirstName() +
+                                        " You return late " + ((15-x)*-1) + " day(s)\nThank you");
                             }
-
+                            //**************** Status Set ****************//
+                            book.setBookStatus(BookStatus.Wait_Accept);
+                            history.setBooksituation(BookSituation.Return);
                         }
-                        //**************** Status Set ****************//
-                        book.setBookStatus(BookStatus.Wait_Accept);
-                        history.setBooksituation(BookSituation.Return);
                     }
                     //**************** Display ****************//
 //                    SearchDisplay(book);
