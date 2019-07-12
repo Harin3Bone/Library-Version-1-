@@ -71,7 +71,7 @@ public class LibraryScreen {
 
 
     //******************************** History Add ********************************//
-    public static void HistoryAdd (){
+    public static void HistoryAdd (History historyForeach){
         History history = new History();
         //**************** History Data Add ****************//
         history.setCustomername(service.getCustomerDetail().getFirstName());
@@ -81,16 +81,23 @@ public class LibraryScreen {
         history.setBookcategory(service.getBookDetail().getBookCategory());
         history.setBookauthor(service.getBookDetail().getBookAuthor());
         if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Approve)){
+            //**************** History Status ****************//
             history.setBooksituation(BookSituation.Borrow);
             //**************** History List Add ****************//
             service.getHistoriesService().getHistories().add(history);
+            //**************** Set book detail = null ****************//
             service.setBookDetail(null);
         }
         else {
             if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Accept)){
-//                history.setDayBorrow(historyForeach.getDayBorrow());
-//                history.setDayReturn(historyForeach.getDayReturn());
+                //**************** Date Add ****************//
+                history.setDayBorrow(historyForeach.getDayBorrow());
+                history.setDayReturn(historyForeach.getDayReturn());
+                //**************** History Status ****************//
                 history.setBooksituation(BookSituation.Return);
+                //**************** History List Add ****************//
+                service.getHistoriesService().getHistories().add(history);
+                //**************** Set book detail = null ****************//
                 service.setBookDetail(null);
             }
         }

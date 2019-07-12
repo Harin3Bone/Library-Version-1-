@@ -323,7 +323,7 @@ public class Library {
                     book.setBookStatus(BookStatus.Wait_Approve);
                     //**************** Customer Set ****************//
                     service.setBookDetail(book);
-                    LibraryScreen.HistoryAdd();
+                    LibraryScreen.HistoryAdd(null);
                     //**************** Display ****************//
                     System.out.println("User : " + service.getCustomerDetail().getFirstName());
                     LibraryScreen.SearchDisplay(book);
