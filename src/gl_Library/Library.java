@@ -10,6 +10,7 @@ import gl_Enum.BookStatus;
 import gl_Enum.BookSituation;
 import gl_Service.LibraryService;
 import gl_View.LibraryScreen;
+import gl_View.RegisterScreen;
 
 
 import java.text.DecimalFormat;
@@ -81,7 +82,7 @@ public class Library {
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookName().equalsIgnoreCase(name)) {
                 Found = true;
-                SearchDisplay(book);
+                LibraryScreen.SearchDisplay(book);
             }
         }
         if (!Found) {
@@ -102,7 +103,7 @@ public class Library {
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCategory().equalsIgnoreCase(cate)) {
                 Found = true;
-                SearchDisplay(book);
+                LibraryScreen.SearchDisplay(book);
             }
         }
         if (!Found) {
@@ -123,7 +124,7 @@ public class Library {
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCode().equalsIgnoreCase(id)) {
                 Found = true;
-                SearchDisplay(book);
+                LibraryScreen.SearchDisplay(book);
             }
         }
         if (!Found) {
@@ -339,7 +340,7 @@ public class Library {
                     service.getHistoriesService().getHistories().add(history);
                     //**************** Display ****************//
                     System.out.println("User : " + service.getCustomerDetail().getFirstName());
-                    SearchDisplay(book);
+                    LibraryScreen.SearchDisplay(book);
                     System.out.println("Your work has been successful\n");
                 } else {
                     Found = false;
@@ -403,7 +404,7 @@ public class Library {
     public static void Librarian_Register() {
         //**************** Create Variable ****************//
         Librarian newLibrarian = new Librarian();
-        String[] account = RegisterInput();
+        String[] account = RegisterScreen.RegisterInput();
         try {
             for (Librarian librarian : service.getLibrariansService().getLibrarians()) {
                 if ((librarian.getFirstName().equals(account[0]))) {
@@ -448,7 +449,7 @@ public class Library {
     public static void Customer_Register() {
         //**************** Create Variable ****************//
         Customer newCustomer = new Customer();
-        String[] account = RegisterInput();
+        String[] account = RegisterScreen.RegisterInput();
         try {
             for (Customer customer : service.getCustomersService().getCustomers()) {
                 if ((customer.getFirstName().equals(account[0]))) {
@@ -487,37 +488,5 @@ public class Library {
         }
         System.out.println("==========================");
         inputParser.Register();
-    }
-
-    //****************************************** Other Function ******************************************//
-    //******************************** Search Display ********************************//
-    private static void SearchDisplay(Book book) {
-        System.out.println("==========================");
-        System.out.println("Book Name   : " + book.getBookName());
-        System.out.println("Book Type   : " + book.getBookCategory());
-        System.out.println("Book Code   : " + book.getBookCode());
-        System.out.println("Book Status : " + book.getBookStatus());
-    }
-
-    //******************************** Register Input ********************************//
-    private static String[] RegisterInput() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Please fill your firstname : ");
-        String Firstname = scanner.nextLine();
-
-        System.out.print("Please fill your lastname : ");
-        String Lastname = scanner.nextLine();
-
-        System.out.print("Please fill your username : ");
-        String Identity = scanner.nextLine();
-
-        System.out.print("Please fill your password : ");
-        String Password1 = scanner.nextLine();
-        System.out.print("Please re-fill your password : ");
-        String Password2 = scanner.nextLine();
-        System.out.println("==========================");
-
-        return new String[]{Firstname, Lastname, Identity, Password1, Password2};
     }
 }

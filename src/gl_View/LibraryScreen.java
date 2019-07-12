@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 public class LibraryScreen {
     private static LibraryService service = LibraryService.getInstance();
+    //******************************** Add Input ********************************//
     public static String[] AddView(){
         //**************** Input Scanner ****************//
         Scanner scanner = new Scanner(System.in);                                   // Create scanner to get input //
@@ -38,22 +39,29 @@ public class LibraryScreen {
                     // if no book in list it will cause runningNo don't have value //
                     // you should create runningNo condition if runningNo == null -> value = 1 //
                 }
-                if (runningNo == null) {
-                    runningNo = 1;
-                }
             }
-
         }
 
         int number = runningNo + 1;
         String code = CategoryCode + decimalFormat.format(number);
         return new String[] {name,category,author,abstracts,code};
     }
+
+    //******************************** Sort Menu ********************************//
     public static int SortView(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please use sorting function");
         System.out.println("1 - Sort by Name\n2 - Sort by Category\n3 - Sort by Serial\n4 - Sort by Status");
         int sort = scanner.nextInt();
         return sort;
+    }
+
+    //******************************** Search Display ********************************//
+    public static void SearchDisplay(Book book) {
+        System.out.println("==========================");
+        System.out.println("Book Name   : " + book.getBookName());
+        System.out.println("Book Type   : " + book.getBookCategory());
+        System.out.println("Book Code   : " + book.getBookCode());
+        System.out.println("Book Status : " + book.getBookStatus());
     }
 }
