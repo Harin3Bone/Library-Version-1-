@@ -9,6 +9,7 @@ import gl_Enum.BookCategory;
 import gl_Enum.BookStatus;
 import gl_Enum.BookSituation;
 import gl_Service.LibraryService;
+import gl_View.LibraryScreen;
 
 
 import java.text.DecimalFormat;
@@ -23,56 +24,19 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class Library {
     private static InputParser inputParser = new InputParser();                     // Create input parser to throw back input function //
     private static LibraryService service = LibraryService.getInstance();           // Create service to use all of list //
-
     //****************************************** Librarian Function ******************************************//
     //******************************** Add Book ********************************//
     public static void AddBook() {
         //**************** Create Variable ****************//
         Book book = new Book();                                                     // Create book object to get detail //
-        Scanner scanner = new Scanner(System.in);                                   // Create scanner to get input //
-        //**************** Input Scanner ****************//
-        System.out.print("Please enter book name : ");
-        String name = scanner.nextLine();
-        System.out.print("Please enter book category : ");
-        String category = scanner.nextLine();
-        BookCategory CategoryEnum = BookCategory.valueOf(category);                 // Check input is same as enum or not ? //
-        System.out.print("Please enter book author : ");
-        String author = scanner.nextLine();
-        System.out.print("Please enter book abstract : ");
-        String abstracts = scanner.nextLine();
-        //**************** Generate Book Code ****************//
-        String CategoryCode = BookCategory.valueOf(category).getCode();             // Pull code (String) from category enum //
-        DecimalFormat decimalFormat = new DecimalFormat("0000");            // DecimalFormat change display value from 1 to 0001 //
-
-//        Random random = new Random();
-//        int NumberCode = random.nextInt(1000);                                // Random number  0 - 1000 //
-//        String code = CategoryCode + decimalFormat.format(NumberCode);        // Combine String //
-
-        Integer runningNo = null;
-
-        for (Book b : service.getBooksService().getBooks()) {
-            if (CategoryCode.equals(b.getBookCode().substring(0, 1))) {
-                if (runningNo == null || runningNo < Integer.parseInt(b.getBookCode().substring(1))) {
-                    runningNo = Integer.parseInt(b.getBookCode().substring(1));
-                    // if no book in list it will cause runningNo don't have value //
-                    // you should create runningNo condition if runningNo == null -> value = 1 //
-                }
-                if (runningNo == null) {
-                    runningNo = 1;
-                }
-            }
-
-        }
-
-        int number = runningNo + 1;
-        String code = CategoryCode + decimalFormat.format(number);
+        String[] value = LibraryScreen.AddView();
         //**************** Add Data to Variable ****************//
         book.setUuid(UUID.randomUUID());                                            // Random UUID but not show on display //
-        book.setBookName(name);                                                     // Set value //
-        book.setBookCategory(category);
-        book.setBookAuthor(author);
-        book.setBookabstract(abstracts);
-        book.setBookCode(code);
+        book.setBookName(value[0]);                                                     // Set value //
+        book.setBookCategory(value[1]);
+        book.setBookAuthor(value[2]);
+        book.setBookabstract(value[3]);
+        book.setBookCode(value[4]);
         book.setBookStatus(BookStatus.Available);                                   // Set book status //
         //**************** Add Data to List ****************//
         service.getBooksService().getBooks().add(book);
@@ -196,10 +160,7 @@ public class Library {
 
     //******************************** Sort Book ********************************//
     public static void SortBook() {
-        Scanner sort = new Scanner(System.in);
-        System.out.println("Please use sorting function");
-        System.out.println("1 - Sort by Name\n2 - Sort by Category\n3 - Sort by Serial\n4 - Sort by Status");
-        int ans_sort = sort.nextInt();
+        int ans_sort = LibraryScreen.SortView();
         switch (ans_sort) {
             case 1:
                 service.getBooksService().getBooks().sort(Book.bookNameCompare);                // Compare book with book name in book method //
@@ -235,7 +196,6 @@ public class Library {
         }
         inputParser.Admin_Login();
     }
-
     //******************************** Approve Book ********************************//
     public static void ApproveBook() {
         //**************** Scanner Input ****************//
