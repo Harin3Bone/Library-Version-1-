@@ -249,10 +249,18 @@ public class Library {
                 if (book.getBookStatus().equals(BookStatus.Wait_Accept)) {
                     book.setBookStatus(BookStatus.Available);
                     for (History history : service.getHistoriesService().getHistories()) {
-                        if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Return)) {
-                            history.setUuid(UUID.randomUUID());
+//                        if (history.getBookcode().equals(id)){
+////                            LocalDate borrowDay = history.getDayBorrow();
+////                            LocalDate returnDay = history.getDayReturn();
+////                            if (history.getBooksituation().equals(BookSituation.Return)) {
+////                                history.setLibrarianname(service.getLibrarianDetail().getFirstName());
+////                            }
+////                        }
+                        if (history.getBooksituation().equals(BookSituation.Borrow.Return)){
                             history.setLibrarianname(service.getLibrarianDetail().getFirstName());
-                            history.setBooksituation(BookSituation.Return);
+                        }
+                        if (history.getBookcode().equals(id)){
+
                         }
                     }
                     //**************** Display ****************//
@@ -355,13 +363,14 @@ public class Library {
 
     //******************************** Return Book ********************************//
     public static void ReturnBook() {
+        History newHistory = new History();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter book code to return : ");
         String id = scanner.next();
         //**************** Return Component ****************//
         boolean Found = false;
         for (Book book : service.getBooksService().getBooks()) {
-            if (book.getBookCode().equals(id)) {
+            if (book.getBookCode().equalsIgnoreCase(id)) {
                 Found = true;
                 if (book.getBookStatus().equals(BookStatus.Unvailable)) {
                     //**************** Customer Set ****************//
@@ -380,11 +389,25 @@ public class Library {
                                 System.out.println("" + service.getCustomerDetail().getFirstName() +
                                         " You return late " + ((15-x)*-1) + " day(s)\nThank you");
                             }
-                            //**************** Status Set ****************//
-                            book.setBookStatus(BookStatus.Wait_Accept);
-                            history.setBooksituation(BookSituation.Return);
+//
+//                            int d1 = (int) DAYS.between(history.getDayBorrow(),history.getDayBorrow().plusDays(7));
+//                            int d2 = (int) DAYS.between(history.getDayBorrow(),history.getDayReturn());
+//                            int d3 = (int) DAYS.between(history.getDayBorrow(),history.getDayBorrow().plusDays(15));
+//                            int d4 = (int) DAYS.between(history.getDayReturn(),history.getDayReturn().plusDays(8));
+
+
                         }
                     }
+                    //**************** Add Data to history ****************//
+                    book.setBookStatus(BookStatus.Wait_Accept);
+                    newHistory.setUuid(UUID.randomUUID());
+                    newHistory.setBooksituation(BookSituation.Return);
+                    newHistory.setBookname(book.getBookName());
+                    newHistory.setBookcategory(book.getBookCategory());
+                    newHistory.setBookcode(book.getBookCode());
+                    newHistory.setCustomername(service.getCustomerDetail().getFirstName());
+                    //**************** Add history to List ****************//
+                    service.getHistoriesService().getHistories().add(newHistory);
                     //**************** Display ****************//
 //                    SearchDisplay(book);
                     System.out.println("Your work has been successful");

@@ -64,4 +64,7 @@ public class LibraryScreen {
         System.out.println("Book Code   : " + book.getBookCode());
         System.out.println("Book Status : " + book.getBookStatus());
     }
+
+    //******************************** For each Book ********************************//
+    //******************************** For each History ********************************//
 }
