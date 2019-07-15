@@ -3,9 +3,13 @@ package gl_View;
 import gl_Enum.BookCategory;
 import gl_Enum.BookSituation;
 import gl_Enum.BookStatus;
+
+import gl_Library.InputParser;
 import gl_Library.Library;
+
 import gl_Object.Book;
 import gl_Object.History;
+
 import gl_Service.LibraryService;
 
 import java.text.DecimalFormat;
@@ -14,8 +18,10 @@ import java.util.UUID;
 
 public class LibraryScreen {
     private static LibraryService service = LibraryService.getInstance();
+    private static InputParser inputParser = new InputParser();
+
     //******************************** Add Input ********************************//
-    public static String[] AddView(){
+    public static String[] AddView() {
         //**************** Input Scanner ****************//
         Scanner scanner = new Scanner(System.in);                                   // Create scanner to get input //
         System.out.print("Please enter book name : ");
@@ -48,16 +54,15 @@ public class LibraryScreen {
         }
 
         String code = CategoryCode + decimalFormat.format(runningNo++);
-        return new String[] {name,category,author,abstracts,code};
+        return new String[]{name, category, author, abstracts, code};
     }
 
     //******************************** Sort Menu ********************************//
-    public static int SortView(){
+    public static int SortView() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please use sorting function");
         System.out.println("1 - Sort by Name\n2 - Sort by Category\n3 - Sort by Serial\n4 - Sort by Status");
-        int sort = scanner.nextInt();
-        return sort;
+        return scanner.nextInt();
     }
 
     //******************************** Search Display ********************************//
@@ -69,9 +74,32 @@ public class LibraryScreen {
         System.out.println("Book Status : " + book.getBookStatus());
     }
 
+    //******************************** Search Failed ********************************//
+    public static void SearchFailed(Boolean Found){
+        if (!Found) {
+            System.out.println("Your book doesn't exist");
+            System.out.println("==========================");
+        }
+    }
+
+    //******************************** User Check ********************************//
+    public static void UserCheck(){
+        if (service.getLibrarianDetail() == null) {
+            inputParser.User_Login();
+        } else {
+            inputParser.Admin_Login();
+        }
+    }
+
+    //******************************** Sort Menu ********************************//
+    public static void BookCheck(Boolean Found){
+        if (!Found) {
+            System.out.println("Your book it doesn't exist");
+        }
+    }
 
     //******************************** History Add ********************************//
-    public static void HistoryAdd (History historyForeach){
+    public static void HistoryAdd(History historyForeach) {
         History history = new History();
         //**************** History Data Add ****************//
         history.setCustomername(service.getCustomerDetail().getFirstName());
@@ -80,15 +108,14 @@ public class LibraryScreen {
         history.setBookcode(service.getBookDetail().getBookCode());
         history.setBookcategory(service.getBookDetail().getBookCategory());
         history.setBookauthor(service.getBookDetail().getBookAuthor());
-        if (historyForeach == null){    // Can use if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Approve)) //
+        if (historyForeach == null) {    // Can use if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Approve)) //
             //**************** History Status ****************//
             history.setBooksituation(BookSituation.Borrow);
             //**************** History List Add ****************//
             service.getHistoriesService().getHistories().add(history);
             //**************** Set book detail = null ****************//
             service.setBookDetail(null);
-        }
-        else {                          // Can use if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Accept)) //
+        } else {                          // Can use if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Accept)) //
             //**************** Date Add ****************//
             history.setDayBorrow(historyForeach.getDayBorrow());
             history.setDayReturn(historyForeach.getDayReturn());
@@ -100,8 +127,14 @@ public class LibraryScreen {
             service.setBookDetail(null);
         }
     }
-    //******************************** History Customer Check ********************************//
-    public static void HistoryCheck (){
 
+    //******************************** History Customer Check ********************************//
+    public static void HistoryCheck() {
+        if (!service.getHistoryDetail().getCustomername().equals(service.getCustomerDetail().getFirstName())) {
+            System.out.println("Error, you're not person who borrow the book");
+            System.out.println("================================");
+            inputParser.User_Login();
+            service.setHistoryDetail(null);
+        }
     }
 }

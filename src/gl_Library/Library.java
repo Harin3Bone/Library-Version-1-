@@ -1,18 +1,14 @@
 package gl_Library;
 
-import gl_Object.Customer;
-import gl_Object.Librarian;
 import gl_Object.Book;
 import gl_Object.History;
 
-import gl_Enum.BookCategory;
 import gl_Enum.BookStatus;
 import gl_Enum.BookSituation;
 import gl_Service.LibraryService;
 import gl_View.LibraryScreen;
 import gl_View.RegisterScreen;
 
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -82,10 +78,7 @@ public class Library {
                 LibraryScreen.SearchDisplay(book);
             }
         }
-        if (!Found) {
-            System.out.println("Your book doesn't exist");
-            System.out.println("==========================");
-        }
+        LibraryScreen.SearchFailed(Found);
         inputParser.Admin_Login();
     }
 
@@ -103,10 +96,7 @@ public class Library {
                 LibraryScreen.SearchDisplay(book);
             }
         }
-        if (!Found) {
-            System.out.println("Your book doesn't exist");
-            System.out.println("==========================");
-        }
+        LibraryScreen.SearchFailed(Found);
         inputParser.Admin_Login();
     }
 
@@ -124,10 +114,7 @@ public class Library {
                 LibraryScreen.SearchDisplay(book);
             }
         }
-        if (!Found) {
-            System.out.println("Your book doesn't exist");
-            System.out.println("==========================");
-        }
+        LibraryScreen.SearchFailed(Found);
         inputParser.Admin_Login();
     }
 
@@ -138,11 +125,7 @@ public class Library {
         for (int i = 0; i < service.getBooksService().getBooks().size(); i++) {
             System.out.println("Book Detail " + (i + 1) + " : " + service.getBooksService().getBooks().get(i));
         }
-        if (service.getCustomerDetail() == null) {
-            inputParser.Admin_Login();
-        } else {
-            inputParser.User_Login();
-        }
+        LibraryScreen.UserCheck();
     }
 
     //******************************** History Book ********************************//
@@ -226,9 +209,7 @@ public class Library {
                 }
             }
         }
-        if (!Found) {
-            System.out.println("Your book it doesn't exist");
-        }
+        LibraryScreen.BookCheck(Found);
         inputParser.Admin_Login();
     }
 
@@ -256,9 +237,7 @@ public class Library {
                 }
             }
         }
-        if (!Found) {
-            System.out.println("Your book it doesn't exist");
-        }
+        LibraryScreen.BookCheck(Found);
         inputParser.Admin_Login();
     }
 
@@ -274,12 +253,9 @@ public class Library {
             if (history.getBookcode().equalsIgnoreCase(id)) {
                 Found = true;
                 if (history.getBooksituation().equals(BookSituation.Borrow)) {
+                    service.setHistoryDetail(history);
                     if (service.getCustomerDetail() != null) {
-                        if (!history.getCustomername().equals(service.getCustomerDetail().getFirstName())) {
-                            System.out.println("Error, you're not person who borrow the book");
-                            System.out.println("================================");
-                            inputParser.User_Login();
-                        }
+                        LibraryScreen.HistoryCheck();
                     }
                     System.out.print("Enter your number to change return date : ");
                     int x = scanner.nextInt();
@@ -295,15 +271,8 @@ public class Library {
                 }
             }
         }
-        if (!Found) {
-            System.out.println("Your book it doesn't exist");
-        }
-        if (service.getLibrarianDetail() == null) {
-            inputParser.User_Login();
-        } else {
-            inputParser.Admin_Login();
-        }
-
+        LibraryScreen.BookCheck(Found);
+        LibraryScreen.UserCheck();
     }
 
     //****************************************** Customer Function ******************************************//
@@ -333,9 +302,7 @@ public class Library {
                 }
             }
         }
-        if (!Found) {
-            System.out.println("Your book it doesn't exist or unvaluable");
-        }
+        LibraryScreen.BookCheck(Found);
         inputParser.User_Login();
     }
 
@@ -355,12 +322,7 @@ public class Library {
                     try {
                         for (History history : service.getHistoriesService().getHistories()) {
                             if ((history.getBookcode().equals(id)) && (history.getBooksituation().equals(BookSituation.Borrow))) {
-                                if (!history.getCustomername().equals(service.getCustomerDetail().getFirstName())) {
-                                    System.out.println("Error, you're not person who borrow the book");
-                                    System.out.println("================================");
-                                    book.setBookStatus(BookStatus.Unvailable);
-                                    ReturnBook();
-                                }
+                                LibraryScreen.HistoryCheck();
                                 // **************** Date Check **************** //
                                 System.out.println("\nUser : " + service.getCustomerDetail().getFirstName());
                                 int x = (int) DAYS.between(history.getDayReturn(), LocalDate.now());
@@ -383,9 +345,7 @@ public class Library {
                 }
             }
         }
-        if (!Found) {
-            System.out.println("Your book it doesn't exist");
-        }
+        LibraryScreen.BookCheck(Found);
         inputParser.User_Login();
     }
 

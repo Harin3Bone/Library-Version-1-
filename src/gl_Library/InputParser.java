@@ -57,7 +57,7 @@ public class InputParser {
                 System.exit(0);
             default:
                 System.out.println("Error, your input doesn't exist");
-                System.exit(0);
+                Controller();
         }
     }
 
