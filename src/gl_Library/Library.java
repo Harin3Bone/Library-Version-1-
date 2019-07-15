@@ -341,7 +341,6 @@ public class Library {
 
     //******************************** Return Book ********************************//
     public static void ReturnBook() {
-        History history = new History();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter book code to return : ");
         String id = scanner.next();
@@ -351,37 +350,31 @@ public class Library {
             if (book.getBookCode().equalsIgnoreCase(id)) {
                 Found = true;
                 if (book.getBookStatus().equals(BookStatus.Unvailable)) {
+                    service.setBookDetail(book);
                     //**************** Customer Set ****************//
-                    for (History historyForeach : service.getHistoriesService().getHistories()) {
-                        book.setBookStatus(BookStatus.Wait_Accept);
-                        if ((historyForeach.getBookcode().equals(id)) && (historyForeach.getBooksituation().equals(BookSituation.Borrow))) {
-                            if (!historyForeach.getCustomername().equals(service.getCustomerDetail().getFirstName())) {
-                                System.out.println("Error, you're not person who borrow the book");
-                                System.out.println("================================");
-                                book.setBookStatus(BookStatus.Unvailable);
-                                ReturnBook();
+                    try {
+                        for (History history : service.getHistoriesService().getHistories()) {
+                            if ((history.getBookcode().equals(id)) && (history.getBooksituation().equals(BookSituation.Borrow))) {
+                                if (!history.getCustomername().equals(service.getCustomerDetail().getFirstName())) {
+                                    System.out.println("Error, you're not person who borrow the book");
+                                    System.out.println("================================");
+                                    book.setBookStatus(BookStatus.Unvailable);
+                                    ReturnBook();
+                                }
+                                // **************** Date Check **************** //
+                                System.out.println("\nUser : " + service.getCustomerDetail().getFirstName());
+                                int x = (int) DAYS.between(history.getDayReturn(), LocalDate.now());
+                                if (x > 0) {
+                                    System.out.println("" + service.getCustomerDetail().getFirstName() + ", You return book late " + x + " day(s)");
+                                }
                             }
-                            // **************** Date Check **************** //
-                            System.out.println("\nUser : " + service.getCustomerDetail().getFirstName());
-                            int x = (int) DAYS.between(historyForeach.getDayReturn(), LocalDate.now());
-                            if (x > 0) {
-                                System.out.println("" + service.getCustomerDetail().getFirstName() + ", You return book late " + x + " day(s)");
-                            }
+                            //**************** Add Data to history ****************//
+                            LibraryScreen.HistoryAdd(history);
+                            book.setBookStatus(BookStatus.Wait_Accept);
                         }
-                        //**************** Add Data to history ****************//
-                        history.setCustomername(service.getCustomerDetail().getFirstName());
-                        history.setUuid(UUID.randomUUID());
-                        history.setBookname(book.getBookName());
-                        history.setBookcode(book.getBookCode());
-                        history.setBookcategory(book.getBookCategory());
-                        history.setBookauthor(book.getBookAuthor());
+                    } catch (ConcurrentModificationException ignored) {
 
-                        history.setDayBorrow(historyForeach.getDayBorrow());
-                        history.setDayReturn(historyForeach.getDayReturn());
-                        history.setBooksituation(BookSituation.Return);
                     }
-                    //**************** Add history to List ****************//
-                    service.getHistoriesService().getHistories().add(history);
                     //**************** Display ****************//
                     LibraryScreen.SearchDisplay(book);
                     System.out.println("Your work has been successful");

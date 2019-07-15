@@ -80,7 +80,7 @@ public class LibraryScreen {
         history.setBookcode(service.getBookDetail().getBookCode());
         history.setBookcategory(service.getBookDetail().getBookCategory());
         history.setBookauthor(service.getBookDetail().getBookAuthor());
-        if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Approve)){
+        if (historyForeach == null){    // Can use if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Approve)) //
             //**************** History Status ****************//
             history.setBooksituation(BookSituation.Borrow);
             //**************** History List Add ****************//
@@ -88,18 +88,20 @@ public class LibraryScreen {
             //**************** Set book detail = null ****************//
             service.setBookDetail(null);
         }
-        else {
-            if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Accept)){
-                //**************** Date Add ****************//
-                history.setDayBorrow(historyForeach.getDayBorrow());
-                history.setDayReturn(historyForeach.getDayReturn());
-                //**************** History Status ****************//
-                history.setBooksituation(BookSituation.Return);
-                //**************** History List Add ****************//
-                service.getHistoriesService().getHistories().add(history);
-                //**************** Set book detail = null ****************//
-                service.setBookDetail(null);
-            }
+        else {                          // Can use if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Accept)) //
+            //**************** Date Add ****************//
+            history.setDayBorrow(historyForeach.getDayBorrow());
+            history.setDayReturn(historyForeach.getDayReturn());
+            //**************** History Status ****************//
+            history.setBooksituation(BookSituation.Return);
+            //**************** History List Add ****************//
+            service.getHistoriesService().getHistories().add(history);
+            //**************** Set book detail = null ****************//
+            service.setBookDetail(null);
         }
+    }
+    //******************************** History Customer Check ********************************//
+    public static void HistoryCheck (){
+
     }
 }
