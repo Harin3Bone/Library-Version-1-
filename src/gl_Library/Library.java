@@ -10,7 +10,10 @@ import gl_View.LibraryScreen;
 import gl_View.RegisterScreen;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.Scanner;
+import java.util.UUID;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -42,20 +45,20 @@ public class Library {
     public static void RemoveBook() {
         //**************** Create Variable ****************//
         Book book = new Book();                                                     // Create book to use book iterator //
-        Scanner rem = new Scanner(System.in);                                       // Create scanner to get input //
+        Scanner scanner = new Scanner(System.in);                                       // Create scanner to get input //
         //**************** Input Scanner ****************//
         System.out.println("Please enter book code to remove : ");
-        String remid = rem.nextLine();
+        String id = scanner.nextLine();
         //**************** Remove Component ****************//
         Iterator<Book> iterator = service.getBooksService().getBooks().iterator();
         while (iterator.hasNext()) {
             book = iterator.next();
-            if (book.getBookCode().equals(remid)) {                                 // Condition check book code if same as input -> continue //
+            if (book.getBookCode().equals(id)) {                                 // Condition check book code if same as input -> continue //
                 iterator.remove();                                                  // when condition is true -> remove 1 record //
                 System.out.println("Book code : " + book.getBookCode() + " remove successful");
                 CheckBook();
             } else {
-                if (book.getBookCode().equalsIgnoreCase(remid)) {
+                if (book.getBookCode().equalsIgnoreCase(id)) {
                     System.out.println("Sorry your book code is not exist");
                     inputParser.Admin_Login();
                 }
@@ -75,10 +78,10 @@ public class Library {
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookName().equalsIgnoreCase(name)) {
                 Found = true;
-                LibraryScreen.SearchDisplay(book);
+                Function.SearchDisplay(book);
             }
         }
-        LibraryScreen.SearchFailed(Found);
+        Function.SearchFailed(Found);
         inputParser.Admin_Login();
     }
 
@@ -93,10 +96,10 @@ public class Library {
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCategory().equalsIgnoreCase(cate)) {
                 Found = true;
-                LibraryScreen.SearchDisplay(book);
+                Function.SearchDisplay(book);
             }
         }
-        LibraryScreen.SearchFailed(Found);
+        Function.SearchFailed(Found);
         inputParser.Admin_Login();
     }
 
@@ -111,10 +114,10 @@ public class Library {
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCode().equalsIgnoreCase(id)) {
                 Found = true;
-                LibraryScreen.SearchDisplay(book);
+                Function.SearchDisplay(book);
             }
         }
-        LibraryScreen.SearchFailed(Found);
+        Function.SearchFailed(Found);
         inputParser.Admin_Login();
     }
 
@@ -125,7 +128,7 @@ public class Library {
         for (int i = 0; i < service.getBooksService().getBooks().size(); i++) {
             System.out.println("Book Detail " + (i + 1) + " : " + service.getBooksService().getBooks().get(i));
         }
-        LibraryScreen.SessionCheck(null);
+        Function.SessionCheck(null);
     }
 
     //******************************** History Book ********************************//
@@ -209,7 +212,7 @@ public class Library {
                 }
             }
         }
-        LibraryScreen.SessionCheck(Found);
+        Function.SessionCheck(Found);
     }
 
     //******************************** Accept Book ********************************//
@@ -236,7 +239,7 @@ public class Library {
                 }
             }
         }
-        LibraryScreen.SessionCheck(Found) ;
+        Function.SessionCheck(Found) ;
     }
 
     //******************************** Change Book ********************************//
@@ -253,7 +256,7 @@ public class Library {
                 if (history.getBooksituation().equals(BookSituation.Borrow)) {
                     service.setHistoryDetail(history);
                     if (service.getCustomerDetail() != null) {
-                        LibraryScreen.HistoryCheck();
+                        Function.HistoryCheck();
                     }
                     if (history.getDayBorrow() == null || history.getDayReturn() == null){
                         Found = false;
@@ -274,7 +277,7 @@ public class Library {
                 }
             }
         }
-        LibraryScreen.SessionCheck(Found);
+        Function.SessionCheck(Found);
     }
 
     //****************************************** Customer Function ******************************************//
@@ -294,17 +297,17 @@ public class Library {
                     book.setBookStatus(BookStatus.Wait_Approve);
                     //**************** Customer Set ****************//
                     service.setBookDetail(book);
-                    LibraryScreen.HistoryAdd(null);
+                    Function.HistoryAdd(null);
                     //**************** Display ****************//
                     System.out.println("User : " + service.getCustomerDetail().getFirstName());
-                    LibraryScreen.SearchDisplay(book);
+                    Function.SearchDisplay(book);
                     System.out.println("Your work has been successful\n");
                 } else {
                     Found = false;
                 }
             }
         }
-        LibraryScreen.SessionCheck(Found);
+        Function.SessionCheck(Found);
     }
 
     //******************************** Return Book ********************************//
@@ -323,7 +326,7 @@ public class Library {
                     try {
                         for (History history : service.getHistoriesService().getHistories()) {
                             if ((history.getBookcode().equals(id)) && (history.getBooksituation().equals(BookSituation.Borrow))) {
-                                LibraryScreen.HistoryCheck();
+                                Function.HistoryCheck();
                                 // **************** Date Check **************** //
                                 System.out.println("\nUser : " + service.getCustomerDetail().getFirstName());
                                 int x = (int) DAYS.between(history.getDayReturn(), LocalDate.now());
@@ -332,21 +335,21 @@ public class Library {
                                 }
                             }
                             //**************** Add Data to history ****************//
-                            LibraryScreen.HistoryAdd(history);
+                            Function.HistoryAdd(history);
                             book.setBookStatus(BookStatus.Wait_Accept);
                         }
                     } catch (ConcurrentModificationException ignored) {
 
                     }
                     //**************** Display ****************//
-                    LibraryScreen.SearchDisplay(book);
+                    Function.SearchDisplay(book);
                     System.out.println("Your work has been successful");
                 } else {
                     Found = false;
                 }
             }
         }
-        LibraryScreen.SessionCheck(Found);
+        Function.SessionCheck(Found);
     }
 
     //****************************************** Register Function ******************************************//

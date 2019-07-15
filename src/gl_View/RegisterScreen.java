@@ -17,9 +17,8 @@ public class RegisterScreen {
     public static int registerMenu() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Select level to registeration");
-        System.out.println("1 - Librarian\t2 - Customer\n3 - Back\t\t4 - Exit");
-        int choice = scanner.nextInt();
-        return choice;
+        System.out.println("1 - Librarian\t2 - Customer\n3 - Back\t\t4 - ExitCommand");
+        return scanner.nextInt();
     }
 
     //******************************** Register Input ********************************//
@@ -49,34 +48,26 @@ public class RegisterScreen {
         //******************************** Librarian ********************************//
         if (bool) {
             for (Librarian librarian : service.getLibrariansService().getLibrarians()) {
-                if (librarian.getFirstName().equals(account[0]) && librarian.getLastName().equals(account[1])) {
+                if ((librarian.getFirstName().equals(account[0]) && librarian.getLastName().equals(account[1]))
+                        || librarian.getIdentity().equals(account[2])) {
                     System.out.println("This account has been already sign up");
                     System.out.println("=====================");
-                    Library.Librarian_Register();                                      // Beware the ConcurrentModificationException //
-
-                }
-                if (librarian.getIdentity().equals(account[2])) {
-                    System.out.println("Your identity has been already use");
-                    System.out.println("=====================");
-                    Library.Librarian_Register();                                          // Beware the ConcurrentModificationException //
+                    Library.Librarian_Register();
+                    // Beware the ConcurrentModificationException //
                 }
             }
         } else {
             //******************************** Customer ********************************//
             for (Customer customer : service.getCustomersService().getCustomers()) {
-                if (customer.getFirstName().equals(account[0]) && customer.getLastName().equals(account[1])) {
+                if ((customer.getFirstName().equals(account[0]) && customer.getLastName().equals(account[1]))
+                        || (customer.getIdentity().equals(account[2])) ) {
                     System.out.println("This account has been already sign up");
                     System.out.println("==========================");
-                    Library.Customer_Register();                                       // Beware the ConcurrentModificationException //
-                }
-                if (customer.getIdentity().equals(account[2])) {
-                    System.out.println("Your identity has been already use");
-                    System.out.println("==========================");
-                    Library.Customer_Register();                                           // Beware the ConcurrentModificationException //
+                    Library.Customer_Register();
+                    // Beware the ConcurrentModificationException //
                 }
             }
         }
-
     }
 
     //******************************** Librarian & Customer Add ********************************//

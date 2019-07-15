@@ -4,9 +4,7 @@ import gl_Object.Customer;
 import gl_Object.Librarian;
 
 import gl_Repository.BookList;
-import gl_Repository.CustomerList;
 import gl_Repository.HistoryList;
-import gl_Repository.LibrarianList;
 
 import gl_Service.LibraryService;
 
@@ -18,6 +16,7 @@ import java.util.Scanner;
 
 public class InputParser {
     private static LibraryService service = LibraryService.getInstance();
+    private static MainScreen mainScreen = new MainScreen();
     public void Controller() {
         //******************** Property Section ********************//
         LibraryService service = LibraryService.getInstance();
@@ -26,7 +25,6 @@ public class InputParser {
         //******************** Login Section ********************//
         switch (ans_property) {
             case 1:
-                MainScreen mainScreen = new MainScreen();
                 int ans_login = mainScreen.loginDisplay();
                 if (ans_login == 1) {
                     Librarian loginLibrarian = mainScreen.librarianDisplay();
@@ -38,7 +36,6 @@ public class InputParser {
                     }
                 } else {
                     if (ans_login == 2) {
-                        MainScreen customerScreen = new MainScreen();
                         Customer logincustomer = mainScreen.customerDisplay();
                         if (logincustomer != null) {
                             service.setCustomerDetail(logincustomer);
@@ -53,11 +50,9 @@ public class InputParser {
                 Register();
                 break;
             case 3:
-                System.out.println("Thank you");
-                System.exit(0);
+                mainScreen.ExitCommand();
             default:
-                System.out.println("Error, your input doesn't exist");
-                Controller();
+                mainScreen.DefaultRework();
         }
     }
 
@@ -66,9 +61,8 @@ public class InputParser {
         System.out.println("================================");
         System.out.println(""+service.getLibrarianDetail().getFirstName()+" "+service.getLibrarianDetail().getLastName());
         service.setCustomerDetail(null);
-        MainScreen librarianMenu = new MainScreen();
         //******************** Select Section ********************//
-        int choices = librarianMenu.librarianMenu();
+        int choices = mainScreen.librarianMenu();
         BookList books = new BookList();
         HistoryList histories = new HistoryList();
         switch (choices) {
@@ -101,13 +95,9 @@ public class InputParser {
                 Controller();
                 break;
             case 0:
-                System.out.println("Thank you");
-                System.out.println("================================");
-                System.exit(0);
+                mainScreen.ExitCommand();
             default:
-                System.out.println("Error, your input doesn't exist");
-                System.exit(0);
-                break;
+                mainScreen.DefaultRework();
         }
     }
 
@@ -116,8 +106,7 @@ public class InputParser {
         System.out.println("================================");
         System.out.println(""+service.getCustomerDetail().getFirstName()+" "+service.getCustomerDetail().getLastName());
         service.setLibrarianDetail(null);
-        MainScreen customerMenu = new MainScreen();
-        int choices = customerMenu.customerMenu();
+        int choices = mainScreen.customerMenu();
         switch (choices) {
             case 1:
                 SearchExtend();
@@ -139,12 +128,9 @@ public class InputParser {
                 Controller();
                 break;
             case 0:
-                System.out.println("Thank you");
-                System.out.println("================================");
-                System.exit(0);
-                break;
+                mainScreen.ExitCommand();
             default:
-                System.exit(0);
+                mainScreen.DefaultRework();
         }
     }
 
@@ -163,9 +149,7 @@ public class InputParser {
                 Controller();
                 break;
             case 4:
-                System.out.println("Thank you");
-                System.out.println("================================");
-                System.exit(0);
+                mainScreen.ExitCommand();
         }
     }
 
@@ -186,8 +170,7 @@ public class InputParser {
                 Library.SearchByCode();
                 break;
             default:
-                System.out.println("Error your input doesn't exist");
-                System.exit(0);
+                mainScreen.DefaultRework();
         }
     }
 

@@ -16,7 +16,7 @@ import gl_Service.LibraryService;
 import java.util.Scanner;
 
 public class MainScreen {
-    //********************************************** Login **********************************************//
+    //********************************************** Simple **********************************************//
     //******************************** Login Display ********************************//
     public int loginDisplay() {
         Scanner scanner = new Scanner(System.in);
@@ -27,11 +27,26 @@ public class MainScreen {
         int ans_login = scanner.nextInt();
         return ans_login;
     }
+
     //******************************** Login Failed ********************************//
     public void LoginFailed() {
         System.out.println("Your identity or password incorrect");
         System.out.println("================================");
         InputParser inputParser = new InputParser();
+        inputParser.Controller();
+    }
+
+    //******************************** ExitCommand ********************************//
+    public void ExitCommand(){
+        System.out.println("Thank you");
+        System.out.println("================================");
+        System.exit(0);
+    }
+
+    //******************************** Error ********************************//
+    public void DefaultRework(){
+        InputParser inputParser = new InputParser();
+        System.out.println("Error, your input doesn't exist");
         inputParser.Controller();
     }
 
@@ -64,7 +79,7 @@ public class MainScreen {
         System.out.println("================================");
         System.out.println("What do you want to do ?");
         System.out.println("1 - Add Book\t2 - Delete Book\t3 - Search\n4 - Check\t\t" +
-                "5 - History \t6 - Sort\n7 - Confirm\t\t8 - Change\t\t9 - Back\n0 - Exit");
+                "5 - History \t6 - Sort\n7 - Confirm\t\t8 - Change\t\t9 - Back\n0 - ExitCommand");
         int choice = scanner.nextInt();
         return choice;
     }
@@ -98,7 +113,7 @@ public class MainScreen {
         Scanner choice2 = new Scanner(System.in);
         System.out.println("What do you want to do ?");
         System.out.println("1 - Search\t2 - Check\t3 - Borrow\n4 - Return\t5 - Change\t6 - Back" +
-                "\n0 - Exit");
+                "\n0 - ExitCommand");
         int choice = scanner.nextInt();
         return choice;
     }
