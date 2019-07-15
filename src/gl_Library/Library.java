@@ -125,7 +125,7 @@ public class Library {
         for (int i = 0; i < service.getBooksService().getBooks().size(); i++) {
             System.out.println("Book Detail " + (i + 1) + " : " + service.getBooksService().getBooks().get(i));
         }
-        LibraryScreen.UserCheck();
+        LibraryScreen.SessionCheck(null);
     }
 
     //******************************** History Book ********************************//
@@ -209,8 +209,7 @@ public class Library {
                 }
             }
         }
-        LibraryScreen.BookCheck(Found);
-        inputParser.Admin_Login();
+        LibraryScreen.SessionCheck(Found);
     }
 
     //******************************** Accept Book ********************************//
@@ -237,8 +236,7 @@ public class Library {
                 }
             }
         }
-        LibraryScreen.BookCheck(Found);
-        inputParser.Admin_Login();
+        LibraryScreen.SessionCheck(Found) ;
     }
 
     //******************************** Change Book ********************************//
@@ -257,22 +255,26 @@ public class Library {
                     if (service.getCustomerDetail() != null) {
                         LibraryScreen.HistoryCheck();
                     }
-                    System.out.print("Enter your number to change return date : ");
-                    int x = scanner.nextInt();
-                    if (DAYS.between(history.getDayBorrow(), history.getDayReturn().plusDays(x)) > 15) {
-                        System.out.println("Error, your date are invalid");
-                        System.out.println("================================");
-                        ChangeBook();
+                    if (history.getDayBorrow() == null || history.getDayReturn() == null){
+                        Found = false;
                     }
-                    history.setDayReturn(history.getDayReturn().plusDays(x));
-                    System.out.println("Your work has been successful");
+                    else {
+                        System.out.print("Enter your number to change return date : ");
+                        int x = scanner.nextInt();
+                        if (DAYS.between(history.getDayBorrow(), history.getDayReturn().plusDays(x)) > 15) {
+                            System.out.println("Error, your date are invalid");
+                            System.out.println("================================");
+                            ChangeBook();
+                        }
+                        history.setDayReturn(history.getDayReturn().plusDays(x));
+                        System.out.println("Your work has been successful");
+                    }
                 } else {
                     Found = false;
                 }
             }
         }
-        LibraryScreen.BookCheck(Found);
-        LibraryScreen.UserCheck();
+        LibraryScreen.SessionCheck(Found);
     }
 
     //****************************************** Customer Function ******************************************//
@@ -302,8 +304,7 @@ public class Library {
                 }
             }
         }
-        LibraryScreen.BookCheck(Found);
-        inputParser.User_Login();
+        LibraryScreen.SessionCheck(Found);
     }
 
     //******************************** Return Book ********************************//
@@ -345,8 +346,7 @@ public class Library {
                 }
             }
         }
-        LibraryScreen.BookCheck(Found);
-        inputParser.User_Login();
+        LibraryScreen.SessionCheck(Found);
     }
 
     //****************************************** Register Function ******************************************//

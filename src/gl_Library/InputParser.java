@@ -97,6 +97,7 @@ public class InputParser {
                 Library.ChangeBook();
                 break;
             case 9:
+                service.setLibrarianDetail(null);
                 Controller();
                 break;
             case 0:
@@ -134,6 +135,7 @@ public class InputParser {
                 Library.ChangeBook();
                 break;
             case 6:
+                service.setCustomerDetail(null);
                 Controller();
                 break;
             case 0:

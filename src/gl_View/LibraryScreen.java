@@ -83,18 +83,16 @@ public class LibraryScreen {
     }
 
     //******************************** User Check ********************************//
-    public static void UserCheck(){
+    public static void SessionCheck(Boolean Found){
+        if (Found != null){
+            if (!Found) {
+                System.out.println("Your book it doesn't exist");
+            }
+        }
         if (service.getLibrarianDetail() == null) {
             inputParser.User_Login();
         } else {
             inputParser.Admin_Login();
-        }
-    }
-
-    //******************************** Sort Menu ********************************//
-    public static void BookCheck(Boolean Found){
-        if (!Found) {
-            System.out.println("Your book it doesn't exist");
         }
     }
 
