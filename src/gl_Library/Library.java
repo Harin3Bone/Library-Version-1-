@@ -355,11 +355,12 @@ public class Library {
         //**************** Create Variable ****************//
         String[] account = RegisterScreen.RegisterInput();
         try {
-            RegisterScreen.DataCheck(account);
+            RegisterScreen.DataCheck(account,Boolean.TRUE);
 
         } catch (ConcurrentModificationException ignored) {
 
         }
+        RegisterScreen.DataAdd(account,Boolean.TRUE);
         //**************** Display Booklist ****************//
         for (int i = 0; i < service.getLibrariansService().getLibrarians().size(); i++) {
             System.out.println("Librarian Detail " + (i + 1) + " : " + service.getLibrariansService().getLibrarians().get(i));
@@ -373,11 +374,12 @@ public class Library {
         //**************** Create Variable ****************//
         String[] account = RegisterScreen.RegisterInput();
         try {
-            RegisterScreen.DataCheck(account);
+            RegisterScreen.DataCheck(account,Boolean.FALSE);
 
         } catch (ConcurrentModificationException ignored) {
 
         }
+        RegisterScreen.DataAdd(account,Boolean.FALSE);
         //**************** Display Booklist ****************//
         for (int i = 0; i < service.getCustomersService().getCustomers().size(); i++) {
             System.out.println("Customer Detail " + (i + 1) + " : " + service.getCustomersService().getCustomers().get(i));

@@ -1,8 +1,10 @@
 package gl_View;
 
+import gl_Library.InputParser;
 import gl_Library.Library;
 import gl_Object.Customer;
 import gl_Object.Librarian;
+import gl_Object.Person;
 import gl_Service.LibraryService;
 
 import java.util.Scanner;
@@ -10,13 +12,16 @@ import java.util.UUID;
 
 public class RegisterScreen {
     private static LibraryService service = LibraryService.getInstance();
-    public static int registerMenu(){
+    private static InputParser inputParser = new InputParser();
+
+    public static int registerMenu() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Select level to registeration");
         System.out.println("1 - Librarian\t2 - Customer\n3 - Back\t\t4 - Exit");
         int choice = scanner.nextInt();
         return choice;
     }
+
     //******************************** Register Input ********************************//
     public static String[] RegisterInput() {
         Scanner scanner = new Scanner(System.in);
@@ -40,66 +45,67 @@ public class RegisterScreen {
     }
 
     //******************************** Librarian & Customer Check ********************************//
-    public static void DataCheck(String[] account){
-        Librarian newLibrarian = new Librarian();
-        Customer newCustomer = new Customer();
+    public static void DataCheck(String[] account, Boolean bool) {
         //******************************** Librarian ********************************//
-        for (Librarian librarian : service.getLibrariansService().getLibrarians()) {
-            if ((librarian.getFirstName().equals(account[0]))) {
-                if ((librarian.getLastName().equals(account[1]))) {
-                    System.out.println("This account has benn already sign up");
+        if (bool) {
+            for (Librarian librarian : service.getLibrariansService().getLibrarians()) {
+                if (librarian.getFirstName().equals(account[0]) && librarian.getLastName().equals(account[1])) {
+                    System.out.println("This account has been already sign up");
                     System.out.println("=====================");
                     Library.Librarian_Register();                                      // Beware the ConcurrentModificationException //
+
+                }
+                if (librarian.getIdentity().equals(account[2])) {
+                    System.out.println("Your identity has been already use");
+                    System.out.println("=====================");
+                    Library.Librarian_Register();                                          // Beware the ConcurrentModificationException //
                 }
             }
-            if (librarian.getIdentity().equals(account[2])) {
-                System.out.println("Your identity has been already use");
-                System.out.println("=====================");
-                Library.Librarian_Register();                                          // Beware the ConcurrentModificationException //
-            }
-        }
-        if (account[3].equals(account[4])) {
-            //**************** Add Data to Variable ****************//
-            newLibrarian.setUuid(UUID.randomUUID());
-            newLibrarian.setFirstName(account[0]);
-            newLibrarian.setLastName(account[1]);
-            newLibrarian.setIdentity(account[2]);
-            newLibrarian.setPassword(account[3]);
-            //**************** Add Data to List ****************//
-            service.getLibrariansService().getLibrarians().add(newLibrarian);
         } else {
-            System.out.println("Error, Your password don't same\n");
-            System.out.println("=====================");
-            Library.Librarian_Register();
-        }
-        //******************************** Customer ********************************//
-        for (Customer customer : service.getCustomersService().getCustomers()) {
-            if ((customer.getFirstName().equals(account[0]))) {
-                if ((customer.getLastName().equals(account[1]))) {
-                    System.out.println("This account has benn already sign up");
+            //******************************** Customer ********************************//
+            for (Customer customer : service.getCustomersService().getCustomers()) {
+                if (customer.getFirstName().equals(account[0]) && customer.getLastName().equals(account[1])) {
+                    System.out.println("This account has been already sign up");
                     System.out.println("==========================");
                     Library.Customer_Register();                                       // Beware the ConcurrentModificationException //
                 }
-            }
-            if (customer.getIdentity().equals(account[2])) {
-                System.out.println("Your identity has been already use");
-                System.out.println("==========================");
-                Library.Customer_Register();                                           // Beware the ConcurrentModificationException //
+                if (customer.getIdentity().equals(account[2])) {
+                    System.out.println("Your identity has been already use");
+                    System.out.println("==========================");
+                    Library.Customer_Register();                                           // Beware the ConcurrentModificationException //
+                }
             }
         }
-        if (account[3].equals(account[4])) {
-            //**************** Add Data to Variable ****************//
-            newCustomer.setUuid(UUID.randomUUID());
-            newCustomer.setFirstName(account[0]);
-            newCustomer.setLastName(account[1]);
-            newCustomer.setIdentity(account[2]);
-            newCustomer.setPassword(account[3]);
-            //**************** Add Data to List ****************//
-            service.getCustomersService().getCustomers().add(newCustomer);
-        } else {
+
+    }
+
+    //******************************** Librarian & Customer Add ********************************//
+    public static void DataAdd(String[] account, Boolean bool) {
+        Person person = new Person();
+        Librarian librarian = new Librarian();
+        Customer customer  = new Customer();
+        if (!account[3].equals(account[4])) {
             System.out.println("Error, Your password don't same\n");
             System.out.println("==========================");
-            Library.Customer_Register();
+            inputParser.Register();
+
+        } else {
+            if (bool){
+                librarian.setUuid(UUID.randomUUID());
+                librarian.setFirstName(account[0]);
+                librarian.setLastName(account[1]);
+                librarian.setIdentity(account[2]);
+                librarian.setPassword(account[3]);
+                service.getLibrariansService().getLibrarians().add(librarian);
+            }
+            else {
+                customer.setUuid(UUID.randomUUID());
+                customer.setFirstName(account[0]);
+                customer.setLastName(account[1]);
+                customer.setIdentity(account[2]);
+                customer.setPassword(account[3]);
+                service.getCustomersService().getCustomers().add(customer);
+            }
         }
     }
 }
