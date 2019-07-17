@@ -158,8 +158,6 @@ public class LibraryScreen {
                     if (runningNo == null || runningNo < Integer.parseInt(b.getBookCode().substring(1))) {
                         runningNo = Integer.parseInt(b.getBookCode().substring(1));
                         runningNo++;
-                        // if no book in list it will cause runningNo don't have value //
-                        // you should create runningNo condition if runningNo == null -> value = 1 //
                     }
                 }
                 else {
@@ -200,9 +198,8 @@ public class LibraryScreen {
     public static void HistoryCheck() {
         if (!service.getHistoryDetail().getCustomername().equals(service.getCustomerDetail().getFirstName())) {
             System.out.println("Error, you're not person who borrow the book");
-            System.out.println("================================");
-            inputParser.User_Login();
             service.setHistoryDetail(null);
+            inputParser.User_Login();
         }
     }
 }

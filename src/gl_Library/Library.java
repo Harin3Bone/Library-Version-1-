@@ -329,23 +329,27 @@ public class Library {
                     //**************** Customer Check ****************//
                     try {
                         for (History history : service.getHistoriesService().getHistories()) {
-                            if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Borrow)) {
-                                LibraryScreen.HistoryCheck();
-                                // **************** Date Check **************** //
-                                System.out.println("\nUser : " + service.getCustomerDetail().getFirstName());
-                                int x = (int) DAYS.between(history.getDayReturn(), LocalDate.now());
-                                if (x > 0) {
-                                    System.out.println("" + service.getCustomerDetail().getFirstName() + ", You return book late " + x + " day(s)");
+                            service.setHistoryDetail(history);
+                            if (history.getBookcode().equals(id)) {
+                                if (history.getBooksituation().equals(BookSituation.Borrow)){
+                                    LibraryScreen.HistoryCheck();
+                                    // **************** Date Check **************** //
+                                    System.out.println("\nUser : " + service.getCustomerDetail().getFirstName());
+                                    int x = (int) DAYS.between(history.getDayReturn(), LocalDate.now());
+                                    if (x > 0) {
+                                        System.out.println("" + service.getCustomerDetail().getFirstName() + ", You return book late " + x + " day(s)");
+                                    }
+                                    //**************** Add Data to history ****************//
+                                    book.setBookStatus(BookStatus.Wait_Accept);
+                                    LibraryScreen.HistoryAdd(history);
                                 }
                             }
-                            //**************** Add Data to history ****************//
-                            LibraryScreen.HistoryAdd(history);
+
                         }
                     } catch (ConcurrentModificationException ignored) {
 
                     }
                     //**************** Display ****************//
-                    book.setBookStatus(BookStatus.Wait_Accept);
                     LibraryScreen.SearchDisplay();
                     System.out.println("Your work has been successful");
                 } else {
