@@ -73,9 +73,7 @@ public class MainScreen {
     //******************************** Librarian Menu ********************************//
     public int librarianMenu() {
         Scanner scanner = new Scanner(System.in);
-
         LibraryService service = LibraryService.getInstance();
-
         System.out.println("================================");
         System.out.println("What do you want to do ?");
         System.out.println("1 - Add Book\t2 - Delete Book\t3 - Search\n4 - Check\t\t" +
@@ -88,9 +86,7 @@ public class MainScreen {
     //******************************** Customer Login ********************************//
     public Customer customerDisplay() {
         String[] account = loginTemplate();
-
         LibraryService service = LibraryService.getInstance();
-
         Customer loginCustomer = null;
         //***************************** Id & Ps Check *****************************//
         for (Customer customer : service.getCustomersService().getCustomers()) {
@@ -106,9 +102,7 @@ public class MainScreen {
     //******************************** Customer Display ********************************//
     public int customerMenu() {
         Scanner scanner = new Scanner(System.in);
-
         LibraryService service = LibraryService.getInstance();
-
         System.out.println("================================");
         Scanner choice2 = new Scanner(System.in);
         System.out.println("What do you want to do ?");

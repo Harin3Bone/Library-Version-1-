@@ -3,16 +3,11 @@ package gl_Library;
 import gl_Object.Customer;
 import gl_Object.Librarian;
 
-import gl_Repository.BookList;
-import gl_Repository.HistoryList;
-
 import gl_Service.LibraryService;
 
 import gl_View.HomeScreen;
 import gl_View.MainScreen;
 import gl_View.RegisterScreen;
-
-import java.util.Scanner;
 
 public class InputParser {
     private static LibraryService service = LibraryService.getInstance();
@@ -44,8 +39,8 @@ public class InputParser {
                             mainScreen.LoginFailed();
                         }
                     }
-                    else if (login == 3){
-                        Controller();
+                    else {
+                        mainScreen.DefaultRework();
                     }
                 }
                 break;

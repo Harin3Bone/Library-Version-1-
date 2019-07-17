@@ -19,6 +19,7 @@ import java.util.UUID;
 public class LibraryScreen {
     private static LibraryService service = LibraryService.getInstance();
     private static InputParser inputParser = new InputParser();
+
     //****************************************** Scanner ******************************************//
     //******************************** Add Input ********************************//
     public static String[] AddView() {
@@ -28,37 +29,15 @@ public class LibraryScreen {
         String name = scanner.nextLine();
         System.out.print("Please enter book category : ");
         String category = scanner.nextLine();
-        BookCategory CategoryEnum = BookCategory.valueOf(category);                 // Check input is same as enum or not ? //
         System.out.print("Please enter book author : ");
         String author = scanner.nextLine();
         System.out.print("Please enter book abstract : ");
         String abstracts = scanner.nextLine();
-        //**************** Generate Book Code ****************//
-        String CategoryCode = CategoryEnum.getCode();                               // Pull code (String) from category enum //
-        DecimalFormat decimalFormat = new DecimalFormat("0000");            // DecimalFormat change display value from 1 to 0001 //
-
-//        Random random = new Random();
-//        int NumberCode = random.nextInt(1000);                                    // Random number  0 - 1000 //
-//        String code = CategoryCode + decimalFormat.format(NumberCode);            // Combine String //
-
-        Integer runningNo = null;
-
-        for (Book b : service.getBooksService().getBooks()) {
-            if (CategoryCode.equals(b.getBookCode().substring(0, 1))) {
-                if (runningNo == null || runningNo < Integer.parseInt(b.getBookCode().substring(1))) {
-                    runningNo = Integer.parseInt(b.getBookCode().substring(1));
-                    // if no book in list it will cause runningNo don't have value //
-                    // you should create runningNo condition if runningNo == null -> value = 1 //
-                }
-            }
-        }
-
-        String code = CategoryCode + decimalFormat.format(runningNo++);
-        return new String[]{name, category, author, abstracts, code};
+        return new String[]{name, category, author, abstracts};
     }
 
     //******************************** Remove Input ********************************//
-    public static String RemoveView(){
+    public static String RemoveView() {
         Scanner scanner = new Scanner(System.in);                                       // Create scanner to get input //
         System.out.println("Please enter book code to remove : ");
         return scanner.nextLine();
@@ -73,14 +52,14 @@ public class LibraryScreen {
     }
 
     //******************************** Sort Display ********************************//
-    public static void SortDisplay(){
+    public static void SortDisplay() {
         for (Book sort : service.getBooksService().getBooks()) {
             System.out.println(sort);                                                   // Display book after sorting //
         }
     }
 
     //******************************** Search Extension ********************************//
-    public static int SearchExtension(){
+    public static int SearchExtension() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Choose your search type");
         System.out.println("1 - Search by name\n2 - Search by Category\n3 - Search by Code");
@@ -88,21 +67,21 @@ public class LibraryScreen {
     }
 
     //******************************** Search By Name ********************************//
-    public static String SearchBookName(){
+    public static String SearchBookName() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your book name to search : ");
         return scanner.nextLine();
     }
 
     //******************************** Search By Category ********************************//
-    public static String SearchBookCategory(){
+    public static String SearchBookCategory() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your book category to search : ");
         return scanner.nextLine();
     }
 
     //******************************** Search By Code ********************************//
-    public static String SearchBookCode(){
+    public static String SearchBookCode() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your book code to search : ");
         return scanner.nextLine();
@@ -118,17 +97,39 @@ public class LibraryScreen {
     }
 
     //******************************** Confirm Extension ********************************//
-    public static int ConfirmView(){
+    public static int ConfirmView() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Choose your property");
         System.out.println("1 - Approve\t2 - Accept");
         return scanner.nextInt();
     }
 
+    //******************************** Change Date Extension ********************************//
+    //******************************** Input ********************************//
+    public static String ChangeView() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter your book code : ");
+        return scanner.nextLine();
+    }
+
+    //******************************** Session Check ********************************//
+    public static int ChangeDate() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter your number to change return date : ");
+        return scanner.nextInt();
+    }
+
+    //******************************** Borrow & Return Input ********************************//
+    public static String ConfirmInput() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter book code to confirm : ");
+        return scanner.nextLine();
+    }
+
     //****************************************** Function ******************************************//
     //******************************** Session Check ********************************//
-    public static void SessionCheck(Boolean Found){
-        if (Found != null){
+    public static void SessionCheck(Boolean Found) {
+        if (Found != null) {
             if (!Found) {
                 System.out.println("Your book it doesn't exist");
             }
@@ -138,6 +139,37 @@ public class LibraryScreen {
         } else {
             inputParser.Admin_Login();
         }
+    }
+
+    //******************************** Generate Book Code ********************************//
+    public static String GenerateCode(String value) {
+        String CategoryCode = BookCategory.valueOf(value).getCode();                    // Pull code (String) from category enum //
+        DecimalFormat decimalFormat = new DecimalFormat("0000");                // DecimalFormat change display value from 1 to 0001 //
+
+//        Random random = new Random();
+//        int NumberCode = random.nextInt(1000);                                    // Random number  0 - 1000 //
+//        String code = CategoryCode + decimalFormat.format(NumberCode);            // Combine String //
+
+        Integer runningNo = null;
+        if (service.getBooksService().getBooks().size() != 0) {
+            for (Book b : service.getBooksService().getBooks()) {
+                if (CategoryCode.equals(b.getBookCode().substring(0, 1))) {
+                    if (runningNo == null || runningNo < Integer.parseInt(b.getBookCode().substring(1))) {
+                        runningNo = Integer.parseInt(b.getBookCode().substring(1));
+                        runningNo++;
+                        // if no book in list it will cause runningNo don't have value //
+                        // you should create runningNo condition if runningNo == null -> value = 1 //
+                    }
+                }
+                else {
+                    runningNo = 1;
+                }
+            }
+        } else {
+            runningNo = 1;
+        }
+        String code = CategoryCode + decimalFormat.format(runningNo);
+        return code;
     }
 
     //******************************** History Add ********************************//
