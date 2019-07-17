@@ -21,6 +21,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class Library {
     private static InputParser inputParser = new InputParser();                         // Create input parser to throw back input function //
     private static LibraryService service = LibraryService.getInstance();               // Create service to use all of list //
+
     //****************************************** Librarian Function ******************************************//
     //******************************** Add Book ********************************//
     public static void AddBook() {
@@ -67,6 +68,7 @@ public class Library {
     public static void SearchBook() {
         int ans = LibraryScreen.SearchExtension();
         boolean Found = false;
+        // Boolean it use for check it found book name or not. If not use boolean and choose else then will occur some problem //
         switch (ans) {
             case 1:
                 Found = SearchByName(Found);
@@ -80,10 +82,10 @@ public class Library {
         }
         LibraryScreen.SessionCheck(Found);
     }
+
     //**************** By Name ****************//
-    private static Boolean SearchByName(Boolean Found){
+    private static Boolean SearchByName(Boolean Found) {
         String name = LibraryScreen.SearchBookName();
-        // Boolean it use for check it found book name or not. If not use boolean and choose else then will occur some problem //
         //**************** Display Search ****************//
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookName().equalsIgnoreCase(name)) {
@@ -95,9 +97,8 @@ public class Library {
     }
 
     //**************** By Category ****************//
-    private static Boolean SearchByCategory(Boolean Found){
+    private static Boolean SearchByCategory(Boolean Found) {
         String category = LibraryScreen.SearchBookCategory();
-        // Boolean it use for check it found book name or not. If not use boolean and choose else then will occur some problem //
         //**************** Display Search ****************//
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCategory().equals(BookCategory.valueOf(category))) {
@@ -109,9 +110,8 @@ public class Library {
     }
 
     //**************** By Code ****************//
-    private static Boolean SearchByCode(Boolean Found){
+    private static Boolean SearchByCode(Boolean Found) {
         String code = LibraryScreen.SearchBookCode();
-        // Boolean it use for check it found book name or not. If not use boolean and choose else then will occur some problem //
         //**************** Display Search ****************//
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCode().equalsIgnoreCase(code)) {
@@ -148,34 +148,28 @@ public class Library {
         switch (ans) {
             case 1:
                 service.getBooksService().getBooks().sort(Book.bookNameCompare);                    // Compare book with book name in book method //
-//                Collections.sort(service.getBooksService().getBooks(), Book.bookNameCompare);     // Can use collection replace sort //
-                for (Book sort : service.getBooksService().getBooks()) {
-                    System.out.println(sort);                                                       // Display book after sorting //
-                }
+                LibraryScreen.SortDisplay();
                 break;
             case 2:
                 service.getBooksService().getBooks().sort(Book.bookCategoryCompare);                // Compare book with book category in book method //
-//                Collections.sort(service.getBooksService().getBooks(), Book.bookCategoryCompare); // Can use collection replace sort //
-                for (Book sort : service.getBooksService().getBooks()) {
-                    System.out.println(sort);                                                       // Display book after sorting //
-                }
+                LibraryScreen.SortDisplay();
                 break;
             case 3:
                 service.getBooksService().getBooks().sort(Book.bookCodeCompare);                    // Compare book with book code in book method //
-//                Collections.sort(service.getBooksService().getBooks(), Book.bookCodeCompare);     // Can use collection replace sort //
-                for (Book sort : service.getBooksService().getBooks()) {
-                    System.out.println(sort);                                                       // Display book after sorting //
-                }
+                LibraryScreen.SortDisplay();
                 break;
             case 4:
                 service.getBooksService().getBooks().sort(Book.bookStatusCompare);                  // Compare book with book status in book method //
-//                Collections.sort(service.getBooksService().getBooks(), Book.bookStatusCompare);   // Can use collection replace sort //
-                for (Book sort : service.getBooksService().getBooks()) {
-                    System.out.println(sort);                                                       // Display book after sorting //
-                }
+                LibraryScreen.SortDisplay();
                 break;
             default:
         }
+        // Can use collection replace sort //
+//        Collections.sort(service.getBooksService().getBooks(), Book.bookNameCompare);
+//        Collections.sort(service.getBooksService().getBooks(), Book.bookCategoryCompare);
+//        Collections.sort(service.getBooksService().getBooks(), Book.bookCodeCompare);
+//        Collections.sort(service.getBooksService().getBooks(), Book.bookStatusCompare);
+
         LibraryScreen.SessionCheck(null);
     }
 
@@ -250,7 +244,7 @@ public class Library {
                 }
             }
         }
-        LibraryScreen.SessionCheck(Found) ;
+        LibraryScreen.SessionCheck(Found);
     }
 
     //******************************** Change Book ********************************//
@@ -269,10 +263,9 @@ public class Library {
                     if (service.getCustomerDetail() != null) {
                         LibraryScreen.HistoryCheck();
                     }
-                    if (history.getDayBorrow() == null || history.getDayReturn() == null){
+                    if (history.getDayBorrow() == null || history.getDayReturn() == null) {
                         Found = false;
-                    }
-                    else {
+                    } else {
                         System.out.print("Enter your number to change return date : ");
                         int x = scanner.nextInt();
                         if (DAYS.between(history.getDayBorrow(), history.getDayReturn().plusDays(x)) > 15) {
@@ -368,12 +361,12 @@ public class Library {
         //**************** Create Variable ****************//
         String[] account = RegisterScreen.RegisterInput();
         try {
-            RegisterScreen.DataCheck(account,Boolean.TRUE);
+            RegisterScreen.DataCheck(account, Boolean.TRUE);
 
         } catch (ConcurrentModificationException ignored) {
 
         }
-        RegisterScreen.DataAdd(account,Boolean.TRUE);
+        RegisterScreen.DataAdd(account, Boolean.TRUE);
         //**************** Display Booklist ****************//
         for (int i = 0; i < service.getLibrariansService().getLibrarians().size(); i++) {
             System.out.println("Librarian Detail " + (i + 1) + " : " + service.getLibrariansService().getLibrarians().get(i));
@@ -387,12 +380,12 @@ public class Library {
         //**************** Create Variable ****************//
         String[] account = RegisterScreen.RegisterInput();
         try {
-            RegisterScreen.DataCheck(account,Boolean.FALSE);
+            RegisterScreen.DataCheck(account, Boolean.FALSE);
 
         } catch (ConcurrentModificationException ignored) {
 
         }
-        RegisterScreen.DataAdd(account,Boolean.FALSE);
+        RegisterScreen.DataAdd(account, Boolean.FALSE);
         //**************** Display Booklist ****************//
         for (int i = 0; i < service.getCustomersService().getCustomers().size(); i++) {
             System.out.println("Customer Detail " + (i + 1) + " : " + service.getCustomersService().getCustomers().get(i));

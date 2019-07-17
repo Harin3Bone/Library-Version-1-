@@ -72,6 +72,13 @@ public class LibraryScreen {
         return scanner.nextInt();
     }
 
+    //******************************** Sort Display ********************************//
+    public static void SortDisplay(){
+        for (Book sort : service.getBooksService().getBooks()) {
+            System.out.println(sort);                                                   // Display book after sorting //
+        }
+    }
+
     //******************************** Search Extension ********************************//
     public static int SearchExtension(){
         Scanner scanner = new Scanner(System.in);
@@ -110,7 +117,7 @@ public class LibraryScreen {
         System.out.println("Book Status : " + book.getBookStatus());
     }
 
-    //******************************** Search Display ********************************//
+    //******************************** Confirm Extension ********************************//
     public static int ConfirmView(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Choose your property");
@@ -119,7 +126,7 @@ public class LibraryScreen {
     }
 
     //****************************************** Function ******************************************//
-    //******************************** User Check ********************************//
+    //******************************** Session Check ********************************//
     public static void SessionCheck(Boolean Found){
         if (Found != null){
             if (!Found) {
