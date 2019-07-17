@@ -1,5 +1,6 @@
 package gl_Library;
 
+import gl_Enum.BookCategory;
 import gl_Object.Book;
 import gl_Object.History;
 
@@ -29,7 +30,7 @@ public class Library {
         //**************** Add Data to Variable ****************//
         book.setUuid(UUID.randomUUID());                                                // Random UUID but not show on display //
         book.setBookName(value[0]);                                                     // Set value //
-        book.setBookCategory(value[1]);
+        book.setBookCategory(BookCategory.valueOf(value[1]));
         book.setBookAuthor(value[2]);
         book.setBookabstract(value[3]);
         book.setBookCode(value[4]);
@@ -99,7 +100,7 @@ public class Library {
         // Boolean it use for check it found book name or not. If not use boolean and choose else then will occur some problem //
         //**************** Display Search ****************//
         for (Book book : service.getBooksService().getBooks()) {
-            if (book.getBookCategory().equalsIgnoreCase(category)) {
+            if (book.getBookCategory().equals(BookCategory.valueOf(category))) {
                 Found = true;
                 LibraryScreen.SearchDisplay(book);
             }

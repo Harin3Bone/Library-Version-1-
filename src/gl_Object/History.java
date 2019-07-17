@@ -1,5 +1,6 @@
 package gl_Object;
 
+import gl_Enum.BookCategory;
 import gl_Enum.BookSituation;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -10,7 +11,7 @@ public class History {
     private String Librarianname;
     private String Customername;
     private String Bookname;
-    private String Bookcategory;
+    private BookCategory Bookcategory;
     private String Bookcode;
     private String Bookauthor;
     private BookSituation Booksituation;
@@ -59,12 +60,12 @@ public class History {
         Bookname = bookname;
     }
 
-    public String getBookcategory() {
+    public BookCategory getBookcategory() {
 
         return Bookcategory;
     }
 
-    public void setBookcategory(String bookcategory) {
+    public void setBookcategory(BookCategory bookcategory) {
 
         Bookcategory = bookcategory;
     }
@@ -124,7 +125,7 @@ public class History {
 
     }
 
-    public History(UUID uuid, String librarianname, String customername, String bookname, String bookcategory,
+    public History(UUID uuid, String librarianname, String customername, String bookname, BookCategory bookcategory,
                    String bookcode, String bookauthor, BookSituation booksituation, LocalDate dayBorrow, LocalDate dayReturn) {
         this.uuid = uuid;
         Librarianname = librarianname;
@@ -137,6 +138,8 @@ public class History {
         DayBorrow = dayBorrow;
         DayReturn = dayReturn;
     }
+
+
     //************************** toString **************************//
 
     @Override

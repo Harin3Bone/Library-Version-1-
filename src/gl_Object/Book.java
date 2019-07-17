@@ -1,5 +1,6 @@
 package gl_Object;
 
+import gl_Enum.BookCategory;
 import gl_Enum.BookStatus;
 
 import java.util.Comparator;
@@ -8,7 +9,7 @@ import java.util.UUID;
 public class Book {
     private UUID uuid = UUID.randomUUID();
     private String bookName;
-    private String bookCategory;
+    private BookCategory bookCategory;
     private String bookCode;
     private String bookAuthor;
     private String bookabstract;
@@ -36,12 +37,12 @@ public class Book {
         this.bookName = bookName;
     }
 
-    public String getBookCategory() {
+    public BookCategory getBookCategory() {
 
         return bookCategory;
     }
 
-    public void setBookCategory(String bookCategory) {
+    public void setBookCategory(BookCategory bookCategory) {
 
         this.bookCategory = bookCategory;
     }
@@ -91,7 +92,7 @@ public class Book {
 
     }
 
-    public Book(UUID uuid, String bookName, String bookCategory, String bookCode, String bookAuthor, String bookabstract, BookStatus bookStatus) {
+    public Book(UUID uuid, String bookName, BookCategory bookCategory, String bookCode, String bookAuthor, String bookabstract, BookStatus bookStatus) {
         this.uuid = uuid;
         this.bookName = bookName;
         this.bookCategory = bookCategory;
@@ -100,6 +101,7 @@ public class Book {
         this.bookabstract = bookabstract;
         this.bookStatus = bookStatus;
     }
+
 
     //************************** toString **************************//
 
@@ -126,8 +128,8 @@ public class Book {
     public static Comparator<Book> bookCategoryCompare = new Comparator<Book>() {
         @Override
         public int compare(Book o1, Book o2) {
-            String BookCategory1 = o1.getBookCategory().toUpperCase();
-            String BookCategory2 = o2.getBookCategory().toUpperCase();
+            BookCategory BookCategory1 = o1.getBookCategory();
+            BookCategory BookCategory2 = o2.getBookCategory();
             return BookCategory1.compareTo(BookCategory2);
         }
     };
@@ -149,15 +151,6 @@ public class Book {
             return BookStat1.compareTo(BookStat2);
         }
     };
-
-//    public static Comparator<Book> codeCompare = new Comparator<Book>() {
-//        @Override
-//        public int compare(Book p1, Book p2) {
-//            String Page1 = p1.getBookCode().substring(2);
-//            String Page2 = p2.getBookCode().substring(2);
-//            return Page1.compareTo(Page2);
-//        }
-//    };
 
     //====================== Comparator Interger ========================//
 //    public static Comparator<Book> bookCodeCompare = new Comparator<Book>() {
