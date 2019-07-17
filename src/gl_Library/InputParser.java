@@ -21,12 +21,12 @@ public class InputParser {
         //******************** Property Section ********************//
         LibraryService service = LibraryService.getInstance();
         HomeScreen homeScreen = new HomeScreen();
-        int ans_property = homeScreen.homedisplay();
+        int ans = homeScreen.homedisplay();
         //******************** Login Section ********************//
-        switch (ans_property) {
+        switch (ans) {
             case 1:
-                int ans_login = mainScreen.loginDisplay();
-                if (ans_login == 1) {
+                int login = mainScreen.loginDisplay();
+                if (login == 1) {
                     Librarian loginLibrarian = mainScreen.librarianDisplay();
                     if (loginLibrarian != null) {
                         service.setLibrarianDetail(loginLibrarian);
@@ -35,7 +35,7 @@ public class InputParser {
                         mainScreen.LoginFailed();
                     }
                 } else {
-                    if (ans_login == 2) {
+                    if (login == 2) {
                         Customer logincustomer = mainScreen.customerDisplay();
                         if (logincustomer != null) {
                             service.setCustomerDetail(logincustomer);
@@ -43,6 +43,9 @@ public class InputParser {
                         } else {
                             mainScreen.LoginFailed();
                         }
+                    }
+                    else if (login == 3){
+                        Controller();
                     }
                 }
                 break;
@@ -63,8 +66,6 @@ public class InputParser {
         service.setCustomerDetail(null);
         //******************** Select Section ********************//
         int choices = mainScreen.librarianMenu();
-        BookList books = new BookList();
-        HistoryList histories = new HistoryList();
         switch (choices) {
             case 1:
                 Library.AddBook();
@@ -73,7 +74,7 @@ public class InputParser {
                 Library.RemoveBook();
                 break;
             case 3:
-                SearchExtend();
+                Library.SearchBook();
                 break;
             case 4:
                 Library.CheckBook();
@@ -85,7 +86,7 @@ public class InputParser {
                 Library.SortBook();
                 break;
             case 7:
-                ConfirmExtend();
+                Library.ConfirmBook();
                 break;
             case 8:
                 Library.ChangeBook();
@@ -109,7 +110,7 @@ public class InputParser {
         int choices = mainScreen.customerMenu();
         switch (choices) {
             case 1:
-                SearchExtend();
+                Library.SearchBook();
                 break;
             case 2:
                 Library.CheckBook();
@@ -136,8 +137,7 @@ public class InputParser {
 
     //****************************************** Registeration ******************************************//
     public void Register() {
-        RegisterScreen registerMenu = new RegisterScreen();
-        int choice = registerMenu.registerMenu();
+        int choice = RegisterScreen.registerMenu();
         switch (choice) {
             case 1:
                 Library.Librarian_Register();
@@ -150,42 +150,6 @@ public class InputParser {
                 break;
             case 4:
                 mainScreen.ExitCommand();
-        }
-    }
-
-    //****************************************** Search Extension ******************************************//
-    private void SearchExtend() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Choose your search type");
-        System.out.println("1 - Search by name\n2 - Search by Category\n3 - Search by Code");
-        int ans = scanner.nextInt();
-        switch (ans) {
-            case 1:
-                Library.SearchByName();
-                break;
-            case 2:
-                Library.SearchByCategory();
-                break;
-            case 3:
-                Library.SearchByCode();
-                break;
-            default:
-                mainScreen.DefaultRework();
-        }
-    }
-
-    //****************************************** Confirm Extension ******************************************//
-    private void ConfirmExtend() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Choose your property");
-        System.out.println("1 - Approve\t2 - Accept");
-        int ans = scanner.nextInt();
-        if (ans == 1) {
-            Library.ApproveBook();
-        } else {
-            if (ans == 2) {
-                Library.AcceptBook();
-            }
         }
     }
 }

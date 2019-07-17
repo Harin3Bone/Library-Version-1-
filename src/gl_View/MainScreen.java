@@ -22,7 +22,7 @@ public class MainScreen {
         Scanner scanner = new Scanner(System.in);
         System.out.println("================================");
         System.out.println("Choose  your  level to login");
-        System.out.println("1 - Librarian\t2 - Customer");
+        System.out.println("1 - Librarian\t2 - Customer\t3 - Back");
 
         int ans_login = scanner.nextInt();
         return ans_login;
@@ -79,7 +79,7 @@ public class MainScreen {
         System.out.println("================================");
         System.out.println("What do you want to do ?");
         System.out.println("1 - Add Book\t2 - Delete Book\t3 - Search\n4 - Check\t\t" +
-                "5 - History \t6 - Sort\n7 - Confirm\t\t8 - Change\t\t9 - Back\n0 - ExitCommand");
+                "5 - History \t6 - Sort\n7 - Confirm\t\t8 - Change\t\t9 - Back\n0 - Exit");
         int choice = scanner.nextInt();
         return choice;
     }
@@ -113,7 +113,7 @@ public class MainScreen {
         Scanner choice2 = new Scanner(System.in);
         System.out.println("What do you want to do ?");
         System.out.println("1 - Search\t2 - Check\t3 - Borrow\n4 - Return\t5 - Change\t6 - Back" +
-                "\n0 - ExitCommand");
+                "\n0 - Exit");
         int choice = scanner.nextInt();
         return choice;
     }
