@@ -88,12 +88,13 @@ public class LibraryScreen {
     }
 
     //******************************** Search Display ********************************//
-    public static void SearchDisplay(Book book) {
+    public static void SearchDisplay() {
         System.out.println("==========================");
-        System.out.println("Book Name   : " + book.getBookName());
-        System.out.println("Book Type   : " + book.getBookCategory());
-        System.out.println("Book Code   : " + book.getBookCode());
-        System.out.println("Book Status : " + book.getBookStatus());
+        System.out.println("Book Name   : " + service.getBookDetail().getBookName());
+        System.out.println("Book Type   : " + service.getBookDetail().getBookCategory());
+        System.out.println("Book Code   : " + service.getBookDetail().getBookCode());
+        System.out.println("Book Status : " + service.getBookDetail().getBookStatus());
+        service.setBookDetail(null);
     }
 
     //******************************** Confirm Extension ********************************//
@@ -122,7 +123,7 @@ public class LibraryScreen {
     //******************************** Borrow & Return Input ********************************//
     public static String ConfirmInput() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter book code to confirm : ");
+        System.out.print("Enter your book code : ");
         return scanner.nextLine();
     }
 
@@ -185,13 +186,13 @@ public class LibraryScreen {
         if (historyForeach == null) {    // Can use if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Approve)) //
             history.setBooksituation(BookSituation.Borrow);
             service.getHistoriesService().getHistories().add(history);
-            service.setBookDetail(null);
+//            service.setBookDetail(null);
         } else {                          // Can use if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Accept)) //
             history.setDayBorrow(historyForeach.getDayBorrow());
             history.setDayReturn(historyForeach.getDayReturn());
             history.setBooksituation(BookSituation.Return);
             service.getHistoriesService().getHistories().add(history);
-            service.setBookDetail(null);
+//
         }
     }
 

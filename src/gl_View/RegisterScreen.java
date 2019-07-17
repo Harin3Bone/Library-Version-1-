@@ -72,7 +72,6 @@ public class RegisterScreen {
 
     //******************************** Librarian & Customer Add ********************************//
     public static void DataAdd(String[] account, Boolean bool) {
-        Person person = new Person();
         Librarian librarian = new Librarian();
         Customer customer  = new Customer();
         if (!account[3].equals(account[4])) {
