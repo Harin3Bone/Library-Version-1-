@@ -207,8 +207,8 @@ public class Library {
         boolean Found = false;
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCode().equalsIgnoreCase(id)) {
-                Found = true;
                 if (book.getBookStatus().equals(BookStatus.Wait_Approve)) {
+                    Found = true;
                     //**************** Status Change ****************//
                     book.setBookStatus(BookStatus.Unvailable);
                     for (History history : service.getHistoriesService().getHistories()) {
@@ -222,8 +222,6 @@ public class Library {
                     //**************** Display ****************//
                     System.out.println("\nYour work has been successful");
                     HistoryBook();
-                } else {
-                    Found = false;
                 }
             }
         }
@@ -241,7 +239,7 @@ public class Library {
                 if (book.getBookStatus().equals(BookStatus.Wait_Accept)) {
                     book.setBookStatus(BookStatus.Available);
                     for (History history : service.getHistoriesService().getHistories()) {
-                        if (history.getBooksituation().equals(BookSituation.Return)) {
+                        if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Return)) {
                             history.setLibrarianname(service.getLibrarianDetail().getFirstName());
                         }
                     }
@@ -331,7 +329,7 @@ public class Library {
                         for (History history : service.getHistoriesService().getHistories()) {
                             service.setHistoryDetail(history);
                             if (history.getBookcode().equals(id)) {
-                                if (history.getBooksituation().equals(BookSituation.Borrow)){
+                                if (history.getBooksituation().equals(BookSituation.Borrow)) {
                                     LibraryScreen.HistoryCheck();
                                     // **************** Date Check **************** //
                                     System.out.println("\nUser : " + service.getCustomerDetail().getFirstName());

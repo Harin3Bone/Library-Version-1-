@@ -13,6 +13,7 @@ import gl_Object.History;
 import gl_Service.LibraryService;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -159,8 +160,7 @@ public class LibraryScreen {
                         runningNo = Integer.parseInt(b.getBookCode().substring(1));
                         runningNo++;
                     }
-                }
-                else {
+                } else {
                     runningNo = 1;
                 }
             }
@@ -170,6 +170,30 @@ public class LibraryScreen {
         String code = CategoryCode + decimalFormat.format(runningNo);
         return code;
     }
+
+    //******************************** History Add ********************************//
+//    public static void HistoryLoop(int ans,String id) {
+//        for (History history : service.getHistoriesService().getHistories()) {
+//            switch (ans) {
+//                case 1:
+//                    //**************** Value Set ****************//
+//                    if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Borrow)) {
+//                        history.setDayBorrow(LocalDate.now());
+//                        history.setDayReturn(LocalDate.now().plusDays(7));
+//                        history.setLibrarianname(service.getLibrarianDetail().getFirstName());
+//                    }
+//                    break;
+//                case 2:
+//                    break;
+//                case 3:
+//                    break;
+//                case 4:
+//                    break;
+//                default:
+//            }
+//        }
+//    }
+
 
     //******************************** History Add ********************************//
     public static void HistoryAdd(History historyForeach) {
