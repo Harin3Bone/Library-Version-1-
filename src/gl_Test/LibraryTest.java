@@ -58,7 +58,7 @@ public class LibraryTest {
         //**************** Output ****************//
         Assert.assertEquals(books.size(), 0);
     }
-    //******************************** Sort Book ********************************//
+    //******************************** Sort Book Name ********************************//
     @Test
     public void sortBookName(){
         //**************** Object ****************//
@@ -82,7 +82,7 @@ public class LibraryTest {
         Assert.assertEquals(books.get(1).getBookName(),"b");
         Assert.assertEquals(books.get(2).getBookName(),"c");
     }
-    //******************************** Sort Book ********************************//
+    //******************************** Sort Book Category ********************************//
     @Test
     public void sortBookCategory(){
         //**************** Object ****************//
@@ -106,7 +106,7 @@ public class LibraryTest {
         Assert.assertEquals(books.get(1).getBookCategory(),BookCategory.Magazine);
         Assert.assertEquals(books.get(2).getBookCategory(),BookCategory.Newspaper);
     }
-    //******************************** Sort Book ********************************//
+    //******************************** Sort Book Code ********************************//
     @Test
     public void sortBookCode(){
         //**************** Object ****************//
@@ -129,5 +129,26 @@ public class LibraryTest {
         Assert.assertEquals(books.get(0).getBookCode(),"a0001");
         Assert.assertEquals(books.get(1).getBookCode(),"a0002");
         Assert.assertEquals(books.get(2).getBookCode(),"b0001");
+    }
+    //******************************** Sort Book Status ********************************//
+    @Test
+    public void sortBookStatus(){
+        //**************** Object ****************//
+        Book book1 = new Book();
+        Book book2 = new Book();
+        Book book3 = new Book();
+        //**************** Add Value to Data ****************//
+        book1.setBookStatus(BookStatus.Available);
+        book2.setBookStatus(BookStatus.Unvailable);
+        book3.setBookStatus(BookStatus.Wait_Accept);
+        //**************** Add Data to List ****************//
+        List<Book> books = Arrays.asList(book1,book2,book3);
+        //**************** Sort ****************//
+        books.sort(Book.bookStatusCompare);
+//        Collections.sort(books, Book.bookNameCompare);
+        //**************** Output ****************//
+        Assert.assertEquals(books.get(0).getBookStatus(),BookStatus.Available);
+        Assert.assertEquals(books.get(1).getBookStatus(),BookStatus.Unvailable);
+        Assert.assertEquals(books.get(2).getBookStatus(),BookStatus.Wait_Accept);
     }
 }
