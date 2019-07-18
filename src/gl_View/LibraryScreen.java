@@ -17,6 +17,8 @@ import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.UUID;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 public class LibraryScreen {
     private static LibraryService service = LibraryService.getInstance();
     private static InputParser inputParser = new InputParser();
@@ -158,15 +160,18 @@ public class LibraryScreen {
                 if (CategoryCode.equals(b.getBookCode().substring(0, 1))) {
                     if (runningNo == null || runningNo < Integer.parseInt(b.getBookCode().substring(1))) {
                         runningNo = Integer.parseInt(b.getBookCode().substring(1));
-                        runningNo++;
                     }
-                } else {
-                    runningNo = 1;
+                }
+                else {
+                    if (runningNo == null){
+                        runningNo = 0;
+                    }
                 }
             }
         } else {
-            runningNo = 1;
+            runningNo = 0;
         }
+        runningNo = runningNo+1;
         String code = CategoryCode + decimalFormat.format(runningNo);
         return code;
     }
