@@ -9,6 +9,8 @@ import gl_View.HomeScreen;
 import gl_View.MainScreen;
 import gl_View.RegisterScreen;
 
+import java.util.InputMismatchException;
+
 public class InputParser {
     private static LibraryService service = LibraryService.getInstance();
     private static MainScreen mainScreen = new MainScreen();
@@ -16,41 +18,46 @@ public class InputParser {
         //******************** Property Section ********************//
         LibraryService service = LibraryService.getInstance();
         HomeScreen homeScreen = new HomeScreen();
-        int ans = homeScreen.homedisplay();
-        //******************** Login Section ********************//
-        switch (ans) {
-            case 1:
-                int login = mainScreen.loginDisplay();
-                if (login == 1) {
-                    Librarian loginLibrarian = mainScreen.librarianDisplay();
-                    if (loginLibrarian != null) {
-                        service.setLibrarianDetail(loginLibrarian);
-                        Admin_Login();
-                    } else {
-                        mainScreen.LoginFailed();
-                    }
-                } else {
-                    if (login == 2) {
-                        Customer logincustomer = mainScreen.customerDisplay();
-                        if (logincustomer != null) {
-                            service.setCustomerDetail(logincustomer);
-                            User_Login();
+        try {
+            int ans = homeScreen.homedisplay();
+            //******************** Login Section ********************//
+            switch (ans) {
+                case 1:
+                    int login = mainScreen.loginDisplay();
+                    if (login == 1) {
+                        Librarian loginLibrarian = mainScreen.librarianDisplay();
+                        if (loginLibrarian != null) {
+                            service.setLibrarianDetail(loginLibrarian);
+                            Admin_Login();
                         } else {
                             mainScreen.LoginFailed();
                         }
+                    } else {
+                        if (login == 2) {
+                            Customer logincustomer = mainScreen.customerDisplay();
+                            if (logincustomer != null) {
+                                service.setCustomerDetail(logincustomer);
+                                User_Login();
+                            } else {
+                                mainScreen.LoginFailed();
+                            }
+                        }
+                        else {
+                            mainScreen.DefaultRework();
+                        }
                     }
-                    else {
-                        mainScreen.DefaultRework();
-                    }
-                }
-                break;
-            case 2:
-                Register();
-                break;
-            case 3:
-                mainScreen.ExitCommand();
-            default:
-                mainScreen.DefaultRework();
+                    break;
+                case 2:
+                    Register();
+                    break;
+                case 3:
+                    mainScreen.ExitCommand();
+                default:
+                    mainScreen.DefaultRework();
+            }
+        }
+        catch (InputMismatchException ignored){
+            mainScreen.DefaultRework();
         }
     }
 
@@ -132,6 +139,7 @@ public class InputParser {
 
     //****************************************** Registeration ******************************************//
     public void Register() {
+        System.out.println("================================");
         int choice = RegisterScreen.registerMenu();
         switch (choice) {
             case 1:
@@ -145,6 +153,8 @@ public class InputParser {
                 break;
             case 4:
                 mainScreen.ExitCommand();
+            default:
+                mainScreen.DefaultRework();
         }
     }
 }
