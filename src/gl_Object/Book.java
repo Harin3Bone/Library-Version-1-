@@ -128,8 +128,8 @@ public class Book {
     public static Comparator<Book> bookCategoryCompare = new Comparator<Book>() {
         @Override
         public int compare(Book o1, Book o2) {
-            BookCategory BookCategory1 = o1.getBookCategory();
-            BookCategory BookCategory2 = o2.getBookCategory();
+            String BookCategory1 = o1.getBookCategory().toString();
+            String BookCategory2 = o2.getBookCategory().toString();
             return BookCategory1.compareTo(BookCategory2);
         }
     };
