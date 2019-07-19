@@ -177,30 +177,6 @@ public class LibraryScreen {
     }
 
     //******************************** History Add ********************************//
-//    public static void HistoryLoop(int ans,String id) {
-//        for (History history : service.getHistoriesService().getHistories()) {
-//            switch (ans) {
-//                case 1:
-//                    //**************** Value Set ****************//
-//                    if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Borrow)) {
-//                        history.setDayBorrow(LocalDate.now());
-//                        history.setDayReturn(LocalDate.now().plusDays(7));
-//                        history.setLibrarianname(service.getLibrarianDetail().getFirstName());
-//                    }
-//                    break;
-//                case 2:
-//                    break;
-//                case 3:
-//                    break;
-//                case 4:
-//                    break;
-//                default:
-//            }
-//        }
-//    }
-
-
-    //******************************** History Add ********************************//
     public static void HistoryAdd(History historyForeach) {
         History history = new History();
         //**************** History Data Add ****************//
