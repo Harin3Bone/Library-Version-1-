@@ -14,11 +14,11 @@ public class RegisterScreen {
     private static LibraryService service = LibraryService.getInstance();
     private static InputParser inputParser = new InputParser();
 
-    public static int registerMenu() {
+    public static String registerMenu() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Select level to registeration");
         System.out.println("1 - Librarian\t2 - Customer\n3 - Back\t\t4 - ExitCommand");
-        return scanner.nextInt();
+        return scanner.nextLine();
     }
 
     //******************************** Register Input ********************************//

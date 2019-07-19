@@ -62,11 +62,11 @@ public class LibraryScreen {
     }
 
     //******************************** Search Extension ********************************//
-    public static int SearchExtension() {
+    public static String SearchExtension() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Choose your search type");
         System.out.println("1 - Search by name\n2 - Search by Category\n3 - Search by Code");
-        return scanner.nextInt();
+        return scanner.nextLine();
     }
 
     //******************************** Search By Name ********************************//
@@ -101,11 +101,11 @@ public class LibraryScreen {
     }
 
     //******************************** Confirm Extension ********************************//
-    public static int ConfirmView() {
+    public static String ConfirmView() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Choose your property");
         System.out.println("1 - Approve\t2 - Accept");
-        return scanner.nextInt();
+        return scanner.nextLine();
     }
 
     //******************************** Change Date Extension ********************************//

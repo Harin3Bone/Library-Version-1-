@@ -75,17 +75,16 @@ public class Library {
 
     //******************************** Search Book ********************************//
     public static void SearchBook() {
-        int ans = LibraryScreen.SearchExtension();
         boolean Found = false;
         // Boolean it use for check it found book name or not. If not use boolean and choose else then will occur some problem //
-        switch (ans) {
-            case 1:
+        switch (LibraryScreen.SearchExtension()) {
+            case "1":
                 Found = SearchByName(false);
                 break;
-            case 2:
+            case "2":
                 Found = SearchByCategory(false);
                 break;
-            case 3:
+            case "3":
                 Found = SearchByCode(false);
                 break;
         }
@@ -191,11 +190,10 @@ public class Library {
 
     //****************************************** Confirm Book ******************************************//
     public static void ConfirmBook() {
-        int ans = LibraryScreen.ConfirmView();
-        if (ans == 1) {
+        if (LibraryScreen.ConfirmView().equals("1")) {
             ApproveBook();
         } else {
-            if (ans == 2) {
+            if (LibraryScreen.ConfirmView().equals("2")) {
                 AcceptBook();
             }
         }
@@ -374,7 +372,7 @@ public class Library {
         }
         RegisterScreen.DataAdd(account, Boolean.TRUE);
 
-//        //**************** Display Booklist ****************//
+//        //**************** Display ****************//
 //        for (int i = 0; i < service.getLibrariansService().getLibrarians().size(); i++) {
 //            System.out.println("Librarian Detail " + (i + 1) + " : " + service.getLibrariansService().getLibrarians().get(i));
 //        }

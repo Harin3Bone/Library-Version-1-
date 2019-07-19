@@ -18,14 +18,12 @@ import java.util.Scanner;
 public class MainScreen {
     //********************************************** Simple **********************************************//
     //******************************** Login Display ********************************//
-    public int loginDisplay() {
+    public String loginDisplay() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("================================");
         System.out.println("Choose  your  level to login");
         System.out.println("1 - Librarian\t2 - Customer\t3 - Back");
-
-        int ans_login = scanner.nextInt();
-        return ans_login;
+        return scanner.nextLine();
     }
 
     //******************************** Login Failed ********************************//
@@ -71,15 +69,14 @@ public class MainScreen {
     }
 
     //******************************** Librarian Menu ********************************//
-    public int librarianMenu() {
+    public String librarianMenu() {
         Scanner scanner = new Scanner(System.in);
         LibraryService service = LibraryService.getInstance();
         System.out.println("================================");
         System.out.println("What do you want to do ?");
         System.out.println("1 - Add Book\t2 - Delete Book\t3 - Search\n4 - Check\t\t" +
                 "5 - History \t6 - Sort\n7 - Confirm\t\t8 - Change\t\t9 - Back\n0 - Exit");
-        int choice = scanner.nextInt();
-        return choice;
+        return scanner.nextLine();
     }
 
     //********************************************** Customer **********************************************//
@@ -100,7 +97,7 @@ public class MainScreen {
     }
 
     //******************************** Customer Display ********************************//
-    public int customerMenu() {
+    public String customerMenu() {
         Scanner scanner = new Scanner(System.in);
         LibraryService service = LibraryService.getInstance();
         System.out.println("================================");
@@ -108,8 +105,7 @@ public class MainScreen {
         System.out.println("What do you want to do ?");
         System.out.println("1 - Search\t2 - Check\t3 - Borrow\n4 - Return\t5 - Change\t6 - Back" +
                 "\n0 - Exit");
-        int choice = scanner.nextInt();
-        return choice;
+        return scanner.nextLine();
     }
     //********************************************** Extension **********************************************//
     //******************************** Login Template ********************************//
