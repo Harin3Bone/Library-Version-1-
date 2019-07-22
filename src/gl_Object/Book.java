@@ -88,7 +88,7 @@ public class Book {
     }
 
     // Constructor
-    public Book(){
+    public Book() {
 
     }
 

@@ -25,22 +25,22 @@ public class HistoryList {
     }
 
     // Example history data
-    public void DataHistoryList (HistoryList histories){
-        histories.getHistories().add(new History(UUID.randomUUID(),"Miku","Umi","Captain America",
-                BookCategory.Comic, "A0002","Stan Lee",BookSituation.Borrow,
-                LocalDate.now(),LocalDate.now().plusDays(7)));
-        histories.getHistories().add(new History(UUID.randomUUID(),"Nino","Honoka","Black Widow",
-                BookCategory.Novel, "B0002","Stan Lee",BookSituation.Borrow,
-                LocalDate.now().minusDays(9),LocalDate.now().minusDays(1)));
-        histories.getHistories().add(new History(UUID.randomUUID(),"Ichika","Maki","Thor",
-                BookCategory.Comic, "A0003","Stan Lee",BookSituation.Borrow,
-                LocalDate.now().minusDays(2),LocalDate.now().plusDays(5)));
-        histories.getHistories().add(new History(UUID.randomUUID(),"Yotsuba","Eli","Arthur",
-                BookCategory.Magazine, "C0002","Stan Lee",BookSituation.Borrow,
-                LocalDate.now(),LocalDate.now().plusDays(7)));
-        histories.getHistories().add(new History(UUID.randomUUID(),"Itsuki","Honoka","Doctor Strange",
-                BookCategory.Newspaper, "D0001","Stan Lee",BookSituation.Borrow,
-                LocalDate.of(2019,7,4),LocalDate.of(2019,7,4).plusDays(7)));
+    public void DataHistoryList(HistoryList histories) {
+        histories.getHistories().add(new History(UUID.randomUUID(), "Miku", "Umi", "Captain America",
+                BookCategory.Comic, "A0002", "Stan Lee", BookSituation.Borrow,
+                LocalDate.now(), LocalDate.now().plusDays(7)));
+        histories.getHistories().add(new History(UUID.randomUUID(), "Nino", "Honoka", "Black Widow",
+                BookCategory.Novel, "B0002", "Stan Lee", BookSituation.Borrow,
+                LocalDate.now().minusDays(9), LocalDate.now().minusDays(1)));
+        histories.getHistories().add(new History(UUID.randomUUID(), "Ichika", "Maki", "Thor",
+                BookCategory.Comic, "A0003", "Stan Lee", BookSituation.Borrow,
+                LocalDate.now().minusDays(2), LocalDate.now().plusDays(5)));
+        histories.getHistories().add(new History(UUID.randomUUID(), "Yotsuba", "Eli", "Arthur",
+                BookCategory.Magazine, "C0002", "Stan Lee", BookSituation.Borrow,
+                LocalDate.now(), LocalDate.now().plusDays(7)));
+        histories.getHistories().add(new History(UUID.randomUUID(), "Itsuki", "Honoka", "Doctor Strange",
+                BookCategory.Newspaper, "D0001", "Stan Lee", BookSituation.Borrow,
+                LocalDate.of(2019, 7, 4), LocalDate.of(2019, 7, 4).plusDays(7)));
 
     }
 

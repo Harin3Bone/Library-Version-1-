@@ -26,7 +26,7 @@ public class LibraryService {
     }
 
     public static LibraryService getInstance() {
-        if (instance == null){
+        if (instance == null) {
             instance = new LibraryService();
         }
         return instance;
