@@ -62,7 +62,7 @@ public class RegisterScreen {
             // Customer check
             for (Customer customer : service.getCustomersService().getCustomers()) {
                 if ((customer.getFirstName().equals(account[0]) && customer.getLastName().equals(account[1]))
-                        || (customer.getIdentity().equals(account[2])) ) {
+                        || (customer.getIdentity().equals(account[2]))) {
                     System.out.println("This account has been already sign up");
                     System.out.println("==========================");
                     Library.Customer_Register();
@@ -75,7 +75,7 @@ public class RegisterScreen {
     // Librarian & Customer add
     public static void DataAdd(String[] account, Boolean bool) {
         Librarian librarian = new Librarian();
-        Customer customer  = new Customer();
+        Customer customer = new Customer();
 
         // Password check
         if (!account[3].equals(account[4])) {
@@ -85,7 +85,7 @@ public class RegisterScreen {
 
         } else {
             // Librarian add
-            if (bool){
+            if (bool) {
                 librarian.setUuid(UUID.randomUUID());
                 librarian.setFirstName(account[0]);
                 librarian.setLastName(account[1]);

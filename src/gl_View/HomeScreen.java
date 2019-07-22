@@ -3,7 +3,7 @@ package gl_View;
 import java.util.Scanner;
 
 public class HomeScreen {
-    public String homedisplay(){
+    public String homedisplay() {
         System.out.println("================================");
         Scanner scanner = new Scanner(System.in);
         System.out.println("Select your property");

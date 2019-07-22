@@ -62,7 +62,7 @@ public class Person {
     }
 
     // Constructor
-    public Person(){
+    public Person() {
 
     }
 

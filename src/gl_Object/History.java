@@ -2,6 +2,7 @@ package gl_Object;
 
 import gl_Enum.BookCategory;
 import gl_Enum.BookSituation;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -121,7 +122,7 @@ public class History {
     }
 
     //************************** Constructor **************************//
-    public History(){
+    public History() {
 
     }
 

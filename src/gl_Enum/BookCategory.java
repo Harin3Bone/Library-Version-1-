@@ -1,6 +1,6 @@
 package gl_Enum;
 
-public enum  BookCategory {
+public enum BookCategory {
     Comic("A"),
     Novel("B"),
     Magazine("C"),
@@ -8,7 +8,7 @@ public enum  BookCategory {
 
     private String Code;
 
-    private BookCategory(String Code){
+    private BookCategory(String Code) {
 
         this.Code = Code;
     }

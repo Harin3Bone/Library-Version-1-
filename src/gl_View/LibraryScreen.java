@@ -157,9 +157,8 @@ public class LibraryScreen {
                     if (runningNo == null || runningNo < Integer.parseInt(b.getBookCode().substring(1))) {
                         runningNo = Integer.parseInt(b.getBookCode().substring(1));
                     }
-                }
-                else {
-                    if (runningNo == null){
+                } else {
+                    if (runningNo == null) {
                         runningNo = 0;
                     }
                 }
@@ -167,7 +166,7 @@ public class LibraryScreen {
         } else {
             runningNo = 0;
         }
-        runningNo = runningNo+1;
+        runningNo = runningNo + 1;
         String code = CategoryCode + decimalFormat.format(runningNo);
         return code;
     }

@@ -1,6 +1,6 @@
 package gl_Enum;
 
-public enum  BookSituation {
+public enum BookSituation {
     Borrow,
     Return;
 }

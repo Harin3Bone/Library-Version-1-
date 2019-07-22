@@ -24,25 +24,25 @@ public class BookList {
     }
 
     // Example book data
-    public void DataBookList(BookList books){
-        books.getBooks().add(new Book(UUID.randomUUID(),"Iron Man", BookCategory.Comic,"A0001","Stan Lee",
-                "-",BookStatus.Available));
-        books.getBooks().add(new Book(UUID.randomUUID(),"Hulk",BookCategory.Novel,"B0001","Stan Lee",
-                "-",BookStatus.Available));
-        books.getBooks().add(new Book(UUID.randomUUID(),"Hawke Eye",BookCategory.Magazine,"C0001","Stan Lee",
-                "-",BookStatus.Available));
-        books.getBooks().add(new Book(UUID.randomUUID(),"Thr Avenger",BookCategory.Newspaper,"D0002","Stan Lee",
-                "-",BookStatus.Available));
-        books.getBooks().add(new Book(UUID.randomUUID(),"Captain America",BookCategory.Comic,"A0002","Stan Lee",
-                "-",BookStatus.Unvailable));
-        books.getBooks().add(new Book(UUID.randomUUID(),"Black Widow",BookCategory.Novel,"B0002","Stan Lee",
-                "-",BookStatus.Unvailable));
-        books.getBooks().add(new Book(UUID.randomUUID(),"Thor",BookCategory.Comic,"A0003","Stan Lee",
-                "-",BookStatus.Unvailable));
-        books.getBooks().add(new Book(UUID.randomUUID(),"Arthur",BookCategory.Magazine,"C0002","Stan Lee",
-                "-",BookStatus.Wait_Approve));
-        books.getBooks().add(new Book(UUID.randomUUID(),"Doctor Strange",BookCategory.Newspaper,"D0001","Stan Lee",
-                "-",BookStatus.Unvailable));
+    public void DataBookList(BookList books) {
+        books.getBooks().add(new Book(UUID.randomUUID(), "Iron Man", BookCategory.Comic, "A0001", "Stan Lee",
+                "-", BookStatus.Available));
+        books.getBooks().add(new Book(UUID.randomUUID(), "Hulk", BookCategory.Novel, "B0001", "Stan Lee",
+                "-", BookStatus.Available));
+        books.getBooks().add(new Book(UUID.randomUUID(), "Hawke Eye", BookCategory.Magazine, "C0001", "Stan Lee",
+                "-", BookStatus.Available));
+        books.getBooks().add(new Book(UUID.randomUUID(), "Thr Avenger", BookCategory.Newspaper, "D0002", "Stan Lee",
+                "-", BookStatus.Available));
+        books.getBooks().add(new Book(UUID.randomUUID(), "Captain America", BookCategory.Comic, "A0002", "Stan Lee",
+                "-", BookStatus.Unvailable));
+        books.getBooks().add(new Book(UUID.randomUUID(), "Black Widow", BookCategory.Novel, "B0002", "Stan Lee",
+                "-", BookStatus.Unvailable));
+        books.getBooks().add(new Book(UUID.randomUUID(), "Thor", BookCategory.Comic, "A0003", "Stan Lee",
+                "-", BookStatus.Unvailable));
+        books.getBooks().add(new Book(UUID.randomUUID(), "Arthur", BookCategory.Magazine, "C0002", "Stan Lee",
+                "-", BookStatus.Wait_Approve));
+        books.getBooks().add(new Book(UUID.randomUUID(), "Doctor Strange", BookCategory.Newspaper, "D0001", "Stan Lee",
+                "-", BookStatus.Unvailable));
 
     }
 }
