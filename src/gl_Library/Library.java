@@ -361,7 +361,7 @@ public class Library {
         LibraryScreen.SessionCheck(Found);
     }
 
-    //******************************** Return Book ********************************//
+    // Return book
     public static void ReturnBook() {
         // Get data from LibraryScreen.ConfirmInput()
         String id = LibraryScreen.ConfirmInput();
