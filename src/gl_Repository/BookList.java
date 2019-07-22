@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.UUID;
 
 public class BookList {
+    // Create variable
     private List<Book> books = new ArrayList<>();
 
+    // Getter & Setter
     public List<Book> getBooks() {
 
         return books;
@@ -21,7 +23,7 @@ public class BookList {
         this.books = books;
     }
 
-    //************************** Book List **************************//
+    // Example book data
     public void DataBookList(BookList books){
         books.getBooks().add(new Book(UUID.randomUUID(),"Iron Man", BookCategory.Comic,"A0001","Stan Lee",
                 "-",BookStatus.Available));

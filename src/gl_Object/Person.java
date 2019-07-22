@@ -3,15 +3,14 @@ package gl_Object;
 import java.util.UUID;
 
 public class Person {
-    //************************** Attribute Variable **************************//
+    // Create attribute variable
     private UUID uuid = UUID.randomUUID();
     private String firstName;
     private String lastName;
     private String identity;
     private String password;
 
-    //************************** Getter & Setter  **************************//
-
+    // Getter & Setter
     public UUID getUuid() {
 
         return uuid;
@@ -62,7 +61,7 @@ public class Person {
         this.password = password;
     }
 
-    //************************** Contructor **************************//
+    // Constructor
     public Person(){
 
     }
@@ -74,8 +73,8 @@ public class Person {
         this.identity = identity;
         this.password = password;
     }
-    //************************** toString **************************//
 
+    // toString
     @Override
     public String toString() {
         return "firstName = " + firstName +

@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class History {
-    //************************** Attribute Variable **************************//
+    // Create attribute variable
     private UUID uuid = UUID.randomUUID();
     private String Librarianname;
     private String Customername;

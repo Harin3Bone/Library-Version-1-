@@ -16,8 +16,7 @@ import gl_Service.LibraryService;
 import java.util.Scanner;
 
 public class MainScreen {
-    //********************************************** Simple **********************************************//
-    //******************************** Login Display ********************************//
+    // Login menu display
     public String loginDisplay() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("================================");
@@ -26,7 +25,7 @@ public class MainScreen {
         return scanner.nextLine();
     }
 
-    //******************************** Login Failed ********************************//
+    // Login failed
     public void LoginFailed() {
         System.out.println("Your identity or password incorrect");
         System.out.println("================================");
@@ -34,22 +33,21 @@ public class MainScreen {
         inputParser.Controller();
     }
 
-    //******************************** ExitCommand ********************************//
-    public void ExitCommand(){
+    // Exit
+    public void ExitCommand() {
         System.out.println("Thank you");
         System.out.println("================================");
         System.exit(0);
     }
 
-    //******************************** Error ********************************//
-    public void DefaultRework(){
+    // Default case
+    public void DefaultRework() {
         InputParser inputParser = new InputParser();
         System.out.println("Error, your input doesn't exist");
         inputParser.Controller();
     }
 
-    //********************************************** Librarian **********************************************//
-    //******************************** Librarian Login ********************************//
+    // Librarian login
     public Librarian librarianDisplay() {
         String[] account = loginTemplate();
 
@@ -57,7 +55,7 @@ public class MainScreen {
 
         Librarian loginLibrarian = null;
 
-        //***************************** Id & Ps Check *****************************//
+        // id & password check
         for (Librarian librarian : service.getLibrariansService().getLibrarians()) {
             if (librarian.getIdentity().equals(account[0])) {
                 if (librarian.getPassword().equals(account[1])) {
@@ -68,7 +66,7 @@ public class MainScreen {
         return loginLibrarian;
     }
 
-    //******************************** Librarian Menu ********************************//
+    // Librarian menu display
     public String librarianMenu() {
         Scanner scanner = new Scanner(System.in);
         LibraryService service = LibraryService.getInstance();
@@ -79,8 +77,7 @@ public class MainScreen {
         return scanner.nextLine();
     }
 
-    //********************************************** Customer **********************************************//
-    //******************************** Customer Login ********************************//
+    // Customer login
     public Customer customerDisplay() {
         String[] account = loginTemplate();
         LibraryService service = LibraryService.getInstance();
@@ -96,7 +93,7 @@ public class MainScreen {
         return loginCustomer;
     }
 
-    //******************************** Customer Display ********************************//
+    // Customer menu display
     public String customerMenu() {
         Scanner scanner = new Scanner(System.in);
         LibraryService service = LibraryService.getInstance();
@@ -107,8 +104,8 @@ public class MainScreen {
                 "\n0 - Exit");
         return scanner.nextLine();
     }
-    //********************************************** Extension **********************************************//
-    //******************************** Login Template ********************************//
+
+    // login input
     private static String[] loginTemplate() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("================================");

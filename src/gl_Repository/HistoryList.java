@@ -10,8 +10,10 @@ import java.util.List;
 import java.util.UUID;
 
 public class HistoryList {
+    // Create variable
     private List<History> histories = new ArrayList<>();
 
+    // Getter & Setter
     public List<History> getHistories() {
 
         return histories;
@@ -22,7 +24,7 @@ public class HistoryList {
         this.histories = histories;
     }
 
-    //************************** History List **************************//
+    // Example history data
     public void DataHistoryList (HistoryList histories){
         histories.getHistories().add(new History(UUID.randomUUID(),"Miku","Umi","Captain America",
                 BookCategory.Comic, "A0002","Stan Lee",BookSituation.Borrow,

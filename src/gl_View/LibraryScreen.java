@@ -23,10 +23,8 @@ public class LibraryScreen {
     private static LibraryService service = LibraryService.getInstance();
     private static InputParser inputParser = new InputParser();
 
-    //****************************************** Scanner ******************************************//
-    //******************************** Add Input ********************************//
+    // Add book input
     public static String[] AddView() {
-        //**************** Input Scanner ****************//
         Scanner scanner = new Scanner(System.in);                                   // Create scanner to get input //
         System.out.print("Please enter book name : ");
         String name = scanner.nextLine();
@@ -39,14 +37,14 @@ public class LibraryScreen {
         return new String[]{name, category, author, abstracts};
     }
 
-    //******************************** Remove Input ********************************//
+    // Remove book input
     public static String RemoveView() {
         Scanner scanner = new Scanner(System.in);                                       // Create scanner to get input //
         System.out.println("Please enter book code to remove : ");
         return scanner.nextLine();
     }
 
-    //******************************** Sort Menu ********************************//
+    // Sort menu
     public static int SortView() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please use sorting function");
@@ -54,14 +52,14 @@ public class LibraryScreen {
         return scanner.nextInt();
     }
 
-    //******************************** Sort Display ********************************//
+    // Sort display
     public static void SortDisplay() {
         for (Book sort : service.getBooksService().getBooks()) {
             System.out.println(sort);                                                   // Display book after sorting //
         }
     }
 
-    //******************************** Search Extension ********************************//
+    // Search menu
     public static String SearchExtension() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Choose your search type");
@@ -69,28 +67,28 @@ public class LibraryScreen {
         return scanner.nextLine();
     }
 
-    //******************************** Search By Name ********************************//
+    // Search by name
     public static String SearchBookName() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your book name to search : ");
         return scanner.nextLine();
     }
 
-    //******************************** Search By Category ********************************//
+    // Search by category
     public static String SearchBookCategory() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your book category to search : ");
         return scanner.nextLine();
     }
 
-    //******************************** Search By Code ********************************//
+    // Search by code
     public static String SearchBookCode() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your book code to search : ");
         return scanner.nextLine();
     }
 
-    //******************************** Search Display ********************************//
+    // Search display
     public static void SearchDisplay() {
         System.out.println("==========================");
         System.out.println("Book Name   : " + service.getBookDetail().getBookName());
@@ -100,7 +98,7 @@ public class LibraryScreen {
         service.setBookDetail(null);
     }
 
-    //******************************** Confirm Extension ********************************//
+    // Confirm menu
     public static String ConfirmView() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Choose your property");
@@ -108,30 +106,28 @@ public class LibraryScreen {
         return scanner.nextLine();
     }
 
-    //******************************** Change Date Extension ********************************//
-    //******************************** Input ********************************//
+    // Book Code Input
     public static String ChangeView() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your book code : ");
         return scanner.nextLine();
     }
 
-    //******************************** Session Check ********************************//
+    // Change date Input
     public static int ChangeDate() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your number to change return date : ");
         return scanner.nextInt();
     }
 
-    //******************************** Borrow & Return Input ********************************//
+    // Borrow & Return Input
     public static String ConfirmInput() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your book code : ");
         return scanner.nextLine();
     }
 
-    //****************************************** Function ******************************************//
-    //******************************** Session Check ********************************//
+    // Session Check
     public static void SessionCheck(Boolean Found) {
         if (Found != null) {
             if (!Found) {
@@ -145,14 +141,14 @@ public class LibraryScreen {
         }
     }
 
-    //******************************** Generate Book Code ********************************//
+    // Generate Book Code
     public static String GenerateCode(String value) {
-        String CategoryCode = BookCategory.valueOf(value).getCode();                    // Pull code (String) from category enum //
-        DecimalFormat decimalFormat = new DecimalFormat("0000");                // DecimalFormat change display value from 1 to 0001 //
+        String CategoryCode = BookCategory.valueOf(value).getCode();                    // Pull code (String) from category enum
+        DecimalFormat decimalFormat = new DecimalFormat("0000");                // DecimalFormat change display value from 1 to 0001
 
 //        Random random = new Random();
-//        int NumberCode = random.nextInt(1000);                                    // Random number  0 - 1000 //
-//        String code = CategoryCode + decimalFormat.format(NumberCode);            // Combine String //
+//        int NumberCode = random.nextInt(1000);                                    // Random number  0 - 1000
+//        String code = CategoryCode + decimalFormat.format(NumberCode);            // Combine String
 
         Integer runningNo = null;
         if (service.getBooksService().getBooks().size() != 0) {
@@ -176,21 +172,25 @@ public class LibraryScreen {
         return code;
     }
 
-    //******************************** History Add ********************************//
+    // History Add
     public static void HistoryAdd(History historyForeach) {
         History history = new History();
-        //**************** History Data Add ****************//
+
+        // Add data to history object
         history.setCustomername(service.getCustomerDetail().getFirstName());
         history.setUuid(UUID.randomUUID());
         history.setBookname(service.getBookDetail().getBookName());
         history.setBookcode(service.getBookDetail().getBookCode());
         history.setBookcategory(service.getBookDetail().getBookCategory());
         history.setBookauthor(service.getBookDetail().getBookAuthor());
-        if (historyForeach == null) {    // Can use if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Approve)) //
+
+        // Add history data to history list
+        if (historyForeach == null) {
+            // Can use if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Approve))
             history.setBooksituation(BookSituation.Borrow);
             service.getHistoriesService().getHistories().add(history);
-//            service.setBookDetail(null);
-        } else {                          // Can use if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Accept)) //
+        } else {
+            // Can use if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Accept))
             history.setDayBorrow(historyForeach.getDayBorrow());
             history.setDayReturn(historyForeach.getDayReturn());
             history.setBooksituation(BookSituation.Return);
@@ -199,7 +199,7 @@ public class LibraryScreen {
         }
     }
 
-    //******************************** History Customer Check ********************************//
+    // History Customer Check
     public static void HistoryCheck() {
         if (!service.getHistoryDetail().getCustomername().equals(service.getCustomerDetail().getFirstName())) {
             System.out.println("Error, you're not person who borrow the book");

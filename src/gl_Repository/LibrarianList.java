@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.UUID;
 
 public class LibrarianList {
+    // Create variable
     private List<Librarian> librarians = new ArrayList<>();
 
+    // Getter & Setter
     public List<Librarian> getLibrarians() {
 
         return librarians;
@@ -19,7 +21,7 @@ public class LibrarianList {
         this.librarians = librarians;
     }
 
-    //************************** Librarian List **************************//
+    // Example librarian data
     public void DataLibrarianList (LibrarianList librarians){
         librarians.getLibrarians().add(new Librarian(UUID.randomUUID(),"Ichika","Nakano","1111","1111"));
         librarians.getLibrarians().add(new Librarian(UUID.randomUUID(),"Nino","Nakano","2222","2222"));

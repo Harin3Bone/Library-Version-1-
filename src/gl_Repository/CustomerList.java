@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.UUID;
 
 public class CustomerList {
+    // Create variable
     private List<Customer> customers = new ArrayList<>();
 
+    // Getter & Setter
     public List<Customer> getCustomers() {
 
         return customers;
@@ -19,7 +21,7 @@ public class CustomerList {
         this.customers = customers;
     }
 
-    //************************** Customer List **************************//
+    // Example customer data
     public void DataCustomerList (CustomerList customers){
         customers.getCustomers().add(new Customer(UUID.randomUUID(),"Honoka","Kousaka","1","1"));
         customers.getCustomers().add(new Customer(UUID.randomUUID(),"Umi","Sonoda","2","2"));

@@ -10,13 +10,12 @@ import gl_Repository.HistoryList;
 import gl_Repository.LibrarianList;
 
 public class LibraryService {
+    // Create variable
     private static LibraryService instance;
-
     private LibrarianList librariansService;
     private CustomerList customersService;
     private BookList booksService;
     private HistoryList historiesService;
-
     private Librarian librarianDetail;
     private Customer customerDetail;
     private Book bookDetail;
@@ -33,7 +32,7 @@ public class LibraryService {
         return instance;
     }
 
-    //************************** Getter & Setter **************************//
+    // Getter & Setter
     public LibrarianList getLibrariansService() {
 
         return librariansService;

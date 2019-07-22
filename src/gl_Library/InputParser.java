@@ -16,12 +16,13 @@ public class InputParser {
     private static MainScreen mainScreen = new MainScreen();
 
     public void Controller() {
-        //******************** Property Section ********************//
+        // Property menu
         LibraryService service = LibraryService.getInstance();
         HomeScreen homeScreen = new HomeScreen();
-        //******************** Login Section ********************//
+        // Login section
         switch (homeScreen.homedisplay()) {
             case "1":
+                // Librarian login
                 String login = mainScreen.loginDisplay();
                 if (login.equals("1")) {
                     Librarian loginLibrarian = mainScreen.librarianDisplay();
@@ -32,6 +33,7 @@ public class InputParser {
                         mainScreen.LoginFailed();
                     }
                 } else {
+                    // Customer login
                     if (login.equals("2")) {
                         Customer logincustomer = mainScreen.customerDisplay();
                         if (logincustomer != null) {
@@ -46,13 +48,15 @@ public class InputParser {
                 }
                 break;
             case "2":
+                // Registeration
                 Register();
                 break;
             case "3":
+                // Exit program
                 mainScreen.ExitCommand();
 
             case "Libra":
-                //**************** Display Librarian ****************//
+                // Extra function show all librarian account detail
                 for (int i = 0; i < service.getLibrariansService().getLibrarians().size(); i++) {
                     System.out.println("Librarian Detail " + (i + 1) + " : " + service.getLibrariansService().getLibrarians().get(i));
                 }
@@ -61,7 +65,7 @@ public class InputParser {
                 break;
 
             case "Custo":
-                //**************** Display ****************//
+                // Extra function show all customer account detail
                 for (int i = 0; i < service.getCustomersService().getCustomers().size(); i++) {
                     System.out.println("Customer Detail " + (i + 1) + " : " + service.getCustomersService().getCustomers().get(i));
                 }
@@ -75,7 +79,7 @@ public class InputParser {
         }
     }
 
-    //****************************************** Admin Login ******************************************//
+    // Librarian login pass
     public void Admin_Login() {
         System.out.println("================================");
         System.out.println("" + service.getLibrarianDetail().getFirstName() + " " + service.getLibrarianDetail().getLastName());
@@ -117,7 +121,7 @@ public class InputParser {
         }
     }
 
-    //****************************************** User Login ******************************************//
+    // Customer login pass
     public void User_Login() {
         System.out.println("================================");
         System.out.println("" + service.getCustomerDetail().getFirstName() + " " + service.getCustomerDetail().getLastName());
@@ -149,7 +153,7 @@ public class InputParser {
         }
     }
 
-    //****************************************** Registeration ******************************************//
+    // Registeration new account
     public void Register() {
         System.out.println("================================");
         switch (RegisterScreen.registerMenu()) {

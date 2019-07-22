@@ -23,7 +23,7 @@ public class RegisterScreen {
         return scanner.nextLine();
     }
 
-    //******************************** Register Input ********************************//
+    // Register  input
     public static String[] RegisterInput() {
         Scanner scanner = new Scanner(System.in);
 
@@ -45,9 +45,9 @@ public class RegisterScreen {
         return new String[]{Firstname, Lastname, Identity, Password1, Password2};
     }
 
-    //******************************** Librarian & Customer Check ********************************//
+    // Librarian & Customer account check
     public static void DataCheck(String[] account, Boolean bool) {
-        //******************************** Librarian ********************************//
+        // Librarian check
         if (bool) {
             for (Librarian librarian : service.getLibrariansService().getLibrarians()) {
                 if ((librarian.getFirstName().equals(account[0]) && librarian.getLastName().equals(account[1]))
@@ -55,33 +55,36 @@ public class RegisterScreen {
                     System.out.println("This account has been already sign up");
                     System.out.println("=====================");
                     Library.Librarian_Register();
-                    // Beware the ConcurrentModificationException //
+                    // Beware the ConcurrentModificationException
                 }
             }
         } else {
-            //******************************** Customer ********************************//
+            // Customer check
             for (Customer customer : service.getCustomersService().getCustomers()) {
                 if ((customer.getFirstName().equals(account[0]) && customer.getLastName().equals(account[1]))
                         || (customer.getIdentity().equals(account[2])) ) {
                     System.out.println("This account has been already sign up");
                     System.out.println("==========================");
                     Library.Customer_Register();
-                    // Beware the ConcurrentModificationException //
+                    // Beware the ConcurrentModificationException
                 }
             }
         }
     }
 
-    //******************************** Librarian & Customer Add ********************************//
+    // Librarian & Customer add
     public static void DataAdd(String[] account, Boolean bool) {
         Librarian librarian = new Librarian();
         Customer customer  = new Customer();
+
+        // Password check
         if (!account[3].equals(account[4])) {
             System.out.println("Error, Your password don't same\n");
             System.out.println("==========================");
             inputParser.Register();
 
         } else {
+            // Librarian add
             if (bool){
                 librarian.setUuid(UUID.randomUUID());
                 librarian.setFirstName(account[0]);
@@ -90,6 +93,7 @@ public class RegisterScreen {
                 librarian.setPassword(account[3]);
                 service.getLibrariansService().getLibrarians().add(librarian);
             }
+            // Customer add
             else {
                 customer.setUuid(UUID.randomUUID());
                 customer.setFirstName(account[0]);

@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.UUID;
 
 public class Book {
+    // Create attribute variable
     private UUID uuid = UUID.randomUUID();
     private String bookName;
     private BookCategory bookCategory;
@@ -15,8 +16,7 @@ public class Book {
     private String bookabstract;
     private BookStatus bookStatus;
 
-    //************************** Getter & Setter **************************//
-
+    // Getter & Setter
     public UUID getUuid() {
 
         return uuid;
@@ -87,7 +87,7 @@ public class Book {
         this.bookStatus = bookStatus;
     }
 
-    //************************** Constructor **************************//
+    // Constructor
     public Book(){
 
     }
@@ -102,9 +102,7 @@ public class Book {
         this.bookStatus = bookStatus;
     }
 
-
-    //************************** toString **************************//
-
+    // toString
     @Override
     public String toString() {
         return "bookName = " + bookName +
@@ -114,8 +112,7 @@ public class Book {
                 " | bookStatus = " + bookStatus;
     }
 
-
-    //************************** Comparator **************************//
+    // Comparator
     public static Comparator<Book> bookNameCompare = new Comparator<Book>() {
         @Override
         public int compare(Book o1, Book o2) {
@@ -152,7 +149,7 @@ public class Book {
         }
     };
 
-    //====================== Comparator Interger ========================//
+    // Interger comparator
 //    public static Comparator<Book> bookCodeCompare = new Comparator<Book>() {
 //        @Override
 //        public int compare(Book o1, Book o2) {

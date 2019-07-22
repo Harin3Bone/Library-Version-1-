@@ -25,12 +25,16 @@ public class Library {
     private static InputParser inputParser = new InputParser();                         // Create input parser to throw back input function //
     private static LibraryService service = LibraryService.getInstance();               // Create service to use all of list //
 
-    //****************************************** Librarian Function ******************************************//
-    //******************************** Add Book ********************************//
+    // Librarian Function
+    // Add book
     public static void AddBook() {
-        //**************** Create Variable ****************//
-        Book book = new Book();                                                         // Create book object to get detail //
+        // Create variable
+        Book book = new Book();
+
+        // Get data from LibraryScreen,AddView() function
         String[] value = LibraryScreen.AddView();
+
+        // Automatic generate book code
         try {
             String code = LibraryScreen.GenerateCode(value[1]);
             book.setBookCode(code);
@@ -38,32 +42,41 @@ public class Library {
             System.out.println("Error, your category doesn't exist");
             LibraryScreen.SessionCheck(null);
         }
-        //**************** Add Data to Variable ****************//
-        book.setUuid(UUID.randomUUID());                                                // Random UUID but not show on display //
-        book.setBookName(value[0]);                                                     // Set value //
+
+        // Add data to book
+        book.setUuid(UUID.randomUUID());
+        book.setBookName(value[0]);
         book.setBookCategory(BookCategory.valueOf(value[1]));
         book.setBookAuthor(value[2]);
         book.setBookabstract(value[3]);
-        book.setBookStatus(BookStatus.Available);                                       // Set book status //
-        //**************** Add Data to List ****************//
+        book.setBookStatus(BookStatus.Available);
+
+        // Add book to book list
         service.getBooksService().getBooks().add(book);
-        //**************** Display ****************//
+
+        // Show all book in book list
         CheckBook();
     }
 
-    //******************************** Remove Book ********************************//
+    // Remove book
     public static void RemoveBook() {
-        //**************** Create Variable ****************//
-        Book book = new Book();                                                         // Create book to use book iterator //
+        // Create variable
+        Book book = new Book();
+
+        // Get data from LibrarianScreen.RemoveView() function
         String id = LibraryScreen.RemoveView();
-        //**************** Remove Component ****************//
+
+        // Remove function
         Iterator<Book> iterator = service.getBooksService().getBooks().iterator();
         while (iterator.hasNext()) {
             book = iterator.next();
-            if (book.getBookCode().equals(id)) {                                        // Condition check book code if same as input -> continue //
-                iterator.remove();                                                      // when condition is true -> remove 1 record //
+            if (book.getBookCode().equals(id)) {
+                // Condition check book code if same as input -> continue //
+                // when condition is true -> remove 1 record //
+                iterator.remove();
                 System.out.println("Book code : " + book.getBookCode() + " remove successful");
                 CheckBook();
+
             } else {
                 if (book.getBookCode().equalsIgnoreCase(id)) {
                     System.out.println("Sorry your book code is not exist");
@@ -73,10 +86,11 @@ public class Library {
         }
     }
 
-    //******************************** Search Book ********************************//
+    // Search book menu display
     public static void SearchBook() {
+        // Boolean it use for check it found book name or not. If not use boolean and choose else then will occur some problem
         boolean Found = false;
-        // Boolean it use for check it found book name or not. If not use boolean and choose else then will occur some problem //
+
         switch (LibraryScreen.SearchExtension()) {
             case "1":
                 Found = SearchByName(false);
@@ -91,10 +105,12 @@ public class Library {
         LibraryScreen.SessionCheck(Found);
     }
 
-    //**************** By Name ****************//
+    // Search book name
     private static Boolean SearchByName(Boolean Found) {
+        // Get data from LibraryScreen.SearchBookName()
         String name = LibraryScreen.SearchBookName();
-        //**************** Display Search ****************//
+
+        // Display book
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookName().equalsIgnoreCase(name)) {
                 Found = true;
@@ -105,10 +121,12 @@ public class Library {
         return Found;
     }
 
-    //**************** By Category ****************//
+    // Search book category
     private static Boolean SearchByCategory(Boolean Found) {
+        // Get data from LibraryScreen.SearchBookCategory();
         String category = LibraryScreen.SearchBookCategory();
-        //**************** Display Search ****************//
+
+        // Display book
         try {
             for (Book book : service.getBooksService().getBooks()) {
                 if (book.getBookCategory().equals(BookCategory.valueOf(category))) {
@@ -123,10 +141,12 @@ public class Library {
         return Found;
     }
 
-    //**************** By Code ****************//
+    // Search book code
     private static Boolean SearchByCode(Boolean Found) {
+        // Get data from LibraryScreen.SearchBookCode()
         String code = LibraryScreen.SearchBookCode();
-        //**************** Display Search ****************//
+
+        // Display book
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCode().equalsIgnoreCase(code)) {
                 Found = true;
@@ -137,9 +157,9 @@ public class Library {
         return Found;
     }
 
-    //******************************** Check Book ********************************//
+    // Display all book in Library
     public static void CheckBook() {
-        //**************** Display List Book ****************//
+        // Display book
         System.out.println("================================");
         for (int i = 0; i < service.getBooksService().getBooks().size(); i++) {
             System.out.println("Book Detail " + (i + 1) + " : " + service.getBooksService().getBooks().get(i));
@@ -147,9 +167,9 @@ public class Library {
         LibraryScreen.SessionCheck(null);
     }
 
-    //******************************** History Book ********************************//
+    // Display all book history in Library
     public static void HistoryBook() {
-        //**************** Display List Book ****************//
+        // Display history
         System.out.println("================================");
         for (int i = 0; i < service.getHistoriesService().getHistories().size(); i++) {
             System.out.println("History Detail " + (i + 1) + " : " + service.getHistoriesService().getHistories().get(i));
@@ -157,28 +177,33 @@ public class Library {
         LibraryScreen.SessionCheck(null);
     }
 
-    //******************************** Sort Book ********************************//
+    // Sort book menu display
     public static void SortBook() {
         int ans = LibraryScreen.SortView();
         switch (ans) {
             case 1:
+                // Sort by name
                 service.getBooksService().getBooks().sort(Book.bookNameCompare);                    // Compare book with book name in book method //
                 LibraryScreen.SortDisplay();
                 break;
             case 2:
+                // Sort by category
                 service.getBooksService().getBooks().sort(Book.bookCategoryCompare);                // Compare book with book category in book method //
                 LibraryScreen.SortDisplay();
                 break;
             case 3:
+                // Sort by code
                 service.getBooksService().getBooks().sort(Book.bookCodeCompare);                    // Compare book with book code in book method //
                 LibraryScreen.SortDisplay();
                 break;
             case 4:
+                // Sort by status
                 service.getBooksService().getBooks().sort(Book.bookStatusCompare);                  // Compare book with book status in book method //
                 LibraryScreen.SortDisplay();
                 break;
             default:
         }
+
         // Can use collection replace sort //
 //        Collections.sort(service.getBooksService().getBooks(), Book.bookNameCompare);
 //        Collections.sort(service.getBooksService().getBooks(), Book.bookCategoryCompare);
@@ -188,7 +213,7 @@ public class Library {
         LibraryScreen.SessionCheck(null);
     }
 
-    //****************************************** Confirm Book ******************************************//
+    // Confirm book -> select between approve or accept
     public static void ConfirmBook() {
         if (LibraryScreen.ConfirmView().equals("1")) {
             ApproveBook();
@@ -199,27 +224,31 @@ public class Library {
         }
     }
 
-    //******************************** Approve Book ********************************//
+    // Approve book
     private static void ApproveBook() {
-        //**************** Scanner Input ****************//
+        // Get data form LibraryScreen.ConfirmInput()
         String id = LibraryScreen.ConfirmInput();
-        //**************** Approve Component ****************//
+
+        // Approve component
         boolean Found = false;
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCode().equalsIgnoreCase(id)) {
                 if (book.getBookStatus().equals(BookStatus.Wait_Approve)) {
                     Found = true;
-                    //**************** Status Change ****************//
+
+                    // Status change
                     book.setBookStatus(BookStatus.Unvailable);
                     for (History history : service.getHistoriesService().getHistories()) {
-                        //**************** Value Set ****************//
+
+                        // Value set
                         if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Borrow)) {
                             history.setDayBorrow(LocalDate.now());
                             history.setDayReturn(LocalDate.now().plusDays(7));
                             history.setLibrarianname(service.getLibrarianDetail().getFirstName());
                         }
                     }
-                    //**************** Display ****************//
+
+                    // Display book history
                     System.out.println("\nYour work has been successful");
                     HistoryBook();
                 }
@@ -228,22 +257,29 @@ public class Library {
         LibraryScreen.SessionCheck(Found);
     }
 
-    //******************************** Accept Book ********************************//
+    // Accept book
     private static void AcceptBook() {
+        // Get data form LibraryScreen.ConfirmInput()
         String id = LibraryScreen.ConfirmInput();
-        //**************** Accept Component ****************//
+
+        // Accept component
         boolean Found = false;
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCode().equalsIgnoreCase(id)) {
                 Found = true;
                 if (book.getBookStatus().equals(BookStatus.Wait_Accept)) {
+
+                    // Status change
                     book.setBookStatus(BookStatus.Available);
                     for (History history : service.getHistoriesService().getHistories()) {
+
+                        // Value set
                         if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Return)) {
                             history.setLibrarianname(service.getLibrarianDetail().getFirstName());
                         }
                     }
-                    //**************** Display ****************//
+
+                    // Display book history
                     System.out.println("\nYour work has been successful");
                     HistoryBook();
                 } else {
@@ -254,10 +290,12 @@ public class Library {
         LibraryScreen.SessionCheck(Found);
     }
 
-    //******************************** Change Book ********************************//
+    // Change book return date
     public static void ChangeBook() {
+        // Get data form LibraryScreen.ChangeView()
         String id = LibraryScreen.ChangeView();
-        //**************** Change Component ****************//
+
+        // Change book date component
         boolean Found = false;
         for (History history : service.getHistoriesService().getHistories()) {
             if (history.getBookcode().equalsIgnoreCase(id)) {
@@ -287,22 +325,31 @@ public class Library {
         LibraryScreen.SessionCheck(Found);
     }
 
-    //****************************************** Customer Function ******************************************//
-    //******************************** Borrow Book ********************************//
+    // Customer Function
+    // Borrow book
     public static void BorrowBook() {
+        // Get data from LibraryScreen.ConfirmInput()
         String id = LibraryScreen.ConfirmInput();
+
+        // Boolean it use for check it found book name or not. If not use boolean and choose else then will occur some problem
         boolean Found = false;
-        //**************** Borrow Component ****************//
+
+        // Borrow component
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCode().equalsIgnoreCase(id)) {
                 Found = true;
                 if (book.getBookStatus().equals(BookStatus.Available)) {
-                    //**************** Status Set ****************//
+
+                    // Status set
                     book.setBookStatus(BookStatus.Wait_Approve);
-                    //**************** Customer Set ****************//
+
+                    // Customer set
                     service.setBookDetail(book);
+
+                    // History add -> historyForeach use for return book
                     LibraryScreen.HistoryAdd(null);
-                    //**************** Display ****************//
+
+                    // Display book borrow detail
                     System.out.println("User : " + service.getCustomerDetail().getFirstName());
                     LibraryScreen.SearchDisplay();
                     System.out.println("Your work has been successful\n");
@@ -316,29 +363,36 @@ public class Library {
 
     //******************************** Return Book ********************************//
     public static void ReturnBook() {
+        // Get data from LibraryScreen.ConfirmInput()
         String id = LibraryScreen.ConfirmInput();
-        //**************** Return Component ****************//
+
+        // Return component
         boolean Found = false;
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCode().equalsIgnoreCase(id)) {
                 Found = true;
                 if (book.getBookStatus().equals(BookStatus.Unvailable)) {
                     service.setBookDetail(book);
-                    //**************** Customer Check ****************//
+
+                    // Customer check
                     try {
                         for (History history : service.getHistoriesService().getHistories()) {
                             service.setHistoryDetail(history);
                             if (history.getBookcode().equals(id)) {
                                 if (history.getBooksituation().equals(BookSituation.Borrow)) {
                                     LibraryScreen.HistoryCheck();
-                                    // **************** Date Check **************** //
+
+                                    // Return date check late or early
                                     System.out.println("\nUser : " + service.getCustomerDetail().getFirstName());
                                     int x = (int) DAYS.between(history.getDayReturn(), LocalDate.now());
                                     if (x > 0) {
                                         System.out.println("" + service.getCustomerDetail().getFirstName() + ", You return book late " + x + " day(s)");
                                     }
-                                    //**************** Add Data to history ****************//
+
+                                    // Set book status
                                     book.setBookStatus(BookStatus.Wait_Accept);
+
+                                    // History add
                                     LibraryScreen.HistoryAdd(history);
                                 }
                             }
@@ -347,7 +401,8 @@ public class Library {
                     } catch (ConcurrentModificationException ignored) {
 
                     }
-                    //**************** Display ****************//
+
+                    // Display book return detail
                     LibraryScreen.SearchDisplay();
                     System.out.println("Your work has been successful");
                 } else {
@@ -359,10 +414,10 @@ public class Library {
         LibraryScreen.SessionCheck(Found);
     }
 
-    //****************************************** Register Function ******************************************//
-    //******************************** Librarian ********************************//
+    // Register function
+    // Librarian register section
     public static void Librarian_Register() {
-        //**************** Create Variable ****************//
+        // Get data from RegisterScreen.RegisterInput()
         String[] account = RegisterScreen.RegisterInput();
         try {
             RegisterScreen.DataCheck(account, Boolean.TRUE);
@@ -381,9 +436,9 @@ public class Library {
         inputParser.Register();
     }
 
-    //******************************** Customer ********************************//
+    // Customer register section
     public static void Customer_Register() {
-        //**************** Create Variable ****************//
+        // Get data from RegisterScreen.RegisterInput()
         String[] account = RegisterScreen.RegisterInput();
         try {
             RegisterScreen.DataCheck(account, Boolean.FALSE);
