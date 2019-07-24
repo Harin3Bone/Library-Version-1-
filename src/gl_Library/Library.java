@@ -1,22 +1,17 @@
 package gl_Library;
 
 import gl_Enum.BookCategory;
+import gl_Enum.BookSituation;
+import gl_Enum.BookStatus;
 import gl_Object.Book;
 import gl_Object.History;
-
-import gl_Enum.BookStatus;
-import gl_Enum.BookSituation;
-
 import gl_Service.LibraryService;
-
 import gl_View.LibraryScreen;
 import gl_View.RegisterScreen;
 
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
-import java.util.Scanner;
 import java.util.UUID;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -215,10 +210,11 @@ public class Library {
 
     // Confirm book -> select between approve or accept
     public static void ConfirmBook() {
-        if (LibraryScreen.ConfirmView().equals("1")) {
+        String x = LibraryScreen.ConfirmView();
+        if (x.equals("1")) {
             ApproveBook();
         } else {
-            if (LibraryScreen.ConfirmView().equals("2")) {
+            if (x.equals("2")) {
                 AcceptBook();
             }
         }
@@ -302,9 +298,8 @@ public class Library {
                 Found = true;
                 if (history.getBooksituation().equals(BookSituation.Borrow)) {
                     service.setHistoryDetail(history);
-                    if (service.getCustomerDetail() != null) {
-                        LibraryScreen.HistoryCheck();
-                    }
+
+                    // When book borrow but not approve -> can't change date return
                     if (history.getDayBorrow() == null || history.getDayReturn() == null) {
                         Found = false;
                     } else {
@@ -373,29 +368,23 @@ public class Library {
                 Found = true;
                 if (book.getBookStatus().equals(BookStatus.Unvailable)) {
                     service.setBookDetail(book);
-
                     // Customer check
                     try {
                         for (History history : service.getHistoriesService().getHistories()) {
                             service.setHistoryDetail(history);
-                            if (history.getBookcode().equals(id)) {
-                                if (history.getBooksituation().equals(BookSituation.Borrow)) {
-                                    LibraryScreen.HistoryCheck();
-
-                                    // Return date check late or early
-                                    System.out.println("\nUser : " + service.getCustomerDetail().getFirstName());
-                                    int x = (int) DAYS.between(history.getDayReturn(), LocalDate.now());
-                                    if (x > 0) {
-                                        System.out.println("" + service.getCustomerDetail().getFirstName() + ", You return book late " + x + " day(s)");
-                                    }
-
-                                    // Set book status
-                                    book.setBookStatus(BookStatus.Wait_Accept);
-
-                                    // History add
-                                    LibraryScreen.HistoryAdd(history);
+                            if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Borrow)) {
+                                // Return date check late or early
+                                System.out.println("\nUser : " + service.getCustomerDetail().getFirstName());
+                                int x = (int) DAYS.between(history.getDayReturn(), LocalDate.now());
+                                if (x > 0) {
+                                    System.out.println("" + service.getCustomerDetail().getFirstName() + ", You return book late " + x + " day(s)");
                                 }
+                                // Set book status
+                                book.setBookStatus(BookStatus.Wait_Accept);
+                                // History add
+                                LibraryScreen.HistoryAdd(history);
                             }
+
 
                         }
                     } catch (ConcurrentModificationException ignored) {

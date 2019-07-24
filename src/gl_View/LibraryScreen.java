@@ -2,22 +2,14 @@ package gl_View;
 
 import gl_Enum.BookCategory;
 import gl_Enum.BookSituation;
-import gl_Enum.BookStatus;
-
 import gl_Library.InputParser;
-import gl_Library.Library;
-
 import gl_Object.Book;
 import gl_Object.History;
-
 import gl_Service.LibraryService;
 
 import java.text.DecimalFormat;
-import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.UUID;
-
-import static java.time.temporal.ChronoUnit.DAYS;
 
 public class LibraryScreen {
     private static LibraryService service = LibraryService.getInstance();
@@ -176,7 +168,6 @@ public class LibraryScreen {
         History history = new History();
 
         // Add data to history object
-        history.setCustomername(service.getCustomerDetail().getFirstName());
         history.setUuid(UUID.randomUUID());
         history.setBookname(service.getBookDetail().getBookName());
         history.setBookcode(service.getBookDetail().getBookCode());
@@ -186,10 +177,12 @@ public class LibraryScreen {
         // Add history data to history list
         if (historyForeach == null) {
             // Can use if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Approve))
+            history.setCustomername(service.getCustomerDetail().getFirstName());
             history.setBooksituation(BookSituation.Borrow);
             service.getHistoriesService().getHistories().add(history);
         } else {
             // Can use if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Accept))
+            history.setCustomername(historyForeach.getCustomername());
             history.setDayBorrow(historyForeach.getDayBorrow());
             history.setDayReturn(historyForeach.getDayReturn());
             history.setBooksituation(BookSituation.Return);
@@ -199,11 +192,11 @@ public class LibraryScreen {
     }
 
     // History Customer Check
-    public static void HistoryCheck() {
-        if (!service.getHistoryDetail().getCustomername().equals(service.getCustomerDetail().getFirstName())) {
-            System.out.println("Error, you're not person who borrow the book");
-            service.setHistoryDetail(null);
-            inputParser.User_Login();
-        }
-    }
+//    public static void HistoryCheck() {
+//        if (!service.getHistoryDetail().getCustomername().equals(service.getCustomerDetail().getFirstName())) {
+//            System.out.println("Error, you're not person who borrow the book");
+//            service.setHistoryDetail(null);
+//            inputParser.User_Login();
+//        }
+//    }
 }

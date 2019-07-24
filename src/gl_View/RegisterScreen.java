@@ -2,11 +2,8 @@ package gl_View;
 
 import gl_Library.InputParser;
 import gl_Library.Library;
-
 import gl_Object.Customer;
 import gl_Object.Librarian;
-import gl_Object.Person;
-
 import gl_Service.LibraryService;
 
 import java.util.Scanner;
@@ -19,7 +16,7 @@ public class RegisterScreen {
     public static String registerMenu() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Select level to registeration");
-        System.out.println("1 - Librarian\t2 - Customer\n3 - Back\t\t4 - ExitCommand");
+        System.out.println("1 - Librarian\t2 - Customer\n3 - Back\t\t4 - Exit");
         return scanner.nextLine();
     }
 
