@@ -8,8 +8,11 @@ import gl_Object.History;
 import gl_Service.LibraryService;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.UUID;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 public class LibraryScreen {
     private static LibraryService service = LibraryService.getInstance();
@@ -132,6 +135,14 @@ public class LibraryScreen {
             inputParser.Admin_Login();
         }
     }
+
+    public static void DayLateCheck() {
+        int x = (int) DAYS.between(service.getHistoryDetail().getDayReturn(), LocalDate.now());
+        if (x > 0) {
+            System.out.println("" + service.getHistoryDetail().getCustomername() + ", You return book late " + x + " day(s)");
+        }
+    }
+
 
     // Generate Book Code
     public static String GenerateCode(String value) {

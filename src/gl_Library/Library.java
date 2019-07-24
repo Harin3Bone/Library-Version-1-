@@ -360,37 +360,28 @@ public class Library {
     public static void ReturnBook() {
         // Get data from LibraryScreen.ConfirmInput()
         String id = LibraryScreen.ConfirmInput();
-
-        // Return component
         boolean Found = false;
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCode().equalsIgnoreCase(id)) {
                 Found = true;
                 if (book.getBookStatus().equals(BookStatus.Unvailable)) {
                     service.setBookDetail(book);
-                    // Customer check
                     try {
                         for (History history : service.getHistoriesService().getHistories()) {
                             service.setHistoryDetail(history);
                             if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Borrow)) {
                                 // Return date check late or early
                                 System.out.println("\nUser : " + service.getCustomerDetail().getFirstName());
-                                int x = (int) DAYS.between(history.getDayReturn(), LocalDate.now());
-                                if (x > 0) {
-                                    System.out.println("" + service.getCustomerDetail().getFirstName() + ", You return book late " + x + " day(s)");
-                                }
+                                LibraryScreen.DayLateCheck();
                                 // Set book status
                                 book.setBookStatus(BookStatus.Wait_Accept);
                                 // History add
                                 LibraryScreen.HistoryAdd(history);
                             }
-
-
                         }
                     } catch (ConcurrentModificationException ignored) {
 
                     }
-
                     // Display book return detail
                     LibraryScreen.SearchDisplay();
                     System.out.println("Your work has been successful");
@@ -399,7 +390,6 @@ public class Library {
                 }
             }
         }
-
         LibraryScreen.SessionCheck(Found);
     }
 
