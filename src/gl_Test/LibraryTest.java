@@ -166,7 +166,7 @@ public class LibraryTest {
         // Add data to book
         book1.setBookStatus(BookStatus.Available);
         book2.setBookStatus(BookStatus.Unvailable);
-        book3.setBookStatus(BookStatus.Wait_Accept);
+        book3.setBookStatus(BookStatus.Available);
 
         // Add book to book list
         List<Book> books = Arrays.asList(book1, book2, book3);
@@ -178,6 +178,6 @@ public class LibraryTest {
         // Assert check
         Assert.assertEquals(books.get(0).getBookStatus(), BookStatus.Available);
         Assert.assertEquals(books.get(1).getBookStatus(), BookStatus.Unvailable);
-        Assert.assertEquals(books.get(2).getBookStatus(), BookStatus.Wait_Accept);
+        Assert.assertEquals(books.get(2).getBookStatus(), BookStatus.Available);
     }
 }

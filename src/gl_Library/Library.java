@@ -229,11 +229,9 @@ public class Library {
         boolean Found = false;
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCode().equalsIgnoreCase(id)) {
-                if (book.getBookStatus().equals(BookStatus.Wait_Approve)) {
+                if (book.getBookStatus().equals(BookStatus.Unvailable)) {
                     Found = true;
 
-                    // Status change
-                    book.setBookStatus(BookStatus.Unvailable);
                     for (History history : service.getHistoriesService().getHistories()) {
 
                         // Value set
@@ -263,7 +261,7 @@ public class Library {
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCode().equalsIgnoreCase(id)) {
                 Found = true;
-                if (book.getBookStatus().equals(BookStatus.Wait_Accept)) {
+                if (book.getBookStatus().equals(BookStatus.Unvailable)) {
 
                     // Status change
                     book.setBookStatus(BookStatus.Available);
@@ -325,25 +323,19 @@ public class Library {
     public static void BorrowBook() {
         // Get data from LibraryScreen.ConfirmInput()
         String id = LibraryScreen.ConfirmInput();
-
         // Boolean it use for check it found book name or not. If not use boolean and choose else then will occur some problem
         boolean Found = false;
-
         // Borrow component
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCode().equalsIgnoreCase(id)) {
                 Found = true;
                 if (book.getBookStatus().equals(BookStatus.Available)) {
-
                     // Status set
-                    book.setBookStatus(BookStatus.Wait_Approve);
-
+                    book.setBookStatus(BookStatus.Unvailable);
                     // Customer set
                     service.setBookDetail(book);
-
                     // History add -> historyForeach use for return book
                     LibraryScreen.HistoryAdd(null);
-
                     // Display book borrow detail
                     System.out.println("User : " + service.getCustomerDetail().getFirstName());
                     LibraryScreen.SearchDisplay();
@@ -373,14 +365,11 @@ public class Library {
                                 // Return date check late or early
                                 System.out.println("\nUser : " + service.getCustomerDetail().getFirstName());
                                 LibraryScreen.DayLateCheck();
-                                // Set book status
-                                book.setBookStatus(BookStatus.Wait_Accept);
                                 // History add
                                 LibraryScreen.HistoryAdd(history);
                             }
                         }
                     } catch (ConcurrentModificationException ignored) {
-
                     }
                     // Display book return detail
                     LibraryScreen.SearchDisplay();
