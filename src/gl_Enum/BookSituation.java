@@ -2,5 +2,7 @@ package gl_Enum;
 
 public enum BookSituation {
     Borrow,
-    Return;
+    Return,
+    Wait_Approve,
+    Wait_Accept;
 }

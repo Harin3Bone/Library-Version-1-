@@ -235,7 +235,7 @@ public class Library {
                     for (History history : service.getHistoriesService().getHistories()) {
 
                         // Value set
-                        if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Borrow)) {
+                        if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Wait_Approve)) {
                             history.setDayBorrow(LocalDate.now());
                             history.setDayReturn(LocalDate.now().plusDays(7));
                             history.setLibrarianname(service.getLibrarianDetail().getFirstName());
@@ -268,7 +268,7 @@ public class Library {
                     for (History history : service.getHistoriesService().getHistories()) {
 
                         // Value set
-                        if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Return)) {
+                        if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Wait_Accept)) {
                             history.setLibrarianname(service.getLibrarianDetail().getFirstName());
                         }
                     }

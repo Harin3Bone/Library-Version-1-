@@ -189,14 +189,14 @@ public class LibraryScreen {
         if (historyForeach == null) {
             // Can use if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Approve))
             history.setCustomername(service.getCustomerDetail().getFirstName());
-            history.setBooksituation(BookSituation.Borrow);
+            history.setBooksituation(BookSituation.Wait_Approve);
             service.getHistoriesService().getHistories().add(history);
         } else {
             // Can use if (service.getBookDetail().getBookStatus().equals(BookStatus.Wait_Accept))
             history.setCustomername(historyForeach.getCustomername());
             history.setDayBorrow(historyForeach.getDayBorrow());
             history.setDayReturn(historyForeach.getDayReturn());
-            history.setBooksituation(BookSituation.Return);
+            history.setBooksituation(BookSituation.Wait_Accept);
             service.getHistoriesService().getHistories().add(history);
 //
         }
