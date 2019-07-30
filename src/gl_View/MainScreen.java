@@ -1,15 +1,9 @@
 package gl_View;
 
 import gl_Library.InputParser;
-import gl_Library.Library;
 
 import gl_Object.Customer;
 import gl_Object.Librarian;
-
-import gl_Repository.BookList;
-import gl_Repository.CustomerList;
-import gl_Repository.HistoryList;
-import gl_Repository.LibrarianList;
 
 import gl_Service.LibraryService;
 
@@ -30,21 +24,21 @@ public class MainScreen {
         System.out.println("Your identity or password incorrect");
         System.out.println("================================");
         InputParser inputParser = new InputParser();
-        inputParser.Controller();
+        inputParser.controller();
     }
 
     // Exit
-    public void ExitCommand() {
+    public void exitCommand() {
         System.out.println("Thank you");
         System.out.println("================================");
         System.exit(0);
     }
 
     // Default case
-    public void DefaultRework() {
+    public void defaultworks() {
         InputParser inputParser = new InputParser();
         System.out.println("Error, your input doesn't exist");
-        inputParser.Controller();
+        inputParser.controller();
     }
 
     // Librarian login
