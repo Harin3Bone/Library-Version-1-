@@ -9,11 +9,13 @@ import gl_View.HomeScreen;
 import gl_View.MainScreen;
 import gl_View.RegisterScreen;
 
+import java.util.InputMismatchException;
+
 public class InputParser {
     private static LibraryService service = LibraryService.getInstance();
     private static MainScreen mainScreen = new MainScreen();
 
-    public void controller() {
+    public void Controller() {
         // Property menu
         LibraryService service = LibraryService.getInstance();
         HomeScreen homeScreen = new HomeScreen();
@@ -26,7 +28,7 @@ public class InputParser {
                     Librarian loginLibrarian = mainScreen.librarianDisplay();
                     if (loginLibrarian != null) {
                         service.setLibrarianDetail(loginLibrarian);
-                        adminLogin();
+                        Admin_Login();
                     } else {
                         mainScreen.LoginFailed();
                     }
@@ -36,22 +38,22 @@ public class InputParser {
                         Customer logincustomer = mainScreen.customerDisplay();
                         if (logincustomer != null) {
                             service.setCustomerDetail(logincustomer);
-                            userLogin();
+                            User_Login();
                         } else {
                             mainScreen.LoginFailed();
                         }
                     } else {
-                        mainScreen.defaultworks();
+                        mainScreen.DefaultRework();
                     }
                 }
                 break;
             case "2":
                 // Registeration
-                register();
+                Register();
                 break;
             case "3":
                 // Exit program
-                mainScreen.exitCommand();
+                mainScreen.ExitCommand();
 
             case "Libra":
                 // Extra function show all librarian account detail
@@ -59,7 +61,7 @@ public class InputParser {
                     System.out.println("Librarian Detail " + (i + 1) + " : " + service.getLibrariansService().getLibrarians().get(i));
                 }
                 System.out.println("=====================");
-                controller();
+                Controller();
                 break;
 
             case "Custo":
@@ -68,106 +70,106 @@ public class InputParser {
                     System.out.println("Customer Detail " + (i + 1) + " : " + service.getCustomersService().getCustomers().get(i));
                 }
                 System.out.println("==========================");
-                controller();
+                Controller();
                 break;
 
             default:
-                mainScreen.defaultworks();
+                mainScreen.DefaultRework();
 
         }
     }
 
     // Librarian login pass
-    public void adminLogin() {
+    public void Admin_Login() {
         System.out.println("================================");
         System.out.println("" + service.getLibrarianDetail().getFirstName() + " " + service.getLibrarianDetail().getLastName());
         service.setCustomerDetail(null);
         //******************** Select Section ********************//
         switch (mainScreen.librarianMenu()) {
             case "1":
-                Library.addBook();
+                Library.AddBook();
                 break;
             case "2":
-                Library.removeBook();
+                Library.RemoveBook();
                 break;
             case "3":
-                Library.searchBook();
+                Library.SearchBook();
                 break;
             case "4":
-                Library.checkBook();
+                Library.CheckBook();
                 break;
             case "5":
-                Library.historyBook();
+                Library.HistoryBook();
                 break;
             case "6":
-                Library.sortBook();
+                Library.SortBook();
                 break;
             case "7":
-                Library.confirmBook();
+                Library.ConfirmBook();
                 break;
             case "8":
-                Library.changeBook();
+                Library.ChangeBook();
                 break;
             case "9":
                 service.setLibrarianDetail(null);
-                controller();
+                Controller();
                 break;
             case "0":
-                mainScreen.exitCommand();
+                mainScreen.ExitCommand();
             default:
-                mainScreen.defaultworks();
+                mainScreen.DefaultRework();
         }
     }
 
     // Customer login pass
-    public void userLogin() {
+    public void User_Login() {
         System.out.println("================================");
         System.out.println("" + service.getCustomerDetail().getFirstName() + " " + service.getCustomerDetail().getLastName());
         service.setLibrarianDetail(null);
         switch (mainScreen.customerMenu()) {
             case "1":
-                Library.searchBook();
+                Library.SearchBook();
                 break;
             case "2":
-                Library.checkBook();
+                Library.CheckBook();
                 break;
             case "3":
-                Library.borrowBook();
+                Library.BorrowBook();
                 break;
             case "4":
-                Library.returnBook();
+                Library.ReturnBook();
                 break;
             case "5":
-                Library.changeBook();
+                Library.ChangeBook();
                 break;
             case "6":
                 service.setCustomerDetail(null);
-                controller();
+                Controller();
                 break;
             case "0":
-                mainScreen.exitCommand();
+                mainScreen.ExitCommand();
             default:
-                mainScreen.defaultworks();
+                mainScreen.DefaultRework();
         }
     }
 
     // Registeration new account
-    public void register() {
+    public void Register() {
         System.out.println("================================");
         switch (RegisterScreen.registerMenu()) {
             case "1":
-                Library.librarianRegister();
+                Library.Librarian_Register();
                 break;
             case "2":
-                Library.customerRegister();
+                Library.Customer_Register();
                 break;
             case "3":
-                controller();
+                Controller();
                 break;
             case "4":
-                mainScreen.exitCommand();
+                mainScreen.ExitCommand();
             default:
-                mainScreen.defaultworks();
+                mainScreen.DefaultRework();
         }
     }
 }

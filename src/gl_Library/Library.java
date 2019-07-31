@@ -22,12 +22,12 @@ public class Library {
 
     // Librarian Function
     // Add book
-    public static void addBook() {
+    public static void AddBook() {
         // Create variable
         Book book = new Book();
 
-        // Get data from LibraryScreen,addDisplay() function
-        String[] value = LibraryScreen.addDisplay();
+        // Get data from LibraryScreen,AddView() function
+        String[] value = LibraryScreen.AddView();
 
         // Automatic generate book code
         try {
@@ -50,16 +50,16 @@ public class Library {
         service.getBooksService().getBooks().add(book);
 
         // Show all book in book list
-        checkBook();
+        CheckBook();
     }
 
     // Remove book
-    public static void removeBook() {
+    public static void RemoveBook() {
         // Create variable
         Book book = new Book();
 
-        // Get data from LibrarianScreen.removeDisplay() function
-        String id = LibraryScreen.removeDisplay();
+        // Get data from LibrarianScreen.RemoveView() function
+        String id = LibraryScreen.RemoveView();
 
         // Remove function
         Iterator<Book> iterator = service.getBooksService().getBooks().iterator();
@@ -70,7 +70,7 @@ public class Library {
                 // when condition is true -> remove 1 record //
                 iterator.remove();
                 System.out.println("Book code : " + book.getBookCode() + " remove successful");
-                checkBook();
+                CheckBook();
 
             } else {
                 if (book.getBookCode().equalsIgnoreCase(id)) {
@@ -82,11 +82,11 @@ public class Library {
     }
 
     // Search book menu display
-    public static void searchBook() {
+    public static void SearchBook() {
         // Boolean it use for check it found book name or not. If not use boolean and choose else then will occur some problem
         boolean Found = false;
 
-        switch (LibraryScreen.searchDisplay()) {
+        switch (LibraryScreen.SearchExtension()) {
             case "1":
                 Found = SearchByName(false);
                 break;
@@ -102,15 +102,15 @@ public class Library {
 
     // Search book name
     private static Boolean SearchByName(Boolean Found) {
-        // Get data from LibraryScreen.searchNameDisplay()
-        String name = LibraryScreen.searchNameDisplay();
+        // Get data from LibraryScreen.SearchBookName()
+        String name = LibraryScreen.SearchBookName();
 
         // Display book
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookName().equalsIgnoreCase(name)) {
                 Found = true;
                 service.setBookDetail(book);
-                LibraryScreen.searchShow();
+                LibraryScreen.SearchDisplay();
             }
         }
         return Found;
@@ -118,8 +118,8 @@ public class Library {
 
     // Search book category
     private static Boolean SearchByCategory(Boolean Found) {
-        // Get data from LibraryScreen.searchCategoryDisplay();
-        String category = LibraryScreen.searchCategoryDisplay();
+        // Get data from LibraryScreen.SearchBookCategory();
+        String category = LibraryScreen.SearchBookCategory();
 
         // Display book
         try {
@@ -127,7 +127,7 @@ public class Library {
                 if (book.getBookCategory().equals(BookCategory.valueOf(category))) {
                     Found = true;
                     service.setBookDetail(book);
-                    LibraryScreen.searchShow();
+                    LibraryScreen.SearchDisplay();
                 }
             }
         } catch (IllegalArgumentException ignored) {
@@ -138,22 +138,22 @@ public class Library {
 
     // Search book code
     private static Boolean SearchByCode(Boolean Found) {
-        // Get data from LibraryScreen.searchCodeDisplay()
-        String code = LibraryScreen.searchCodeDisplay();
+        // Get data from LibraryScreen.SearchBookCode()
+        String code = LibraryScreen.SearchBookCode();
 
         // Display book
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCode().equalsIgnoreCase(code)) {
                 Found = true;
                 service.setBookDetail(book);
-                LibraryScreen.searchShow();
+                LibraryScreen.SearchDisplay();
             }
         }
         return Found;
     }
 
     // Display all book in Library
-    public static void checkBook() {
+    public static void CheckBook() {
         // Display book
         System.out.println("================================");
         for (int i = 0; i < service.getBooksService().getBooks().size(); i++) {
@@ -163,7 +163,7 @@ public class Library {
     }
 
     // Display all book history in Library
-    public static void historyBook() {
+    public static void HistoryBook() {
         // Display history
         System.out.println("================================");
         for (int i = 0; i < service.getHistoriesService().getHistories().size(); i++) {
@@ -173,28 +173,28 @@ public class Library {
     }
 
     // Sort book menu display
-    public static void sortBook() {
-        int ans = LibraryScreen.sortDisplay();
+    public static void SortBook() {
+        int ans = LibraryScreen.SortView();
         switch (ans) {
             case 1:
                 // Sort by name
                 service.getBooksService().getBooks().sort(Book.bookNameCompare);                    // Compare book with book name in book method //
-                LibraryScreen.sortShow();
+                LibraryScreen.SortDisplay();
                 break;
             case 2:
                 // Sort by category
                 service.getBooksService().getBooks().sort(Book.bookCategoryCompare);                // Compare book with book category in book method //
-                LibraryScreen.sortShow();
+                LibraryScreen.SortDisplay();
                 break;
             case 3:
                 // Sort by code
                 service.getBooksService().getBooks().sort(Book.bookCodeCompare);                    // Compare book with book code in book method //
-                LibraryScreen.sortShow();
+                LibraryScreen.SortDisplay();
                 break;
             case 4:
                 // Sort by status
                 service.getBooksService().getBooks().sort(Book.bookStatusCompare);                  // Compare book with book status in book method //
-                LibraryScreen.sortShow();
+                LibraryScreen.SortDisplay();
                 break;
             default:
         }
@@ -209,7 +209,7 @@ public class Library {
     }
 
     // Confirm book -> select between approve or accept
-    public static void confirmBook() {
+    public static void ConfirmBook() {
         String x = LibraryScreen.ConfirmView();
         if (x.equals("1")) {
             ApproveBook();
@@ -224,24 +224,27 @@ public class Library {
     private static void ApproveBook() {
         // Get data form LibraryScreen.ConfirmInput()
         String id = LibraryScreen.ConfirmInput();
+
         // Approve component
         boolean Found = false;
         for (Book book : service.getBooksService().getBooks()) {
             if (book.getBookCode().equalsIgnoreCase(id)) {
                 if (book.getBookStatus().equals(BookStatus.Unvailable)) {
                     Found = true;
+
                     for (History history : service.getHistoriesService().getHistories()) {
+
                         // Value set
                         if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Wait_Approve)) {
-                            history.setBooksituation(BookSituation.Borrow);
                             history.setDayBorrow(LocalDate.now());
                             history.setDayReturn(LocalDate.now().plusDays(7));
                             history.setLibrarianname(service.getLibrarianDetail().getFirstName());
                         }
                     }
+
                     // Display book history
                     System.out.println("\nYour work has been successful");
-                    historyBook();
+                    HistoryBook();
                 }
             }
         }
@@ -259,18 +262,20 @@ public class Library {
             if (book.getBookCode().equalsIgnoreCase(id)) {
                 Found = true;
                 if (book.getBookStatus().equals(BookStatus.Unvailable)) {
+
                     // Status change
                     book.setBookStatus(BookStatus.Available);
                     for (History history : service.getHistoriesService().getHistories()) {
+
                         // Value set
                         if (history.getBookcode().equals(id) && history.getBooksituation().equals(BookSituation.Wait_Accept)) {
                             history.setLibrarianname(service.getLibrarianDetail().getFirstName());
-                            history.setBooksituation(BookSituation.Return);
                         }
                     }
+
                     // Display book history
                     System.out.println("\nYour work has been successful");
-                    historyBook();
+                    HistoryBook();
                 } else {
                     Found = false;
                 }
@@ -280,7 +285,7 @@ public class Library {
     }
 
     // Change book return date
-    public static void changeBook() {
+    public static void ChangeBook() {
         // Get data form LibraryScreen.ChangeView()
         String id = LibraryScreen.ChangeView();
 
@@ -300,7 +305,7 @@ public class Library {
                         if (DAYS.between(history.getDayBorrow(), history.getDayReturn().plusDays(day)) > 15) {
                             System.out.println("Error, your date are invalid");
                             System.out.println("================================");
-                            changeBook();
+                            ChangeBook();
                         }
                         history.setDayReturn(history.getDayReturn().plusDays(day));
                         System.out.println("Your work has been successful");
@@ -315,7 +320,7 @@ public class Library {
 
     // Customer Function
     // Borrow book
-    public static void borrowBook() {
+    public static void BorrowBook() {
         // Get data from LibraryScreen.ConfirmInput()
         String id = LibraryScreen.ConfirmInput();
         // Boolean it use for check it found book name or not. If not use boolean and choose else then will occur some problem
@@ -333,7 +338,7 @@ public class Library {
                     LibraryScreen.HistoryAdd(null);
                     // Display book borrow detail
                     System.out.println("User : " + service.getCustomerDetail().getFirstName());
-                    LibraryScreen.searchShow();
+                    LibraryScreen.SearchDisplay();
                     System.out.println("Your work has been successful\n");
                 } else {
                     Found = false;
@@ -344,7 +349,7 @@ public class Library {
     }
 
     // Return book
-    public static void returnBook() {
+    public static void ReturnBook() {
         // Get data from LibraryScreen.ConfirmInput()
         String id = LibraryScreen.ConfirmInput();
         boolean Found = false;
@@ -367,7 +372,7 @@ public class Library {
                     } catch (ConcurrentModificationException ignored) {
                     }
                     // Display book return detail
-                    LibraryScreen.searchShow();
+                    LibraryScreen.SearchDisplay();
                     System.out.println("Your work has been successful");
                 } else {
                     Found = false;
@@ -377,9 +382,9 @@ public class Library {
         LibraryScreen.SessionCheck(Found);
     }
 
-    // register function
+    // Register function
     // Librarian register section
-    public static void librarianRegister() {
+    public static void Librarian_Register() {
         // Get data from RegisterScreen.RegisterInput()
         String[] account = RegisterScreen.RegisterInput();
         try {
@@ -396,11 +401,11 @@ public class Library {
 //        }
 //        System.out.println("=====================");
 
-        inputParser.register();
+        inputParser.Register();
     }
 
     // Customer register section
-    public static void customerRegister() {
+    public static void Customer_Register() {
         // Get data from RegisterScreen.RegisterInput()
         String[] account = RegisterScreen.RegisterInput();
         try {
@@ -417,6 +422,6 @@ public class Library {
 //        }
 //        System.out.println("==========================");
 
-        inputParser.register();
+        inputParser.Register();
     }
 }

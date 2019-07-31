@@ -1,4 +1,5 @@
-import gl_Library.InputParser;
+package gl_Library;
+
 import gl_Repository.BookList;
 import gl_Repository.CustomerList;
 import gl_Repository.HistoryList;
@@ -26,6 +27,6 @@ public class Main {
         service.setHistoriesService(histories);                 // Add list to service
 
         InputParser inputParser = new InputParser();
-        inputParser.controller();
+        inputParser.Controller();
     }
 }

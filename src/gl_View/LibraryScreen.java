@@ -19,7 +19,7 @@ public class LibraryScreen {
     private static InputParser inputParser = new InputParser();
 
     // Add book input
-    public static String[] addDisplay() {
+    public static String[] AddView() {
         Scanner scanner = new Scanner(System.in);                                   // Create scanner to get input //
         System.out.print("Please enter book name : ");
         String name = scanner.nextLine();
@@ -33,14 +33,14 @@ public class LibraryScreen {
     }
 
     // Remove book input
-    public static String removeDisplay() {
+    public static String RemoveView() {
         Scanner scanner = new Scanner(System.in);                                       // Create scanner to get input //
         System.out.println("Please enter book code to remove : ");
         return scanner.nextLine();
     }
 
     // Sort menu
-    public static int sortDisplay() {
+    public static int SortView() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please use sorting function");
         System.out.println("1 - Sort by Name\n2 - Sort by Category\n3 - Sort by Serial\n4 - Sort by Status");
@@ -48,14 +48,14 @@ public class LibraryScreen {
     }
 
     // Sort display
-    public static void sortShow() {
+    public static void SortDisplay() {
         for (Book sort : service.getBooksService().getBooks()) {
             System.out.println(sort);                                                   // Display book after sorting //
         }
     }
 
     // Search menu
-    public static String searchDisplay() {
+    public static String SearchExtension() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Choose your search type");
         System.out.println("1 - Search by name\n2 - Search by Category\n3 - Search by Code");
@@ -63,28 +63,28 @@ public class LibraryScreen {
     }
 
     // Search by name
-    public static String searchNameDisplay() {
+    public static String SearchBookName() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your book name to search : ");
         return scanner.nextLine();
     }
 
     // Search by category
-    public static String searchCategoryDisplay() {
+    public static String SearchBookCategory() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your book category to search : ");
         return scanner.nextLine();
     }
 
     // Search by code
-    public static String searchCodeDisplay() {
+    public static String SearchBookCode() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your book code to search : ");
         return scanner.nextLine();
     }
 
     // Search display
-    public static void searchShow() {
+    public static void SearchDisplay() {
         System.out.println("==========================");
         System.out.println("Book Name   : " + service.getBookDetail().getBookName());
         System.out.println("Book Type   : " + service.getBookDetail().getBookCategory());
@@ -130,9 +130,9 @@ public class LibraryScreen {
             }
         }
         if (service.getLibrarianDetail() == null) {
-            inputParser.userLogin();
+            inputParser.User_Login();
         } else {
-            inputParser.adminLogin();
+            inputParser.Admin_Login();
         }
     }
 
@@ -201,4 +201,13 @@ public class LibraryScreen {
 //
         }
     }
+
+    // History Customer Check
+//    public static void HistoryCheck() {
+//        if (!service.getHistoryDetail().getCustomername().equals(service.getCustomerDetail().getFirstName())) {
+//            System.out.println("Error, you're not person who borrow the book");
+//            service.setHistoryDetail(null);
+//            inputParser.User_Login();
+//        }
+//    }
 }
