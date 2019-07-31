@@ -20,7 +20,7 @@ public class RegisterScreen {
         return scanner.nextLine();
     }
 
-    // Register  input
+    // register  input
     public static String[] RegisterInput() {
         Scanner scanner = new Scanner(System.in);
 
@@ -51,7 +51,7 @@ public class RegisterScreen {
                         || librarian.getIdentity().equals(account[2])) {
                     System.out.println("This account has been already sign up");
                     System.out.println("=====================");
-                    Library.Librarian_Register();
+                    Library.librarianRegister();
                     // Beware the ConcurrentModificationException
                 }
             }
@@ -62,7 +62,7 @@ public class RegisterScreen {
                         || (customer.getIdentity().equals(account[2]))) {
                     System.out.println("This account has been already sign up");
                     System.out.println("==========================");
-                    Library.Customer_Register();
+                    Library.customerRegister();
                     // Beware the ConcurrentModificationException
                 }
             }
@@ -78,7 +78,7 @@ public class RegisterScreen {
         if (!account[3].equals(account[4])) {
             System.out.println("Error, Your password don't same\n");
             System.out.println("==========================");
-            inputParser.Register();
+            inputParser.register();
 
         } else {
             // Librarian add

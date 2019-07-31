@@ -7,7 +7,7 @@ public class HomeScreen {
         System.out.println("================================");
         Scanner scanner = new Scanner(System.in);
         System.out.println("Select your property");
-        System.out.println("1 - Login\t2 - Register\t3 - Exit");
+        System.out.println("1 - Login\t2 - register\t3 - Exit");
         return scanner.nextLine();
     }
 }
