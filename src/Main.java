@@ -7,6 +7,7 @@ import gl_Service.LibraryService;
 
 public class Main {
     public static void main(String[] args) {
+        System.out.println("11111111");
         LibraryService service = LibraryService.getInstance();  // Create service to save all list in service -> Singleton
 
         LibrarianList librarians = new LibrarianList();         // Create librarian list gl_Object
